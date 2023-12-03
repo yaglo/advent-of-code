@@ -29,9 +29,8 @@ struct Day3: Day {
 
         numbers = lines.enumerated().flatMap { y, line in
             line.matches(of: /\d+/).map { match in
-                let range = line.closedRange(from: match.range)
-                return Number(
-                    rect: .init(x: range.lowerBound...range.upperBound - 1, y: y...y),
+                Number(
+                    rect: .init(x: line.closedRange(from: match.range), y: y...y),
                     value: Int(match.output)!
                 )
             }
@@ -41,7 +40,7 @@ struct Day3: Day {
             line.matches(of: /[^.0-9]/).map { match in
                 let range = line.closedRange(from: match.range)
                 return PartSymbol(
-                    rect: .init(x: range.lowerBound - 1...range.upperBound, y: (y - 1)...(y + 1)),
+                    rect: .init(x: range.lowerBound - 1...range.upperBound + 1, y: (y - 1)...(y + 1)),
                     type: String(match.output)
                 )
             }
