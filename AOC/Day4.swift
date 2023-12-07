@@ -10,7 +10,7 @@ struct Day4: Day {
     }
 
     func part2() -> Int {
-        var cardCounts = Array<Int>(repeating: 1, count: scores.count)
+        var cardCounts = [Int](repeating: 1, count: scores.count)
         for (index, score) in scores.enumerated() where score > 0 {
             for bonusCardIndex in index + 1...index + score {
                 cardCounts[bonusCardIndex] += cardCounts[index]
@@ -21,7 +21,8 @@ struct Day4: Day {
 
     init(_ input: String) {
         scores = input.split(whereSeparator: \.isNewline).map { line in
-            let numbers = line
+            let numbers =
+                line
                 .drop { $0 != ":" }
                 .dropFirst()
                 .split(separator: "|")
