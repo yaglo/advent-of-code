@@ -6,60 +6,42 @@ struct Day08: AdventDay {
   }
 
   func part2() -> Int {
-    ghostStartPositions
+    nodes.keys.filter { $0.hasSuffix("A") }
       .map { numberOfSteps(from: $0) }
       .collapse(with: lcm)
   }
 
   func numberOfSteps(from nodeID: String) -> Int {
-    var steps = 0
     var currentID = nodeID
-    while true {
-      for instruction in instructions {
-        steps += 1
-        let currentNode = nodeNetwork[currentID]!
-        currentID =
-          if instruction == "L" {
-            currentNode.left
-          } else {
-            currentNode.right
-          }
-        if currentID.last == "Z" {
-          return steps
-        }
+    for (step, instruction) in instructions.cycled().enumerated() {
+      currentID = nodes[currentID]![keyPath: instruction]
+      if currentID.hasSuffix("Z") {
+        return step + 1
       }
     }
+    fatalError()
   }
 
   // MARK: - Data
 
-  let instructions: String
-  let nodeNetwork: [String: Node]
-  let ghostStartPositions: [String]
+  typealias Node = (left: String, right: String)
+
+  let instructions: [KeyPath<Node, String>]
+  let nodes: [String: Node]
 
   init(data: String) {
     let lines = data.lines()
-    instructions = String(lines[0])
 
-    var nodes: [String: Node] = [:]
-    var ghostStartPositions: [String] = []
+    instructions = lines[0].map { $0 == "L" ? \.left : \.right }
 
-    for line in lines.dropFirst() {
-      let components = line.matches(of: /[0-9A-Z]{3}/).map { String($0.output) }
-      let nodeID = components[0]
-      nodes[nodeID] = Node(left: components[1], right: components[2])
-      if nodeID.last == "A" {
-        ghostStartPositions.append(nodeID)
-      }
-    }
-    self.nodeNetwork = nodes
-    self.ghostStartPositions = ghostStartPositions
-  }
-
-  // MARK: - Models
-
-  struct Node {
-    let left: String
-    let right: String
+    nodes = Dictionary(
+      lines
+        .dropFirst()
+        .map {
+          $0.matches(of: /[0-9A-Z]{3}/)
+            .map(\.output)
+            .map(String.init)
+            .splat { ($0, (left: $1, right: $2)) }
+        }, uniquingKeysWith: { first, _ in first })
   }
 }

@@ -9,8 +9,8 @@ struct Day01: AdventDay {
       .lines()
       .reduce(0) { partialResult, line in
         partialResult
-          + 10 * Int(defaultingToZero: line.first(where: \.isNumber))
-          + Int(defaultingToZero: line.last(where: \.isNumber))
+          + 10 * Int(line.first(where: \.isNumber))
+          + Int(line.last(where: \.isNumber))
       }
   }
 
@@ -23,7 +23,7 @@ struct Day01: AdventDay {
           .enumerated()
           .filter(\.element.isNumber)
           .map { range in
-            (offset: range.offset, element: Int(defaultingToZero: range.element))
+            (offset: range.offset, element: Int(range.element))
           }
           + ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
           .enumerated()

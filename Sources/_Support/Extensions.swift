@@ -70,7 +70,7 @@ extension BidirectionalCollection {
 }
 
 extension Int {
-  init(defaultingToZero c: Character?) {
+  init(_ c: Character?) {
     if let c {
       self = Int(String(c)) ?? 0
     } else {
@@ -102,5 +102,41 @@ extension Double {
 
   var isWhole: Bool {
     remainder(dividingBy: 1) ~~ 0
+  }
+}
+
+extension Array {
+  func splat() -> (Element, Element) {
+    return (self[0], self[1])
+  }
+
+  func splat() -> (Element, Element, Element) {
+    return (self[0], self[1], self[2])
+  }
+
+  func splat() -> (Element, Element, Element, Element) {
+    return (self[0], self[1], self[2], self[3])
+  }
+
+  func splat() -> (Element, Element, Element, Element, Element) {
+    return (self[0], self[1], self[2], self[3], self[4])
+  }
+
+  func splat<T>(_ transform: (Element, Element) throws -> T) rethrows -> T {
+    try transform(self[0], self[1])
+  }
+
+  func splat<T>(_ transform: (Element, Element, Element) throws -> T) rethrows -> T {
+    try transform(self[0], self[1], self[2])
+  }
+
+  func splat<T>(_ transform: (Element, Element, Element, Element) throws -> T) rethrows -> T {
+    try transform(self[0], self[1], self[2], self[3])
+  }
+
+  func splat<T>(_ transform: (Element, Element, Element, Element, Element) throws -> T) rethrows
+    -> T
+  {
+    try transform(self[0], self[1], self[2], self[3], self[4])
   }
 }
