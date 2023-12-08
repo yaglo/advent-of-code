@@ -55,3 +55,11 @@ extension Substring {
         distance(from: startIndex, to: range.lowerBound)...distance(from: startIndex, to: range.upperBound) - 1
     }
 }
+
+func gcd<T: BinaryInteger>(_ a: T, _ b: T) -> T {
+    b == 0 ? a : gcd(b, a % b)
+}
+
+func lcm<T: BinaryInteger>(_ a: T, _ b: T) -> T {
+    a * b / gcd(a, b)
+}
