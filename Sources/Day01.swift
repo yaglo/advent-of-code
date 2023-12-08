@@ -25,11 +25,11 @@ struct Day01: AdventDay {
           .map { range in
             (offset: range.offset, element: Int(defaultingToZero: range.element))
           }
-          + ["\u{0000}", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
+          + ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
           .enumerated()
           .map { digit, word in
             line.ranges(of: word).map { range in
-              (offset: range.lowerBound.utf16Offset(in: line), element: digit)
+              (offset: range.lowerBound.utf16Offset(in: line), element: digit + 1)
             }
           }
           .joined())
