@@ -16,6 +16,8 @@
 		BE821D5C2B21FEF8002DA276 /* Day6.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE821D5B2B21FEF8002DA276 /* Day6.swift */; };
 		BE821D602B2285C5002DA276 /* Day7.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE821D5F2B2285C5002DA276 /* Day7.swift */; };
 		BE821D7C2B232133002DA276 /* Day8.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE821D7B2B232133002DA276 /* Day8.swift */; };
+		BE821D7E2B2334DB002DA276 /* Day5.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE821D7D2B2334DB002DA276 /* Day5.swift */; };
+		BE821D812B2341E1002DA276 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = BE821D802B2341E1002DA276 /* Algorithms */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -41,6 +43,7 @@
 		BE821D5B2B21FEF8002DA276 /* Day6.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day6.swift; sourceTree = "<group>"; };
 		BE821D5F2B2285C5002DA276 /* Day7.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day7.swift; sourceTree = "<group>"; };
 		BE821D7B2B232133002DA276 /* Day8.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day8.swift; sourceTree = "<group>"; };
+		BE821D7D2B2334DB002DA276 /* Day5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day5.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE821D812B2341E1002DA276 /* Algorithms in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +81,7 @@
 				BE0EA1662B1BED4E001C3CE3 /* Day2.swift */,
 				BE0EA16C2B1D106C001C3CE3 /* Day3.swift */,
 				BE0EA1832B1DF616001C3CE3 /* Day4.swift */,
+				BE821D7D2B2334DB002DA276 /* Day5.swift */,
 				BE821D5B2B21FEF8002DA276 /* Day6.swift */,
 				BE821D5F2B2285C5002DA276 /* Day7.swift */,
 				BE821D7B2B232133002DA276 /* Day8.swift */,
@@ -102,6 +107,9 @@
 			dependencies = (
 			);
 			name = AOC;
+			packageProductDependencies = (
+				BE821D802B2341E1002DA276 /* Algorithms */,
+			);
 			productName = AOC;
 			productReference = BE0EA1552B1B9168001C3CE3 /* AOC */;
 			productType = "com.apple.product-type.tool";
@@ -130,6 +138,9 @@
 				Base,
 			);
 			mainGroup = BE0EA14C2B1B9168001C3CE3;
+			packageReferences = (
+				BE821D7F2B2341E1002DA276 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
+			);
 			productRefGroup = BE0EA1562B1B9168001C3CE3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -150,6 +161,7 @@
 				BE0EA1842B1DF616001C3CE3 /* Day4.swift in Sources */,
 				BE0EA1632B1BA0CB001C3CE3 /* main.swift in Sources */,
 				BE821D5C2B21FEF8002DA276 /* Day6.swift in Sources */,
+				BE821D7E2B2334DB002DA276 /* Day5.swift in Sources */,
 				BE821D602B2285C5002DA276 /* Day7.swift in Sources */,
 				BE821D7C2B232133002DA276 /* Day8.swift in Sources */,
 				BE0EA16B2B1C3297001C3CE3 /* Convenience.swift in Sources */,
@@ -321,6 +333,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BE821D7F2B2341E1002DA276 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-algorithms.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BE821D802B2341E1002DA276 /* Algorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BE821D7F2B2341E1002DA276 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
+			productName = Algorithms;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BE0EA14D2B1B9168001C3CE3 /* Project object */;
 }

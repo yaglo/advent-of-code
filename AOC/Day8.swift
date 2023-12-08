@@ -20,11 +20,12 @@ struct Day8: Day {
         while true {
             for instruction in instructions {
                 steps += 1
-                current = if instruction == "L" {
-                    nodeNetwork[current]!.left
-                } else {
-                    nodeNetwork[current]!.right
-                }
+                current =
+                    if instruction == "L" {
+                        nodeNetwork[current]!.left
+                    } else {
+                        nodeNetwork[current]!.right
+                    }
                 if current.last == "Z" {
                     return steps
                 }

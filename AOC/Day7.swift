@@ -89,9 +89,7 @@ struct Day7: Day {
                 .map { $0 as [Card] }
                 .sorted { $0.count > $1.count }
 
-            if withJokers,
-                let jokersIndex = cards.firstIndex(where: { $0.contains(.joker) })
-            {
+            if withJokers, let jokersIndex = cards.firstIndex(where: { $0.contains(.joker) }) {
                 let jokers = cards[jokersIndex]
                 cards.remove(at: jokersIndex)
 

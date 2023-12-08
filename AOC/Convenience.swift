@@ -19,6 +19,10 @@ extension Sequence {
         self.max(by: { $0[keyPath: keyPath] < $1[keyPath: keyPath] })?[keyPath: keyPath]
     }
 
+    func min<Value: Comparable>(_ keyPath: KeyPath<Self.Element, Value>) -> Value? {
+        self.min(by: { $0[keyPath: keyPath] < $1[keyPath: keyPath] })?[keyPath: keyPath]
+    }
+
     func sorted<Value: Comparable>(by keyPath: KeyPath<Self.Element, Value>) -> [Self.Element] {
         self.sorted { $0[keyPath: keyPath] < $1[keyPath: keyPath] }
     }
@@ -62,4 +66,10 @@ func gcd<T: BinaryInteger>(_ a: T, _ b: T) -> T {
 
 func lcm<T: BinaryInteger>(_ a: T, _ b: T) -> T {
     a * b / gcd(a, b)
+}
+
+extension Range {
+    func intersection(with other: Range) -> Range {
+        Swift.max(lowerBound, other.lowerBound)..<Swift.min(upperBound, other.upperBound)
+    }
 }
