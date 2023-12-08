@@ -14,15 +14,13 @@ struct AdventOfCode: AsyncParsableCommand {
   /// The selected day, or the latest day if no selection is provided.
   var selectedChallenge: any AdventDay {
     get throws {
-      if let day {
-        if let challenge = allChallenges.first(where: { $0.day == day }) {
-          return challenge
-        } else {
-          throw ValidationError("No solution found for day \(day)")
-        }
-      } else {
+      guard let day else {
         return latestChallenge
       }
+      guard let challenge = allChallenges.first(where: { $0.day == day }) else {
+        throw ValidationError("No solution found for day \(day)")
+      }
+      return challenge
     }
   }
 

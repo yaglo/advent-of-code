@@ -21,19 +21,18 @@ struct Day05: AdventDay {
 
   func findRelevantLocationRanges(seedRanges: [RangeMapping]) -> [RangeMapping] {
     stages.reduce(seedRanges) { ranges, map in
-      return ranges.flatMap { range in
+      ranges.flatMap { range in
         let overlappingRanges = map.rangeMappings.filter {
           range.destinationRange.overlaps($0.sourceRange)
         }
-        if overlappingRanges.isEmpty {
+        guard !overlappingRanges.isEmpty else {
           return [RangeMapping(sourceRange: range.destinationRange)]
-        } else {
-          return overlappingRanges.map { destination in
-            RangeMapping(
-              sourceRange: range.destinationRange.intersection(with: destination.sourceRange),
-              destinationShift: destination.destinationShift
-            )
-          }
+        }
+        return overlappingRanges.map { destination in
+          RangeMapping(
+            sourceRange: range.destinationRange.intersection(with: destination.sourceRange),
+            destinationShift: destination.destinationShift
+          )
         }
       }
     }
@@ -65,7 +64,9 @@ struct Day05: AdventDay {
               let parts = line.split(separator: " ").map { Int($0)! }
               let (destination, source, count) = (parts[0], parts[1], parts[2])
               return RangeMapping(
-                sourceRange: source..<source + count, destinationShift: destination - source)
+                sourceRange: source..<source + count,
+                destinationShift: destination - source
+              )
             }
         ).withFilledHoles()
       }

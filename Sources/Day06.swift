@@ -11,7 +11,9 @@ struct Day06: AdventDay {
 
   func part2() -> Int {
     numberOfWinningOptions(
-      totalTime: Double(times.joined())!, recordDistance: Double(records.joined())!)
+      totalTime: Double(times.joined())!,
+      recordDistance: Double(records.joined())!
+    )
   }
 
   func numberOfWinningOptions(totalTime t: Double, recordDistance r: Double) -> Int {

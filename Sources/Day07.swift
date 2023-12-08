@@ -12,15 +12,17 @@ struct Day07: AdventDay {
   }
 
   func solve(withJokers: Bool) -> Int {
-    data.lines().map { line in
-      let components = line.split(separator: " ")
-      return Game(string: String(components[0]), bid: Int(components[1])!, withJokers: withJokers)
-    }
-    .sorted()
-    .enumerated()
-    .reduce(0) { partialResult, iterator in
-      partialResult + (iterator.offset + 1) * iterator.element.bid
-    }
+    data
+      .lines()
+      .map { line in
+        let components = line.split(separator: " ")
+        return Game(string: String(components[0]), bid: Int(components[1])!, withJokers: withJokers)
+      }
+      .sorted()
+      .enumerated()
+      .reduce(0) { partialResult, iterator in
+        partialResult + (iterator.offset + 1) * iterator.element.bid
+      }
   }
 
   // MARK: - Data

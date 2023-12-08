@@ -82,7 +82,9 @@ extension Int {
 extension Substring {
   func closedRange(from range: Range<Substring.Index>) -> ClosedRange<Int> {
     distance(from: startIndex, to: range.lowerBound)...distance(
-      from: startIndex, to: range.upperBound) - 1
+      from: startIndex,
+      to: range.upperBound
+    ) - 1
   }
 }
 

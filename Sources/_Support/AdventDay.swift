@@ -38,7 +38,8 @@ extension AdventDay {
         Day number not found in type name: \
         implement the static `day` property \
         or use the day number as your type's suffix (like `Day3`).")
-        """)
+        """
+      )
     }
     return day
   }
@@ -64,7 +65,8 @@ extension AdventDay {
     let dataURL = Bundle.module.url(
       forResource: dataFilename,
       withExtension: "txt",
-      subdirectory: "Data")
+      subdirectory: "Data"
+    )
 
     guard let dataURL,
       let data = try? String(contentsOf: dataURL, encoding: .utf8)
