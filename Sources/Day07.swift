@@ -39,9 +39,8 @@ struct Day07: AdventDay {
   }
 
   enum Card: Comparable, Hashable {
-    case joker
     case number(Int)
-    case jack, queen, king, ace
+    case joker, jack, queen, king, ace
 
     var value: Int {
       switch self {
@@ -66,7 +65,7 @@ struct Day07: AdventDay {
         }
     }
 
-    static func < (lhs: Card, rhs: Card) -> Bool {
+    static func < (lhs: Self, rhs: Self) -> Bool {
       lhs.value < rhs.value
     }
   }
