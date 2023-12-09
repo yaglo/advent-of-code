@@ -50,7 +50,7 @@ struct Day08: AdventDay {
           .matches(of: /[0-9A-Z]{3}/)
           .map(\.output)
           .map(String.init)
-          .splat { Node(id: $0, left: $1, right: $2) }
+          .splat(Node.init)
       }
       .keyed(by: \.id)
   }
