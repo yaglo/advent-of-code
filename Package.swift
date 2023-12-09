@@ -5,6 +5,7 @@ let dependencies: [Target.Dependency] = [
     .product(name: "Algorithms", package: "swift-algorithms"),
     .product(name: "Collections", package: "swift-collections"),
     .product(name: "ArgumentParser", package: "swift-argument-parser"),
+    .product(name: "Numerics", package: "swift-numerics"),
 ]
 
 let package = Package(
@@ -26,6 +27,10 @@ let package = Package(
         .package(
             url: "https://github.com/apple/swift-format.git",
             .upToNextMajor(from: "509.0.0")
+        ),
+        .package(
+            url: "https://github.com/apple/swift-numerics.git",
+            branch: "main"
         ),
     ],
     targets: [

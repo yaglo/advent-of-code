@@ -1,6 +1,4 @@
-func gcd<T: BinaryInteger>(_ a: T, _ b: T) -> T {
-  b == 0 ? a : gcd(b, a % b)
-}
+import Numerics
 
 func lcm<T: BinaryInteger>(_ a: T, _ b: T) -> T {
   a * b / gcd(a, b)
