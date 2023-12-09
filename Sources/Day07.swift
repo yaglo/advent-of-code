@@ -38,6 +38,20 @@ struct Day07: AdventDay {
   enum HandType: Int, Comparable {
     case fiveOfAKind, fourOfAKind, fullHouse, threeOfAKind, twoPair, onePair, highCard
 
+    init(counts: [Int]) {
+      self =
+        switch counts {
+        case [5]: .fiveOfAKind
+        case [4, 1]: .fourOfAKind
+        case [3, 2]: .fullHouse
+        case [3, 1, 1]: .threeOfAKind
+        case [2, 2, 1]: .twoPair
+        case [2, 1, 1, 1]: .onePair
+        case [1, 1, 1, 1, 1]: .highCard
+        default: fatalError()
+        }
+    }
+
     static func < (lhs: Self, rhs: Self) -> Bool {
       lhs.rawValue > rhs.rawValue
     }
@@ -103,16 +117,7 @@ struct Day07: AdventDay {
         cards[0].append(contentsOf: cards.remove(at: jokers))
       }
 
-      type =
-        switch cards[0].count {
-        case 5: .fiveOfAKind
-        case 4: .fourOfAKind
-        case 3: cards.count == 2 ? .fullHouse : .threeOfAKind
-        case 2: cards[1].count == 2 ? .twoPair : .onePair
-        case 1: .highCard
-        default:
-          fatalError()
-        }
+      type = .init(counts: cards.map(\.indices.upperBound))
     }
 
     static func < (lhs: Game, rhs: Game) -> Bool {
