@@ -98,9 +98,7 @@ struct Day07: AdventDay {
         .sorted { $0.count > $1.count }
 
       if withJokers, let jokersIndex = cards.firstIndex(where: { $0.contains(.joker) }) {
-        let jokers = cards[jokersIndex]
-        cards.remove(at: jokersIndex)
-
+        let jokers = cards.remove(at: jokersIndex)
         if cards.isEmpty {
           cards = [jokers]
         } else {
