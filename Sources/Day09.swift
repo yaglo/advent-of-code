@@ -7,21 +7,21 @@ struct Day09: AdventDay {
 
   func part1() -> Int {
     sequences.map { sequence in
-      extrapolateLastElement(sequence: sequence)
+      extrapolateNextElement(in: sequence)
     }
     .sum()
   }
 
   func part2() -> Int {
     sequences.map { sequence in
-      extrapolateLastElement(sequence: sequence.reversed())
+      extrapolateNextElement(in: sequence.reversed())
     }
     .sum()
   }
 
   // MARK: - Helpers
 
-  func extrapolateLastElement(sequence: [Int]) -> Int {
+  func extrapolateNextElement(in sequence: [Int]) -> Int {
     var lastElements = [sequence.last!]
 
     var diffs = sequence
