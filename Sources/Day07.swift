@@ -72,11 +72,11 @@ struct Day07: AdventDay {
       }
     }
 
-    init(_ character: Character) {
+    init(_ character: Character, withJokers: Bool) {
       self =
         switch character {
         case "T": .number(10)
-        case "J": .jack
+        case "J": withJokers ? .joker : .jack
         case "Q": .queen
         case "K": .king
         case "A": .ace
@@ -96,14 +96,7 @@ struct Day07: AdventDay {
 
     init(_ string: String, bid: Int, withJokers: Bool) {
       self.bid = bid
-
-      self.hand = string.map {
-        if $0 == "J" {
-          withJokers ? .joker : .jack
-        } else {
-          Card($0)
-        }
-      }
+      self.hand = string.map { Card($0, withJokers: withJokers) }
 
       var cards = hand
         .sorted()
