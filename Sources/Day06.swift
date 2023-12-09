@@ -1,3 +1,5 @@
+// MARK: Day 6: Wait For It -
+
 import Foundation
 
 struct Day06: AdventDay {
@@ -15,6 +17,8 @@ struct Day06: AdventDay {
       recordDistance: Double(records.joined())!
     )
   }
+
+  // MARK: - Helpers
 
   func numberOfWinningOptions(totalTime t: Double, recordDistance r: Double) -> Int {
     let d = (t * t - 4 * r).squareRoot()

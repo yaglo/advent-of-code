@@ -1,4 +1,6 @@
-// Challenge(?): Not using 2D data structures.
+// MARK: Day 3: Gear Ratios -
+
+/// Challenge(?): Not using 2D data structures.
 
 struct Day03: AdventDay {
   // MARK: -

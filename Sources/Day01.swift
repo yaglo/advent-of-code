@@ -1,5 +1,7 @@
-// Challenge: one-expression pipeline without `let` and control statements like `if`, `return`, etc.
-// Basically, no keywords except `in`.
+// MARK: Day 1: Trebuchet?! -
+
+/// Challenge: one-expression pipeline without `let` and control
+/// statements like `if`, `return`, etc. Basically, no keywords except `in`.
 
 struct Day01: AdventDay {
   // MARK: -

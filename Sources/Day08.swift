@@ -1,3 +1,5 @@
+// MARK: Day 8: Haunted Wasteland -
+
 struct Day08: AdventDay {
   // MARK: -
 
@@ -10,6 +12,8 @@ struct Day08: AdventDay {
       .map { numberOfSteps(from: $0) }
       .collapse(with: lcm)
   }
+
+  // MARK: - Helpers
 
   func numberOfSteps(from nodeID: String) -> Int {
     var currentID = nodeID

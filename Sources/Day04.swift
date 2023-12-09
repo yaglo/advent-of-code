@@ -1,4 +1,4 @@
-// Challenge(?): Not using 2D data structures.
+// MARK: Day 4: Scratchcards -
 
 struct Day04: AdventDay {
   // MARK: -

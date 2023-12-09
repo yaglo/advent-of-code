@@ -1,3 +1,5 @@
+// MARK: Day 7: Camel Cards -
+
 import Foundation
 
 struct Day07: AdventDay {
@@ -10,6 +12,8 @@ struct Day07: AdventDay {
   func part2() -> Int {
     solve(withJokers: true)
   }
+
+  // MARK: - Helpers
 
   func solve(withJokers: Bool) -> Int {
     data

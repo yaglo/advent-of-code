@@ -1,8 +1,11 @@
+// MARK: Day 2: Cube Conundrum -
+
 import RegexBuilder
 
-// Challenge: Only use Swift RegexBuilder with TryCapture for parsing and use custom components.
-// The point is not to create compact or performant code but to explore the Swift Regex APIs
-// and see if there's a good structured way of working with them.
+/// Challenge: Only use Swift `RegexBuilder` with `TryCapture` for parsing and
+/// use custom components. The point is not to create compact or performant
+/// code but to explore the Swift Regex APIs and see if there's a good
+/// structured way of working with them.
 
 struct Day02: AdventDay {
   // MARK: -
@@ -42,32 +45,6 @@ struct Day02: AdventDay {
   init(data: String) {
     games = Parser.games(from: data)
   }
-
-  // MARK: - Models
-
-  struct Game {
-    let id: Int
-    let turns: [Turn]
-  }
-
-  struct Turn {
-    let colorPairs: [ColorPair]
-  }
-
-  struct ColorPair {
-    let color: Color
-    let count: Int
-
-    var destructured: (Color, Int) {
-      (color, count)
-    }
-  }
-
-  enum Color: String {
-    case red, green, blue
-  }
-
-  // MARK: - Parser
 
   private enum Parser {
     static func games(from data: String) -> [Game] {
@@ -179,5 +156,29 @@ struct Day02: AdventDay {
         }
       }
     }
+  }
+
+  // MARK: - Models
+
+  struct Game {
+    let id: Int
+    let turns: [Turn]
+  }
+
+  struct Turn {
+    let colorPairs: [ColorPair]
+  }
+
+  struct ColorPair {
+    let color: Color
+    let count: Int
+
+    var destructured: (Color, Int) {
+      (color, count)
+    }
+  }
+
+  enum Color: String {
+    case red, green, blue
   }
 }

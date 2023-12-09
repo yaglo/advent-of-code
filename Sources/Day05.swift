@@ -1,3 +1,5 @@
+// MARK: Day 5: If You Give A Seed A Fertilizer -
+
 struct Day05: AdventDay {
   // MARK: -
 
@@ -18,6 +20,8 @@ struct Day05: AdventDay {
     .map { $0.destinationRange.lowerBound }
     .min()!
   }
+
+  // MARK: - Helpers
 
   func findRelevantLocationRanges(seedRanges: [RangeMapping]) -> [RangeMapping] {
     stages.reduce(seedRanges) { ranges, map in
