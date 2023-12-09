@@ -30,7 +30,9 @@ struct Day08: AdventDay {
 
   // MARK: - Data
 
-  typealias Node = (left: String, right: String)
+  struct Node {
+    let id, left, right: String
+  }
 
   let instructions: [KeyPath<Node, String>]
   let nodes: [String: Node]
@@ -40,15 +42,16 @@ struct Day08: AdventDay {
 
     instructions = lines[0].map { $0 == "L" ? \.left : \.right }
 
-    nodes = Dictionary(
+    nodes =
       lines
-        .dropFirst()
-        .map { line in
-          line
-            .matches(of: /[0-9A-Z]{3}/)
-            .map(\.output)
-            .map(String.init)
-            .splat { ($0, (left: $1, right: $2)) }
-        }, uniquingKeysWith: { first, _ in first })
+      .dropFirst()
+      .map { line in
+        line
+          .matches(of: /[0-9A-Z]{3}/)
+          .map(\.output)
+          .map(String.init)
+          .splat { Node(id: $0, left: $1, right: $2) }
+      }
+      .keyed(by: \.id)
   }
 }
