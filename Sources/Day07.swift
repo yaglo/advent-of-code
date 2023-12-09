@@ -57,7 +57,7 @@ struct Day07: AdventDay {
     }
   }
 
-  enum Card: Comparable, Hashable {
+  enum Card: Comparable {
     case number(Int)
     case joker, jack, queen, king, ace
 
@@ -105,10 +105,9 @@ struct Day07: AdventDay {
         }
       }
 
-      var cards: [[Card]] =
-        hand
-        .grouped(by: \.value)
-        .values
+      var cards = hand
+        .sorted()
+        .chunked(by: ==)
         .sorted { $0.count > $1.count }
 
       if withJokers, cards.count > 1,
@@ -117,7 +116,7 @@ struct Day07: AdventDay {
         cards[0].append(contentsOf: cards.remove(at: jokers))
       }
 
-      type = .init(counts: cards.map(\.indices.upperBound))
+      type = .init(counts: cards.map(\.count))
     }
 
     static func < (lhs: Game, rhs: Game) -> Bool {
