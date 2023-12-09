@@ -6,10 +6,9 @@ struct Day09: AdventDay {
   // MARK: -
 
   func part1() -> Int {
-    sequences.map { sequence in
-      extrapolateNextElement(in: sequence)
-    }
-    .sum()
+    sequences
+      .map(extrapolateNextElement(in:))
+      .sum()
   }
 
   func part2() -> Int {
@@ -34,7 +33,7 @@ struct Day09: AdventDay {
   }
 
   func differences(sequence: [Int]) -> [Int] {
-    zip(sequence, sequence.dropFirst()).map { $1 - $0 }
+    zip(sequence.dropFirst(), sequence).map(-)
   }
 
   // MARK: - Data

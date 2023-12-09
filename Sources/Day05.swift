@@ -17,7 +17,7 @@ struct Day05: AdventDay {
         RangeMapping(sourceRange: $0..<$0 + $1)
       }
     )
-    .map { $0.destinationRange.lowerBound }
+    .map(\.destinationRange.lowerBound)
     .min()!
   }
 

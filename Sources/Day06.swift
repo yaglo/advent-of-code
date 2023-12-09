@@ -7,7 +7,12 @@ struct Day06: AdventDay {
 
   func part1() -> Int {
     zip(times, records)
-      .map { numberOfWinningOptions(totalTime: Double($0)!, recordDistance: Double($1)!) }
+      .map {
+        numberOfWinningOptions(
+          totalTime: Double($0)!,
+          recordDistance: Double($1)!
+        )
+      }
       .product()
   }
 

@@ -1,5 +1,6 @@
 // MARK: Day 7: Camel Cards -
 
+import Algorithms
 import Foundation
 
 struct Day07: AdventDay {
@@ -90,11 +91,10 @@ struct Day07: AdventDay {
         }
       }
 
-      var cards =
+      var cards: [[Card]] =
         hand
         .grouped(by: \.value)
         .values
-        .map { $0 as [Card] }
         .sorted { $0.count > $1.count }
 
       if withJokers, let jokersIndex = cards.firstIndex(where: { $0.contains(.joker) }) {
