@@ -29,8 +29,8 @@ struct Day04: AdventDay {
         .drop { $0 != ":" }
         .dropFirst()
         .split(separator: "|")
-        .map { $0.split(separator: " ") }
-        .map { Set($0.map { Int($0)! }) }
+        .map { $0.integers(separatedBy: " ") }
+        .map(Set.init)
         .splat { $0.intersection($1).count }
     }
   }

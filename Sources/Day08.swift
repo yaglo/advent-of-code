@@ -13,8 +13,8 @@ struct Day08: AdventDay {
     nodes
       .keys
       .filter { $0.hasSuffix("A") }
-      .map { numberOfSteps(from: $0) }
-      .collapse(with: lcm)
+      .map(numberOfSteps(from:))
+      .reduce(with: lcm)
   }
 
   // MARK: - Helpers

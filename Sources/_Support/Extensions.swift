@@ -31,7 +31,7 @@ extension Sequence {
 }
 
 extension Collection {
-  @inlinable func collapse(
+  @inlinable func reduce(
     with nextPartialResult: (Element, Element) throws -> Element
   ) rethrows -> Element {
     try dropFirst().reduce(first!, nextPartialResult)
@@ -142,5 +142,11 @@ extension Array {
     -> T
   {
     try transform(self[0], self[1], self[2], self[3], self[4])
+  }
+}
+
+extension BidirectionalCollection where Self.SubSequence == Substring {
+  func integers(separatedBy separator: String) -> [Int] {
+    split(separator: separator).map { Int($0)! }
   }
 }

@@ -52,21 +52,19 @@ struct Day05: AdventDay {
 
     seeds = groups[0]
       .drop { $0 != " " }
-      .split(separator: " ")
-      .map { Int($0)! }
+      .integers(separatedBy: " ")
 
     stages =
       groups
       .dropFirst()
-      .map {
+      .map { group in
         Stage(
           rangeMappings:
-            $0
-            .split(whereSeparator: \.isNewline)
+            group
+            .lines()
             .dropFirst()
             .map { line in
-              let parts = line.split(separator: " ").map { Int($0)! }
-              let (destination, source, count) = (parts[0], parts[1], parts[2])
+              let (destination, source, count) = line.integers(separatedBy: " ").splat()
               return RangeMapping(
                 sourceRange: source..<source + count,
                 destinationShift: destination - source

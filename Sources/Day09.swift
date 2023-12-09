@@ -42,8 +42,6 @@ struct Day09: AdventDay {
   let sequences: [[Int]]
 
   init(data: String) {
-    sequences = data.mapLines { line in
-      line.split(separator: " ").map { Int($0)! }
-    }
+    sequences = data.mapLines { $0.integers(separatedBy: " ") }
   }
 }
