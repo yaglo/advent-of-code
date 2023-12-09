@@ -3,10 +3,15 @@ import PackageDescription
 
 let dependencies: [Target.Dependency] = [
     .product(name: "Algorithms", package: "swift-algorithms"),
-    .product(name: "Collections", package: "swift-collections"),
     .product(name: "ArgumentParser", package: "swift-argument-parser"),
+    .product(name: "Collections", package: "swift-collections"),
     .product(name: "Numerics", package: "swift-numerics"),
     .product(name: "SE0270_RangeSet", package: "swift-se0270-range-set"),
+]
+
+let swiftSettings: [SwiftSetting] = [
+  .enableUpcomingFeature("BareSlashRegexLiterals"),
+  .unsafeFlags(["-Xfrontend", "-enable-experimental-string-processing"]),
 ]
 
 let package = Package(
@@ -47,16 +52,15 @@ let package = Package(
             name: "AdventOfCode",
             dependencies: dependencies,
             resources: [.copy("Data")],
-            swiftSettings: [.enableUpcomingFeature("BareSlashRegexLiterals"), .interoperabilityMode(.Cxx)]
+            swiftSettings: swiftSettings
         ),
         .testTarget(
             name: "AdventOfCodeTests",
-            dependencies: dependencies + [
+            dependencies: [
                 "AdventOfCode",
                 .product(name: "Testing", package: "swift-testing"),
             ],
-            swiftSettings: [.enableUpcomingFeature("BareSlashRegexLiterals"), .interoperabilityMode(.Cxx)]
+            swiftSettings: swiftSettings
         ),
-    ],
-    cxxLanguageStandard: .gnucxx17
+    ]
 )

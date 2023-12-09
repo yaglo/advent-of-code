@@ -1,5 +1,7 @@
 // MARK: Day 4: Scratchcards -
 
+import RegexBuilder
+
 struct Day04: AdventDay {
   // MARK: -
 
@@ -24,14 +26,10 @@ struct Day04: AdventDay {
   let scores: [Int]
 
   init(data: String) {
+    let cardRegex = Regex { /Card.*:\s+/; Capture.setOfIntegers; /\s+\|\s+/; Capture.setOfIntegers }
     scores = data.mapLines { line in
-      line
-        .drop { $0 != ":" }
-        .dropFirst()
-        .split(separator: "|")
-        .map { $0.integers(separatedBy: " ") }
-        .map(Set.init)
-        .splat { $0.intersection($1).count }
+      let (_, winning, mine) = line.firstMatch(of: cardRegex)!.output
+      return winning.intersection(mine).count
     }
   }
 }

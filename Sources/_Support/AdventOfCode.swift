@@ -1,4 +1,5 @@
 import ArgumentParser
+import RegexBuilder
 
 @main
 struct AdventOfCode: AsyncParsableCommand {
