@@ -30,7 +30,9 @@ struct Day02: AdventDay {
   func part2() -> Int {
     games
       .map { game in
-        Dictionary(grouping: game.turns.flatMap(\.colorPairs), by: \.color)
+        game.turns
+          .flatMap(\.colorPairs)
+          .grouped(by: \.color)
           .values
           .map { $0.max(\.count)! }
           .product()
