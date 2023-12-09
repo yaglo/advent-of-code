@@ -8,7 +8,9 @@ struct Day08: AdventDay {
   }
 
   func part2() -> Int {
-    nodes.keys.filter { $0.hasSuffix("A") }
+    nodes
+      .keys
+      .filter { $0.hasSuffix("A") }
       .map { numberOfSteps(from: $0) }
       .collapse(with: lcm)
   }

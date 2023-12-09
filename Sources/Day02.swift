@@ -1,5 +1,6 @@
 // MARK: Day 2: Cube Conundrum -
 
+import Algorithms
 import RegexBuilder
 
 /// Challenge: Only use Swift `RegexBuilder` with `TryCapture` for parsing and

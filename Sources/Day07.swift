@@ -91,7 +91,8 @@ struct Day07: AdventDay {
       }
 
       var cards =
-        hand.grouped(by: \.hashValue)
+        hand
+        .grouped(by: \.hashValue)
         .values
         .map { $0 as [Card] }
         .sorted { $0.count > $1.count }
