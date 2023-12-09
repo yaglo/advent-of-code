@@ -6,6 +6,7 @@ let dependencies: [Target.Dependency] = [
     .product(name: "Collections", package: "swift-collections"),
     .product(name: "ArgumentParser", package: "swift-argument-parser"),
     .product(name: "Numerics", package: "swift-numerics"),
+    .product(name: "SE0270_RangeSet", package: "swift-se0270-range-set"),
 ]
 
 let package = Package(
@@ -32,18 +33,30 @@ let package = Package(
             url: "https://github.com/apple/swift-numerics.git",
             branch: "main"
         ),
+        .package(
+            url: "https://github.com/apple/swift-testing.git",
+            branch: "main"
+        ),
+        .package(
+            url: "https://github.com/apple/swift-se0270-range-set",
+            from: "1.0.0"
+        ),
     ],
     targets: [
         .executableTarget(
             name: "AdventOfCode",
             dependencies: dependencies,
             resources: [.copy("Data")],
-            swiftSettings: [.enableUpcomingFeature("BareSlashRegexLiterals")]
+            swiftSettings: [.enableUpcomingFeature("BareSlashRegexLiterals"), .interoperabilityMode(.Cxx)]
         ),
         .testTarget(
             name: "AdventOfCodeTests",
-            dependencies: ["AdventOfCode"] + dependencies,
-            swiftSettings: [.enableUpcomingFeature("BareSlashRegexLiterals")]
+            dependencies: dependencies + [
+                "AdventOfCode",
+                .product(name: "Testing", package: "swift-testing"),
+            ],
+            swiftSettings: [.enableUpcomingFeature("BareSlashRegexLiterals"), .interoperabilityMode(.Cxx)]
         ),
-    ]
+    ],
+    cxxLanguageStandard: .gnucxx17
 )

@@ -1,4 +1,8 @@
 import Algorithms
+import Collections
+import Numerics
+
+// MARK: - Sequences and Collections
 
 extension Sequence {
   func max<Value: Comparable>(_ keyPath: KeyPath<Self.Element, Value>) -> Value? {
@@ -38,31 +42,6 @@ extension Collection {
   }
 }
 
-extension String {
-  @inlinable
-  func lines() -> [Substring] {
-    split(whereSeparator: \.isNewline)
-  }
-
-  func mapLines<T>(_ transform: (Substring) throws -> T) rethrows -> [T] {
-    try lines().map(transform)
-  }
-}
-
-extension Substring {
-  @inlinable
-  func lines() -> [Substring] {
-    split(whereSeparator: \.isNewline)
-  }
-}
-
-extension LazySequence<String> {
-  @inlinable
-  func lines() -> SplitCollection<Elements> {
-    split(whereSeparator: \.isNewline)
-  }
-}
-
 extension BidirectionalCollection {
   func mapPairs<T>(_ transform: (Element, Element) throws -> T) rethrows -> [T] {
     precondition(count.isMultiple(of: 2))
@@ -73,15 +52,7 @@ extension BidirectionalCollection {
   }
 }
 
-extension Int {
-  init(_ c: Character?) {
-    if let c {
-      self = Int(String(c)) ?? 0
-    } else {
-      self = 0
-    }
-  }
-}
+// MARK: - Ranges
 
 extension Substring {
   func closedRange(from range: Range<Substring.Index>) -> ClosedRange<Int> {
@@ -98,6 +69,8 @@ extension Range {
   }
 }
 
+// MARK: - Numbers
+
 infix operator ~~
 extension Double {
   static func ~~ (lhs: Double, rhs: Double) -> Bool {
@@ -108,6 +81,8 @@ extension Double {
     remainder(dividingBy: 1) ~~ 0
   }
 }
+
+// MARK: - Splatting
 
 extension Array {
   func splat() -> (Element, Element) {
@@ -145,8 +120,60 @@ extension Array {
   }
 }
 
+// MARK: - Parsing and Conversion
+
+extension Int {
+  init(_ c: Character?) {
+    if let c {
+      self = Int(String(c)) ?? 0
+    } else {
+      self = 0
+    }
+  }
+}
+
 extension BidirectionalCollection where Self.SubSequence == Substring {
   func integers(separatedBy separator: String) -> [Int] {
     split(separator: separator).map { Int($0)! }
+  }
+}
+
+extension String {
+  @inlinable
+  func lines() -> [Substring] {
+    split(whereSeparator: \.isNewline)
+  }
+
+  func mapLines<T>(_ transform: (Substring) throws -> T) rethrows -> [T] {
+    try lines().map(transform)
+  }
+}
+
+extension Substring {
+  @inlinable
+  func lines() -> [Substring] {
+    split(whereSeparator: \.isNewline)
+  }
+}
+
+extension LazySequence<String> {
+  @inlinable
+  func lines() -> SplitCollection<Elements> {
+    split(whereSeparator: \.isNewline)
+  }
+}
+
+// MARK: - Concurrency
+
+extension Sequence {
+  func parallelMapReduce<T, V>(_ initialResult: V, map: @escaping (Element) throws -> T, reduce: (V, T) throws -> V) async rethrows -> V {
+    try await withThrowingTaskGroup(of: T.self, returning: V.self) { group in
+      for element in self {
+        group.addTask {
+          try map(element)
+        }
+      }
+      return try await group.reduce(initialResult, reduce)
+    }
   }
 }

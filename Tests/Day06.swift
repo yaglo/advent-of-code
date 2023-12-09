@@ -1,26 +1,17 @@
-import XCTest
-
+import Testing
 @testable import AdventOfCode
 
-final class Day06Tests: XCTestCase {
-  let testData = """
-    Time:      7  15   30
-    Distance:  9  40  200
-    """
-
-  func testPart1() throws {
-    let challenge = Day06(data: testData)
-    XCTAssertEqual(String(describing: challenge.part1()), "288")
-  }
-
-  func testPart2() throws {
-    let challenge = Day06(data: testData)
-    XCTAssertEqual(String(describing: challenge.part2()), "71503")
-  }
-
-  func testPuzzleAnswer() throws {
-    let challenge = Day06()
-    XCTAssertEqual(String(describing: challenge.part1()), "2449062")
-    XCTAssertEqual(String(describing: challenge.part2()), "33149631")
-  }
+@Test private func examples() throws {
+  #expect(Day06(data: example).part1() == 288)
+  #expect(Day06(data: example).part2() == 71503)
 }
+
+@Test private func puzzle() throws {
+  #expect(Day06().part1() == 2449062)
+  #expect(Day06().part2() == 33149631)
+}
+
+private let example = """
+Time:      7  15   30
+Distance:  9  40  200
+"""

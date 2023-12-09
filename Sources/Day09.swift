@@ -25,15 +25,11 @@ struct Day09: AdventDay {
 
     var diffs = sequence
     while diffs.contains(where: { $0 != 0 }) {
-      diffs = differences(sequence: diffs)
+      diffs = zip(diffs.dropFirst(), diffs).map(-)
       lastElements.append(diffs.last!)
     }
 
     return lastElements.sum()
-  }
-
-  func differences(sequence: [Int]) -> [Int] {
-    zip(sequence.dropFirst(), sequence).map(-)
   }
 
   // MARK: - Data
