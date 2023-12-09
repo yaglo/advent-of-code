@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+export TOOLCHAINS=swift
+swift run -c release AdventOfCode --benchmark --all
