@@ -1,5 +1,7 @@
 // MARK: Day 8: Haunted Wasteland -
 
+import Algorithms
+
 struct Day08: AdventDay {
   // MARK: -
 

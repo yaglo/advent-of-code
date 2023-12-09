@@ -25,14 +25,13 @@ struct Day04: AdventDay {
 
   init(data: String) {
     scores = data.mapLines { line in
-      let numbers =
-        line
+      line
         .drop { $0 != ":" }
         .dropFirst()
         .split(separator: "|")
         .map { $0.split(separator: " ") }
         .map { Set($0.map { Int($0)! }) }
-      return numbers[0].intersection(numbers[1]).count
+        .splat { $0.intersection($1).count }
     }
   }
 }

@@ -72,7 +72,7 @@ struct Day05: AdventDay {
                 destinationShift: destination - source
               )
             }
-        ).withFilledHoles()
+        )
       }
   }
 
@@ -90,18 +90,10 @@ struct Day05: AdventDay {
   struct Stage {
     let rangeMappings: [RangeMapping]
 
-    func transform(_ value: Int) -> Int {
-      if let found = rangeMappings.first(where: { $0.sourceRange.contains(value) }) {
-        value + found.destinationShift
-      } else {
-        value
-      }
-    }
-
-    func withFilledHoles() -> Stage {
-      let sorted = rangeMappings.sorted(by: {
+    init(rangeMappings: [RangeMapping]) {
+      let sorted = rangeMappings.sorted {
         $0.sourceRange.lowerBound < $1.sourceRange.upperBound
-      })
+      }
       var min = 0
       var ranges = [RangeMapping]()
       for range in sorted {
@@ -111,7 +103,15 @@ struct Day05: AdventDay {
         min = range.sourceRange.upperBound
         ranges.append(range)
       }
-      return Stage(rangeMappings: ranges)
+      self.rangeMappings = ranges
+    }
+
+    func transform(_ value: Int) -> Int {
+      if let found = rangeMappings.first(where: { $0.sourceRange.contains(value) }) {
+        value + found.destinationShift
+      } else {
+        value
+      }
     }
   }
 }
