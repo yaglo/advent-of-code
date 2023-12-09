@@ -43,6 +43,10 @@ extension String {
   func lines() -> [Substring] {
     split(whereSeparator: \.isNewline)
   }
+
+  func mapLines<T>(_ transform: (Substring) throws -> T) rethrows -> [T] {
+    try lines().map(transform)
+  }
 }
 
 extension Substring {

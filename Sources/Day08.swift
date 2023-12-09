@@ -37,8 +37,9 @@ struct Day08: AdventDay {
     nodes = Dictionary(
       lines
         .dropFirst()
-        .map {
-          $0.matches(of: /[0-9A-Z]{3}/)
+        .map { line in
+          line
+            .matches(of: /[0-9A-Z]{3}/)
             .map(\.output)
             .map(String.init)
             .splat { ($0, (left: $1, right: $2)) }

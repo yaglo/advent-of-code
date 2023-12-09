@@ -29,11 +29,11 @@ struct Day06: AdventDay {
   let records: [String]
 
   init(data: String) {
-    let lines = data.lines().map { line in
+    let lines = data.mapLines { line in
       line
         .split(separator: " ")
         .dropFirst()
-        .map { String($0) }
+        .map(String.init)
     }
     times = lines.first!
     records = lines.dropFirst().first!

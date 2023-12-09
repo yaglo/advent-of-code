@@ -24,7 +24,7 @@ struct Day04: AdventDay {
   let scores: [Int]
 
   init(data: String) {
-    scores = data.lines().map { line in
+    scores = data.mapLines { line in
       let numbers =
         line
         .drop { $0 != ":" }

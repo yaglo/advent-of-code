@@ -13,16 +13,15 @@ struct Day07: AdventDay {
 
   func solve(withJokers: Bool) -> Int {
     data
-      .lines()
-      .map { line in
-        let components = line.split(separator: " ")
-        return Game(string: String(components[0]), bid: Int(components[1])!, withJokers: withJokers)
+      .mapLines { line in
+        line
+          .split(separator: " ")
+          .splat { Game(String($0), bid: Int($1)!, withJokers: withJokers) }
       }
       .sorted()
       .enumerated()
-      .reduce(0) { partialResult, iterator in
-        partialResult + (iterator.offset + 1) * iterator.element.bid
-      }
+      .map { ($0.offset + 1) * $0.element.bid }
+      .sum()
   }
 
   // MARK: - Data
@@ -77,7 +76,7 @@ struct Day07: AdventDay {
     let bid: Int
     let type: HandType
 
-    init(string: String, bid: Int, withJokers: Bool) {
+    init(_ string: String, bid: Int, withJokers: Bool) {
       self.bid = bid
 
       self.hand = string.map {
@@ -97,10 +96,10 @@ struct Day07: AdventDay {
         let jokers = cards[jokersIndex]
         cards.remove(at: jokersIndex)
 
-        if cards.count > 0 {
-          cards[0].append(contentsOf: jokers)
-        } else {
+        if cards.isEmpty {
           cards = [jokers]
+        } else {
+          cards[0].append(contentsOf: jokers)
         }
       }
 
