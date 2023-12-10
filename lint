@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+export TOOLCHAINS=swift
+swift package plugin lint-source-code
