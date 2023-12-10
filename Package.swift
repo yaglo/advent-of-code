@@ -27,19 +27,33 @@ let package = Package(
     .package(url: "https://github.com/apple/swift-se0270-range-set", from: "1.0.0"),
     .package(url: "https://github.com/ordo-one/package-benchmark", .upToNextMajor(from: "1.4.0")),
   ],
+
+  // MARK: - Common
   targets: [
     .executableTarget(
       name: "Runner",
-      dependencies: dependencies + ["AdventOfCode", "_2023"],
+      dependencies: dependencies + ["AdventOfCode", "_2015", "_2023"],
       packageAccess: true,
       swiftSettings: swiftSettings
     ),
+
     .target(
       name: "AdventOfCode",
       dependencies: dependencies,
       packageAccess: true,
       swiftSettings: swiftSettings
     ),
+
+    // MARK: - Years
+
+    .target(
+      name: "_2015",
+      dependencies: dependencies + ["AdventOfCode"],
+      resources: [.copy("Data")],
+      packageAccess: true,
+      swiftSettings: swiftSettings
+    ),
+
     .target(
       name: "_2023",
       dependencies: dependencies + ["AdventOfCode"],
@@ -47,30 +61,37 @@ let package = Package(
       packageAccess: true,
       swiftSettings: swiftSettings
     ),
+
+    // MARK: - Tests
+
     .testTarget(
-      name: "Tests_2023",
-      dependencies: [
-        "AdventOfCode",
-        "_2023",
-        .product(name: "Testing", package: "swift-testing"),
-      ],
+      name: "Tests_2015",
+      dependencies: ["_2015", "AdventOfCode", .product(name: "Testing", package: "swift-testing")],
+      path: "Tests/_2015",
       swiftSettings: swiftSettings
     ),
+
+    .testTarget(
+      name: "Tests_2023",
+      dependencies: ["_2023", "AdventOfCode", .product(name: "Testing", package: "swift-testing")],
+      path: "Tests/_2023",
+      swiftSettings: swiftSettings
+    ),
+
+    // MARK: - Benchmarks
+
+    .executableTarget(
+      name: "Benchmarks",
+      dependencies: [
+        "AdventOfCode",
+        "_2015",
+        "_2023",
+        .product(name: "Benchmark", package: "package-benchmark"),
+      ],
+      path: "Benchmarks/Benchmarks",
+      plugins: [
+        .plugin(name: "BenchmarkPlugin", package: "package-benchmark")
+      ]
+    )
   ]
 )
-
-// Benchmark of AdventOfBenchmark
-package.targets += [
-  .executableTarget(
-    name: "Benchmarks",
-    dependencies: [
-      "AdventOfCode",
-      "_2023",
-      .product(name: "Benchmark", package: "package-benchmark"),
-    ],
-    path: "Benchmarks/Benchmarks",
-    plugins: [
-      .plugin(name: "BenchmarkPlugin", package: "package-benchmark")
-    ]
-  )
-]

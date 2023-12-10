@@ -1,10 +1,12 @@
 import AdventOfCode
 import ArgumentParser
 import Foundation
+import _2015
 import _2023
 
 let allChallenges: [any AdventDay] =
-  all2023Challenges
+  all2015Challenges
+  + all2023Challenges
 
 @main
 struct AdventOfCode: AsyncParsableCommand {
@@ -23,9 +25,7 @@ struct AdventOfCode: AsyncParsableCommand {
   /// The selected day, or the latest day if no selection is provided.
   var selectedChallenge: any AdventDay {
     get throws {
-      let year = year ?? 2023  // TODO: get current
-
-      guard let day else {
+      guard let year, let day else {
         return latestChallenge
       }
       guard let challenge = allChallenges.first(where: { $0.yearDay == (year, day) }) else {
