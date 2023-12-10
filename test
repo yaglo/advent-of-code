@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 
 export TOOLCHAINS=swift
-swift test --parallel --enable-experimental-swift-testing --disable-xctest
+swift test --enable-experimental-swift-testing --disable-xctest 
+# --parallel
