@@ -22,7 +22,7 @@ struct Day10: AdventDay {
   let grid: Grid
 
   init(data: String) {
-    grid = Grid(from: data.lines().map { Array($0) })
+    grid = Grid(from: data)
   }
 
   // MARK: - Models
@@ -95,29 +95,9 @@ struct Day10: AdventDay {
     var nodes: [[Node]]
     var startNode: Node
 
-    init(from characters: [[Character]]) {
-      let rows = characters.count
-      let columns = characters[0].count
-
-      self.nodes = Array(
-        repeating: Array(repeating: Node(shape: .empty), count: columns), count: rows)
-
-      var startNode: Node? = nil
-
-      for (y, row) in characters.enumerated() {
-        for (x, value) in row.enumerated() {
-          if let shape = Node.Shape(rawValue: value) {
-            let node = Node(shape: shape)
-            nodes[y][x] = node
-
-            if shape == .start {
-              startNode = node
-            }
-          }
-        }
-      }
-
-      self.startNode = startNode!
+    init(from data: String) {
+      nodes = data.mapLines { $0.map { Node(shape: Node.Shape(rawValue: $0)!) } }
+      startNode = nodes.flatMap { $0 }.first(where: { $0.shape == .start })!
 
       connectNodes()
       cleanUpDanglingNodes()
