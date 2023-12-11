@@ -58,7 +58,7 @@
       shouldAutocreateTestPlan = "YES">
       <Testables>
          <TestableReference
-            skipped = "NO">
+            skipped = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "Tests_2015"
@@ -68,12 +68,22 @@
             </BuildableReference>
          </TestableReference>
          <TestableReference
-            skipped = "NO">
+            skipped = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "Tests_2023"
                BuildableName = "Tests_2023"
                BlueprintName = "Tests_2023"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "Tests_2022"
+               BuildableName = "Tests_2022"
+               BlueprintName = "Tests_2022"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
@@ -101,12 +111,12 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "2015"
-            isEnabled = "NO">
+            argument = "2022"
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "3"
-            isEnabled = "NO">
+            argument = "22"
+            isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
    </LaunchAction>

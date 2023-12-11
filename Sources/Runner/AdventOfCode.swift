@@ -2,10 +2,12 @@ import AdventOfCode
 import ArgumentParser
 import Foundation
 import _2015
+import _2022
 import _2023
 
 let allChallenges: [any AdventDay] =
   all2015Challenges
+  + all2022Challenges
   + all2023Challenges
 
 @main

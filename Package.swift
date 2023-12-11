@@ -32,7 +32,7 @@ let package = Package(
   targets: [
     .executableTarget(
       name: "Runner",
-      dependencies: dependencies + ["AdventOfCode", "_2015", "_2023"],
+      dependencies: dependencies + ["AdventOfCode", "_2015", "_2022", "_2023"],
       packageAccess: true,
       swiftSettings: swiftSettings
     ),
@@ -48,6 +48,14 @@ let package = Package(
 
     .target(
       name: "_2015",
+      dependencies: dependencies + ["AdventOfCode"],
+      resources: [.copy("Data")],
+      packageAccess: true,
+      swiftSettings: swiftSettings
+    ),
+
+    .target(
+      name: "_2022",
       dependencies: dependencies + ["AdventOfCode"],
       resources: [.copy("Data")],
       packageAccess: true,
@@ -72,6 +80,13 @@ let package = Package(
     ),
 
     .testTarget(
+      name: "Tests_2022",
+      dependencies: ["_2022", "AdventOfCode", .product(name: "Testing", package: "swift-testing")],
+      path: "Tests/_2022",
+      swiftSettings: swiftSettings
+    ),
+
+    .testTarget(
       name: "Tests_2023",
       dependencies: ["_2023", "AdventOfCode", .product(name: "Testing", package: "swift-testing")],
       path: "Tests/_2023",
@@ -85,6 +100,7 @@ let package = Package(
       dependencies: [
         "AdventOfCode",
         "_2015",
+        "_2022",
         "_2023",
         .product(name: "Benchmark", package: "package-benchmark"),
       ],
