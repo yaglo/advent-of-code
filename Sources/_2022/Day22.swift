@@ -2,8 +2,8 @@
 
 import AdventOfCode
 import Algorithms
-import Foundation
 import CoreGraphics
+import Foundation
 
 class Day22: AdventDay {
   // MARK: -
@@ -53,8 +53,8 @@ class Day22: AdventDay {
       }
     }
     return 1000 * (currentTile.coordinate.y + 1)
-    + 4 * (currentTile.coordinate.x + 1)
-    + direction.rawValue
+      + 4 * (currentTile.coordinate.x + 1)
+      + direction.rawValue
   }
 
   func setUpWrappingRulesForPart1() {
@@ -108,7 +108,6 @@ class Day22: AdventDay {
     // 150,50 -> 100,100
     // 150,0 -> 100,150
 
-
     for row in tiles {
       let leftmostTile = row.firstNonNil { $0 }!
       let rightmostTile = row.reversed().firstNonNil { $0 }!
@@ -134,7 +133,6 @@ class Day22: AdventDay {
     }
   }
 
-
   // MARK: - Data
 
   var currentTile: Tile
@@ -146,22 +144,22 @@ class Day22: AdventDay {
   let width: Int
 
   required init(data: String) {
-//    let data = """
-//          ...#
-//          .#..
-//          #...
-//          ....
-//  ...#.......#
-//  ........#...
-//  ..#....#....
-//  ..........#.
-//          ...#....
-//          .....#..
-//          .#......
-//          ......#.
-//
-//  2R5L2
-//  """
+    //    let data = """
+    //          ...#
+    //          .#..
+    //          #...
+    //          ....
+    //  ...#.......#
+    //  ........#...
+    //  ..#....#....
+    //  ..........#.
+    //          ...#....
+    //          .....#..
+    //          .#......
+    //          ......#.
+    //
+    //  2R5L2
+    //  """
     let (map, instructionString) = data.split(separator: "\n\n").splat()
 
     width = map.lines().map(\.count).max()!
@@ -186,7 +184,7 @@ class Day22: AdventDay {
     currentTile = startTile
 
     self.instructions =
-    instructionString
+      instructionString
       .trimmingCharacters(in: .newlines)
       .chunked { $0.isNumber && $1.isNumber || $0.isLetter && $1.isLetter }
       .flatMap { instruction -> [Instruction] in
@@ -267,7 +265,8 @@ class Day22: AdventDay {
 
   class CubeMapper {
     struct Transformations {
-      static let flipVerticallyRotate90 = CGAffineTransformRotate(CGAffineTransformMakeScale(1, -1), .pi / 2)
+      static let flipVerticallyRotate90 = CGAffineTransformRotate(
+        CGAffineTransformMakeScale(1, -1), .pi / 2)
     }
 
     let mappings: [(Int, Int, Direction, Direction, CGAffineTransform, [Day22.Turn])] = [
@@ -279,7 +278,7 @@ class Day22: AdventDay {
       // direction
       // direction shift
       //      (4, 0, true, 1, 1, []), // 1
-      (1, 1, .right, .up, Transformations.flipVerticallyRotate90, [.right]), // 1
+      (1, 1, .right, .up, Transformations.flipVerticallyRotate90, [.right])  // 1
     ]
 
     var tiles: [[Tile?]]
@@ -394,16 +393,17 @@ class Day22: AdventDay {
         for (y, row) in net.enumerated() {
           for (x, value) in row.enumerated() {
             guard value != 0 else { continue }
-            
+
             let otherx = x + mapping.0
             let othery = y + mapping.1
-            
+
             guard otherx < netWidth else { continue }
             guard othery < netHeight else { continue }
             guard net[othery][otherx] == 1 else { continue }
 
             guard let mySeam = findSeam(x: x, y: y, direction: mapping.2),
-                  let otherSeam = findSeam(x: x + mapping.0, y: y + mapping.1, direction: mapping.3) else {
+              let otherSeam = findSeam(x: x + mapping.0, y: y + mapping.1, direction: mapping.3)
+            else {
               continue
             }
 
@@ -416,32 +416,37 @@ class Day22: AdventDay {
 
             let transformation = mapping.4
 
-
             for (_, y) in mySeam.y.enumerated() {
               for (_, x) in mySeam.x.enumerated() {
-                let translation = CGAffineTransform(translationX: CGFloat(mySeam.y.lowerBound + side - 1), y: CGFloat(mySeam.x.lowerBound))
+                let translation = CGAffineTransform(
+                  translationX: CGFloat(mySeam.y.lowerBound + side - 1),
+                  y: CGFloat(mySeam.x.lowerBound))
                 let transform = CGAffineTransformConcat(transformation, translation)
                 let transformed = CGPointApplyAffineTransform(CGPoint(x: x, y: y), transform)
                 let otherx = otherSeam.x.lowerBound + Int(transformed.x)
                 let othery = otherSeam.y.lowerBound + Int(transformed.y)
 
-                print(y, x,tiles[y][x]?.coordinate, tiles[y][x]?.right?.coordinate, tiles[othery][otherx]?.coordinate)
+                print(
+                  y, x, tiles[y][x]?.coordinate, tiles[y][x]?.right?.coordinate,
+                  tiles[othery][otherx]?.coordinate)
                 tiles[y][x]?.right = tiles[othery][otherx]
                 tiles[y][x]?.force[.right] = mapping.5
 
-                print(y, x, tiles[y][x]?.coordinate, tiles[y][x]?.right?.coordinate, tiles[othery][otherx]?.coordinate)
+                print(
+                  y, x, tiles[y][x]?.coordinate, tiles[y][x]?.right?.coordinate,
+                  tiles[othery][otherx]?.coordinate)
               }
             }
 
-//            for myy in mySeam.y {
-//              for myx in mySeam.x {
-//                for othery in otherSeam.y {
-//                  for otherx in otherSeam.x {
-//
-//                  }
-//                }
-//              }
-//            }
+            //            for myy in mySeam.y {
+            //              for myx in mySeam.x {
+            //                for othery in otherSeam.y {
+            //                  for otherx in otherSeam.x {
+            //
+            //                  }
+            //                }
+            //              }
+            //            }
           }
         }
       }
@@ -453,19 +458,12 @@ class Day22: AdventDay {
   }
 }
 
-extension Array where Element: Collection {
-  subscript(column column: Element.Index) -> [Element.Iterator.Element] {
-    return map { $0[column] }
-  }
-}
-
 //    var nets: [[[Int]],  = [
 //      [0, 1, 1],
 //      [0, 1, 0],
 //      [0, 1, 0],
 //      [1, 0, 0]
 //    ]
-
 
 let mappings: [(Int, Int, Bool, Int, Int, [Day22.Turn])] = [
   // vertical distance - flip flop positive/negative
@@ -474,10 +472,9 @@ let mappings: [(Int, Int, Bool, Int, Int, [Day22.Turn])] = [
   // x coordinate multiplier
   // y coordinate multiplier
   // direction shift
-  (4, 0, true, 1, 1, []), // 1
-  (1, 1, false, 1, 0, []), // 1
+  (4, 0, true, 1, 1, []),  // 1
+  (1, 1, false, 1, 0, []),  // 1
 ]
-
 
 // 1. Map fours
 // *XXXX* or *
@@ -494,7 +491,6 @@ let mappings: [(Int, Int, Bool, Int, Int, [Day22.Turn])] = [
 // 3.
 // .X*
 // X*
-
 
 // 3.
 // *
@@ -517,21 +513,15 @@ let mappings: [(Int, Int, Bool, Int, Int, [Day22.Turn])] = [
 // .X*
 //
 
-
 // 6.
 // .X*
 // .X.
 // .X.
 // *X.
 
-
-
-
-
 // 0XX
 // 0X0
 // XX0
-
 
 // Every net has 14 free sides that need to be connected
 // Patterns
@@ -589,7 +579,6 @@ let mappings: [(Int, Int, Bool, Int, Int, [Day22.Turn])] = [
 // 3XXX
 // 4XXX
 
-
 // Any parallel with distance 4 -> same, either in one line or with 1 column inbetween
 //   *
 // .XX
@@ -636,13 +625,7 @@ let mappings: [(Int, Int, Bool, Int, Int, [Day22.Turn])] = [
 //  }
 //}
 
-
-
 // Flip and rotate
-
-
-
-
 
 //let side = 4
 //

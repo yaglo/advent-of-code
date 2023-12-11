@@ -13,7 +13,6 @@ struct Day10: AdventDay {
   func part2() -> Int {
     grid.walkLoop(from: grid.startNode)
     grid.markOutsideTiles()
-    grid.dump()
     return grid.countInsideTiles()
   }
 
