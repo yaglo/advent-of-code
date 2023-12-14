@@ -1,4 +1,4 @@
-public enum ASCIIColor: String {
+public enum ANSIColor: String {
   case black = "\u{001B}[0;30m"
   case red = "\u{001B}[0;31m"
   case green = "\u{001B}[0;32m"
@@ -12,8 +12,8 @@ public enum ASCIIColor: String {
 
 extension DefaultStringInterpolation {
   public mutating func appendInterpolation<T: CustomStringConvertible>(
-    _ value: T, color: ASCIIColor
+    _ value: T, color: ANSIColor
   ) {
-    appendInterpolation("\(color.rawValue)\(value)\(ASCIIColor.default.rawValue)")
+    appendInterpolation("\(color.rawValue)\(value)\(ANSIColor.default.rawValue)")
   }
 }

@@ -187,3 +187,9 @@ extension Array where Element: Collection {
     return map { $0[column] }
   }
 }
+
+extension Collection {
+  public subscript(safe index: Index) -> Element? {
+    return indices.contains(index) ? self[index] : nil
+  }
+}

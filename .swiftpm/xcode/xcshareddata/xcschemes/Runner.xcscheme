@@ -68,7 +68,7 @@
             </BuildableReference>
          </TestableReference>
          <TestableReference
-            skipped = "NO">
+            skipped = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "Tests_2023"
@@ -78,7 +78,7 @@
             </BuildableReference>
          </TestableReference>
          <TestableReference
-            skipped = "YES">
+            skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "Tests_2022"
@@ -111,11 +111,11 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "2023"
+            argument = "2022"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "11"
+            argument = "22"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

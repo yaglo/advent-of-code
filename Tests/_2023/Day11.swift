@@ -8,8 +8,8 @@ import Testing
 }
 
 @Test private func puzzle() throws {
-  #expect(Day11().part1() == 9329143)
-  #expect(Day11().part2() == 710674907809)
+  #expect(Day11().part1() == 9_329_143)
+  #expect(Day11().part2() == 710_674_907_809)
 }
 
 private let example = """
