@@ -85,14 +85,6 @@ struct Day14: AdventDay {
         }
       })
   }
-
-  // MARK: - Models
-
-  struct Counter {
-    var lastStart: Int
-    var currentCount: Int
-    var accumulator: Int
-  }
 }
 
 extension Double {
