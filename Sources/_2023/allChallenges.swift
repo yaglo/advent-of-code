@@ -12,4 +12,6 @@ public let all2023Challenges: [any AdventDay] = [
   Day09(),
   Day10(),
   Day11(),
+
+  Day14(),
 ]
