@@ -9,15 +9,15 @@ struct Day17: AdventDay {
 
   func part1() -> Int {
     findMinHeatLoss(
-      grid: map,
-      precomputedHeatLoss: precomputeHeatLoss(map: map, stepRange: 1...3)
+      grid: grid,
+      precomputedHeatLoss: precomputeHeatLoss(map: grid, stepRange: 1...3)
     )
   }
 
   func part2() -> Int {
     findMinHeatLoss(
-      grid: map,
-      precomputedHeatLoss: precomputeHeatLoss(map: map, stepRange: 4...10)
+      grid: grid,
+      precomputedHeatLoss: precomputeHeatLoss(map: grid, stepRange: 4...10)
     )
   }
 
@@ -51,8 +51,7 @@ struct Day17: AdventDay {
             }
           }
           precomputedLoss[
-            LossForDirection(position: Position(row: row, column: column), direction: direction)] =
-            stepsLoss
+            .init(position: Position(row: row, column: column), direction: direction)] = stepsLoss
         }
       }
     }
@@ -76,7 +75,7 @@ struct Day17: AdventDay {
     var priorityQueue: Heap<Node> = [
       .init(totalLoss: 0, position: .init(row: 0, column: 0), previousDirection: -1)
     ]
-    var visited = Set<LossForDirection>()
+    var visited = Set<LossDirection>()
 
     while !priorityQueue.isEmpty {
       let node = priorityQueue.removeMin()
@@ -85,7 +84,7 @@ struct Day17: AdventDay {
         return node.totalLoss
       }
 
-      let visit = LossForDirection(position: node.position, direction: node.previousDirection)
+      let visit = LossDirection(position: node.position, direction: node.previousDirection)
       guard !visited.contains(visit) else { continue }
       visited.insert(visit)
 
@@ -111,7 +110,7 @@ struct Day17: AdventDay {
 
   // MARK: - Data
 
-  let map: [[Int]]
+  let grid: [[Int]]
   let directions: [Position] = [
     .init(row: 0, column: 1),
     .init(row: 1, column: 0),
@@ -120,7 +119,7 @@ struct Day17: AdventDay {
   ]
 
   init(data: String) {
-    map = data.split(whereSeparator: \.isNewline).map { line in
+    grid = data.split(whereSeparator: \.isNewline).map { line in
       line.map { Int($0) }
     }
   }
@@ -132,22 +131,22 @@ struct Day17: AdventDay {
     var column: Int
   }
 
-  struct LossForDirection: Hashable {
-    var position: Position
-    var direction: Int
-  }
-
   struct LossStep {
     var totalLoss: Int
     var position: Position
   }
 
-  struct LossMap {
-    private var map: [LossForDirection: [LossStep]] = [:]
+  struct LossDirection: Hashable {
+    var position: Position
+    var direction: Int
+  }
 
-    subscript(directionalLoss: LossForDirection) -> [LossStep]? {
-      get { map[directionalLoss] }
-      set { map[directionalLoss] = newValue }
+  struct LossMap {
+    private var map: [LossDirection: [LossStep]] = [:]
+
+    subscript(lossDirection: LossDirection) -> [LossStep]? {
+      get { map[lossDirection] }
+      set { map[lossDirection] = newValue }
     }
   }
 }
