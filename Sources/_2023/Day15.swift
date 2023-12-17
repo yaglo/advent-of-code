@@ -15,7 +15,8 @@ struct Day15: AdventDay {
   }
 
   func part2() -> Int {
-    let instructions = data
+    let instructions =
+      data
       .trimmingCharacters(in: .whitespacesAndNewlines)
       .split(separator: ",")
 
