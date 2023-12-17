@@ -50,8 +50,12 @@ struct Day17: AdventDay {
               stepsLoss.append(LossStep(totalLoss: totalLoss, position: currentPosition))
             }
           }
-          precomputedLoss[
-            .init(position: Position(row: row, column: column), direction: direction)] = stepsLoss
+
+          let lossDirection = LossDirection(
+            position: .init(row: row, column: column),
+            direction: direction
+          )
+          precomputedLoss[lossDirection] = stepsLoss
         }
       }
     }
@@ -98,8 +102,11 @@ struct Day17: AdventDay {
           if !visited.contains(.init(position: step.position, direction: direction)) {
             priorityQueue.insert(
               .init(
-                totalLoss: node.totalLoss + step.totalLoss, position: step.position,
-                previousDirection: direction))
+                totalLoss: node.totalLoss + step.totalLoss,
+                position: step.position,
+                previousDirection: direction
+              )
+            )
           }
         }
       }
