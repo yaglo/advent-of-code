@@ -10,22 +10,22 @@ struct Day17: AdventDay {
   func part1() -> Int {
     findMinHeatLoss(
       grid: grid,
-      precomputedHeatLoss: precomputeHeatLoss(map: grid, stepRange: 1...3)
+      precomputedHeatLoss: precomputeHeatLoss(grid: grid, stepRange: 1...3)
     )
   }
 
   func part2() -> Int {
     findMinHeatLoss(
       grid: grid,
-      precomputedHeatLoss: precomputeHeatLoss(map: grid, stepRange: 4...10)
+      precomputedHeatLoss: precomputeHeatLoss(grid: grid, stepRange: 4...10)
     )
   }
 
   // MARK: - Helpers
 
-  func precomputeHeatLoss(map: [[Int]], stepRange: ClosedRange<Int>) -> LossMap {
-    let rows = map.count
-    let columns = map[0].count
+  func precomputeHeatLoss(grid: [[Int]], stepRange: ClosedRange<Int>) -> LossMap {
+    let rows = grid.count
+    let columns = grid[0].count
     var precomputedLoss = LossMap()
 
     for row in 0..<rows {
@@ -44,7 +44,7 @@ struct Day17: AdventDay {
                 && currentPosition.column < columns
             else { break }
 
-            totalLoss += map[currentPosition.row][currentPosition.column]
+            totalLoss += grid[currentPosition.row][currentPosition.column]
 
             if step >= stepRange.lowerBound {
               stepsLoss.append(LossStep(totalLoss: totalLoss, position: currentPosition))
