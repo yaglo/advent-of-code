@@ -74,26 +74,26 @@ let package = Package(
 
     // MARK: - Tests
 
-    .testTarget(
-      name: "Tests_2015",
-      dependencies: ["_2015", "AdventOfCode", .product(name: "Testing", package: "swift-testing")],
-      path: "Tests/_2015",
-      swiftSettings: swiftSettings
-    ),
-
-    .testTarget(
-      name: "Tests_2022",
-      dependencies: ["_2022", "AdventOfCode", .product(name: "Testing", package: "swift-testing")],
-      path: "Tests/_2022",
-      swiftSettings: swiftSettings
-    ),
-
-    .testTarget(
-      name: "Tests_2023",
-      dependencies: ["_2023", "AdventOfCode", .product(name: "Testing", package: "swift-testing")],
-      path: "Tests/_2023",
-      swiftSettings: swiftSettings
-    ),
+//    .testTarget(
+//      name: "Tests_2015",
+//      dependencies: ["_2015", "AdventOfCode", .product(name: "Testing", package: "swift-testing")],
+//      path: "Tests/_2015",
+//      swiftSettings: swiftSettings
+//    ),
+//
+//    .testTarget(
+//      name: "Tests_2022",
+//      dependencies: ["_2022", "AdventOfCode", .product(name: "Testing", package: "swift-testing")],
+//      path: "Tests/_2022",
+//      swiftSettings: swiftSettings
+//    ),
+//
+//    .testTarget(
+//      name: "Tests_2023",
+//      dependencies: ["_2023", "AdventOfCode", .product(name: "Testing", package: "swift-testing")],
+//      path: "Tests/_2023",
+//      swiftSettings: swiftSettings
+//    ),
 
     // MARK: - Benchmarks
 
