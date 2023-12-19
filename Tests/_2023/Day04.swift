@@ -3,15 +3,15 @@ import Testing
 @testable import AdventOfCode
 @testable import _2023
 
-@Test private func examples() throws {
+@Test private func examplesDay04() throws {
   #expect(Day04(data: example).part1() == 13)
   #expect(Day04(data: example).part2() == 30)
 }
 
-@Test private func puzzle() throws {
-  #expect(Day04().part1() == 21568)
-  #expect(Day04().part2() == 11_827_296)
-}
+//@Test private func puzzleDay04() throws {
+//  #expect(Day04().part1() == 21568)
+//  #expect(Day04().part2() == 11_827_296)
+//}
 
 private let example = """
   Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53

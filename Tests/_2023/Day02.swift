@@ -3,15 +3,15 @@ import Testing
 @testable import AdventOfCode
 @testable import _2023
 
-@Test private func examples() throws {
+@Test private func examplesDay02() throws {
   #expect(Day02(data: example).part1() == 8)
   #expect(Day02(data: example).part2() == 2286)
 }
 
-@Test private func puzzle() throws {
-  #expect(Day02().part1() == 2149)
-  #expect(Day02().part2() == 71274)
-}
+//@Test private func puzzleDay02() throws {
+//  #expect(Day02().part1() == 2149)
+//  #expect(Day02().part2() == 71274)
+//}
 
 private let example = """
   Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green

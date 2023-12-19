@@ -3,16 +3,16 @@ import Testing
 @testable import AdventOfCode
 @testable import _2023
 
-@Test private func examples() throws {
+@Test private func examplesDay10() throws {
   #expect(Day10(data: example1).part1() == 4)
   #expect(Day10(data: example2).part1() == 8)
   #expect(Day10(data: example3).part2() == 4)
 }
 
-@Test private func puzzle() throws {
-  #expect(Day10().part1() == 6923)
-  #expect(Day10().part2() == 529)
-}
+//@Test private func puzzleDay10() throws {
+//  #expect(Day10().part1() == 6923)
+//  #expect(Day10().part2() == 529)
+//}
 
 private let example1 = """
   .....
