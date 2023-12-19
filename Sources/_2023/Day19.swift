@@ -39,44 +39,48 @@ struct Day19: AdventDay {
   }
 
   func part2() async -> Int {
-    struct AcceptedPath {
+    struct AcceptedRange {
       var ratings: [String: Range<Int>]
       var workflows: Set<String>
     }
 
-    func calculateAcceptedPaths(workflow: Instruction, acceptedPath: AcceptedPath) -> [AcceptedPath]
+    func calculateAcceptedRatingRanges(workflow: Instruction, acceptedRange: AcceptedRange)
+      -> [AcceptedRange]
     {
       switch workflow {
       case .accept:
-        return [acceptedPath]
+        return [acceptedRange]
       case .reject:
         return []
       case .match(let rating, let range, let yes, let no):
-        var states = [AcceptedPath]()
+        var acceptedRanges = [AcceptedRange]()
 
         let complementRange =
-          RangeSet(acceptedPath.ratings[rating]!)
+          RangeSet(acceptedRange.ratings[rating]!)
           .subtracting(RangeSet(range))
           .ranges
           .first!
 
-        let yesRatings = updating(rating, in: acceptedPath.ratings, with: range)
-        let noRatings = updating(rating, in: acceptedPath.ratings, with: complementRange)
+        let yesRatings = updating(rating, in: acceptedRange.ratings, with: range)
+        let noRatings = updating(rating, in: acceptedRange.ratings, with: complementRange)
 
-        states += calculateAcceptedPaths(
-          workflow: yes, acceptedPath: .init(ratings: yesRatings, workflows: acceptedPath.workflows)
+        acceptedRanges += calculateAcceptedRatingRanges(
+          workflow: yes,
+          acceptedRange: .init(ratings: yesRatings, workflows: acceptedRange.workflows)
         )
-        states += calculateAcceptedPaths(
-          workflow: no, acceptedPath: .init(ratings: noRatings, workflows: acceptedPath.workflows)
+        acceptedRanges += calculateAcceptedRatingRanges(
+          workflow: no,
+          acceptedRange: .init(ratings: noRatings, workflows: acceptedRange.workflows)
         )
-        return states
+        return acceptedRanges
       case .workflow(let name):
-        guard !acceptedPath.workflows.contains(name) else {
+        guard !acceptedRange.workflows.contains(name) else {
           return []
         }
-        var newRange = acceptedPath
-        newRange.workflows.insert(name)
-        return calculateAcceptedPaths(workflow: workflows[name]!, acceptedPath: newRange)
+        var newAcceptedRange = acceptedRange
+        newAcceptedRange.workflows.insert(name)
+        return calculateAcceptedRatingRanges(
+          workflow: workflows[name]!, acceptedRange: newAcceptedRange)
       }
     }
 
@@ -88,15 +92,15 @@ struct Day19: AdventDay {
       return newRatings
     }
 
-    let acceptedPaths = calculateAcceptedPaths(
+    let acceptedRanges = calculateAcceptedRatingRanges(
       workflow: workflows["in"]!,
-      acceptedPath: AcceptedPath(
+      acceptedRange: AcceptedRange(
         ratings: ["x": fullRange, "m": fullRange, "a": fullRange, "s": fullRange],
         workflows: []
       )
     )
 
-    return acceptedPaths.map {
+    return acceptedRanges.map {
       $0.ratings
         .values
         .product(of: \.count)
