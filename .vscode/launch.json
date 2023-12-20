@@ -1,0 +1,52 @@
+{
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "args": [],
+            "cwd": "${workspaceFolder:advent-of-code}",
+            "name": "Debug Runner",
+            "program": "${workspaceFolder:advent-of-code}/.build/debug/Runner",
+            "preLaunchTask": "swift: Build Debug Runner"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "args": [],
+            "cwd": "${workspaceFolder:advent-of-code}",
+            "name": "Release Runner",
+            "program": "${workspaceFolder:advent-of-code}/.build/release/Runner",
+            "preLaunchTask": "swift: Build Release Runner"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "args": [],
+            "cwd": "${workspaceFolder:advent-of-code}",
+            "name": "Debug Benchmarks",
+            "program": "${workspaceFolder:advent-of-code}/.build/debug/Benchmarks",
+            "preLaunchTask": "swift: Build Debug Benchmarks"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "args": [],
+            "cwd": "${workspaceFolder:advent-of-code}",
+            "name": "Release Benchmarks",
+            "program": "${workspaceFolder:advent-of-code}/.build/release/Benchmarks",
+            "preLaunchTask": "swift: Build Release Benchmarks"
+        }
+    ]
+}
