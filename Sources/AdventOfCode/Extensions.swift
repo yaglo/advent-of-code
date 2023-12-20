@@ -14,21 +14,15 @@ extension Sequence {
   }
 
   public func sorted<Value: Comparable>(by keyPath: KeyPath<Self.Element, Value>) -> [Self.Element]
-  {
-    self.sorted { $0[keyPath: keyPath] < $1[keyPath: keyPath] }
-  }
+  { self.sorted { $0[keyPath: keyPath] < $1[keyPath: keyPath] } }
 
-  public func sum() -> Element where Element: AdditiveArithmetic {
-    self.reduce(Element.zero, +)
-  }
+  public func sum() -> Element where Element: AdditiveArithmetic { self.reduce(Element.zero, +) }
 
   public func sum<Value: AdditiveArithmetic>(of keyPath: KeyPath<Self.Element, Value>) -> Value {
     self.map { $0[keyPath: keyPath] }.sum()
   }
 
-  public func product() -> Element where Element: Numeric {
-    self.reduce(1, *)
-  }
+  public func product() -> Element where Element: Numeric { self.reduce(1, *) }
 
   public func product<Value: Numeric>(of keyPath: KeyPath<Self.Element, Value>) -> Value {
     self.map { $0[keyPath: keyPath] }.product()
@@ -38,18 +32,14 @@ extension Sequence {
 extension Collection {
   @inlinable public func reduce(with nextPartialResult: (Element, Element) throws -> Element)
     rethrows -> Element
-  {
-    try dropFirst().reduce(first!, nextPartialResult)
-  }
+  { try dropFirst().reduce(first!, nextPartialResult) }
 }
 
 extension BidirectionalCollection {
   public func mapPairs<T>(_ transform: (Element, Element) throws -> T) rethrows -> [T] {
     precondition(count.isMultiple(of: 2))
 
-    return try chunks(ofCount: 2).map {
-      try transform($0.first!, $0.last!)
-    }
+    return try chunks(ofCount: 2).map { try transform($0.first!, $0.last!) }
   }
 }
 
@@ -74,32 +64,24 @@ extension Range {
 
 infix operator ~~
 extension Double {
-  public static func ~~ (lhs: Double, rhs: Double) -> Bool {
-    return abs(lhs - rhs) < 0.00001
-  }
+  public static func ~~ (lhs: Double, rhs: Double) -> Bool { abs(lhs - rhs) < 0.00001 }
 
-  public var isWhole: Bool {
-    remainder(dividingBy: 1) ~~ 0
-  }
+  public var isWhole: Bool { remainder(dividingBy: 1) ~~ 0 }
 }
 
 // MARK: - Splatting
 
 extension Array {
-  public func splat() -> (Element, Element) {
-    return (self[0], self[1])
-  }
+  public func splat() -> (Element, Element) { (self[0], self[1]) }
 
-  public func splat() -> (Element, Element, Element) {
-    return (self[0], self[1], self[2])
-  }
+  public func splat() -> (Element, Element, Element) { (self[0], self[1], self[2]) }
 
   public func splat() -> (Element, Element, Element, Element) {
-    return (self[0], self[1], self[2], self[3])
+    (self[0], self[1], self[2], self[3])
   }
 
   public func splat() -> (Element, Element, Element, Element, Element) {
-    return (self[0], self[1], self[2], self[3], self[4])
+    (self[0], self[1], self[2], self[3], self[4])
   }
 
   public func splat<T>(_ transform: (Element, Element) throws -> T) rethrows -> T {
@@ -111,27 +93,17 @@ extension Array {
   }
 
   public func splat<T>(_ transform: (Element, Element, Element, Element) throws -> T) rethrows -> T
-  {
-    try transform(self[0], self[1], self[2], self[3])
-  }
+  { try transform(self[0], self[1], self[2], self[3]) }
 
   public func splat<T>(_ transform: (Element, Element, Element, Element, Element) throws -> T)
     rethrows -> T
-  {
-    try transform(self[0], self[1], self[2], self[3], self[4])
-  }
+  { try transform(self[0], self[1], self[2], self[3], self[4]) }
 }
 
 // MARK: - Parsing and Conversion
 
 extension Int {
-  public init(_ c: Character?) {
-    if let c {
-      self = Int(String(c)) ?? 0
-    } else {
-      self = 0
-    }
-  }
+  public init(_ c: Character?) { if let c { self = Int(String(c)) ?? 0 } else { self = 0 } }
 }
 
 extension BidirectionalCollection where Self.SubSequence == Substring {
@@ -141,10 +113,7 @@ extension BidirectionalCollection where Self.SubSequence == Substring {
 }
 
 extension String {
-  @inlinable
-  public func lines() -> [Substring] {
-    split(whereSeparator: \.isNewline)
-  }
+  @inlinable public func lines() -> [Substring] { split(whereSeparator: \.isNewline) }
 
   public func mapLines<T>(_ transform: (Substring) throws -> T) rethrows -> [T] {
     try lines().map(transform)
@@ -152,31 +121,23 @@ extension String {
 }
 
 extension Substring {
-  @inlinable
-  public func lines() -> [Substring] {
-    split(whereSeparator: \.isNewline)
-  }
+  @inlinable public func lines() -> [Substring] { split(whereSeparator: \.isNewline) }
 }
 
 extension LazySequence<String> {
-  @inlinable
-  public func lines() -> SplitCollection<Elements> {
-    split(whereSeparator: \.isNewline)
-  }
+  @inlinable public func lines() -> SplitCollection<Elements> { split(whereSeparator: \.isNewline) }
 }
 
 // MARK: - Concurrency
 
 extension Sequence {
   public func parallelMapReduce<T, V>(
-    _ initialResult: V, map: @escaping (Element) throws -> T, reduce: (V, T) throws -> V
+    _ initialResult: V,
+    map: @escaping (Element) throws -> T,
+    reduce: (V, T) throws -> V
   ) async rethrows -> V {
     try await withThrowingTaskGroup(of: T.self, returning: V.self) { group in
-      for element in self {
-        group.addTask {
-          try map(element)
-        }
-      }
+      for element in self { group.addTask { try map(element) } }
       return try await group.reduce(initialResult, reduce)
     }
   }
@@ -184,12 +145,10 @@ extension Sequence {
 
 extension Array where Element: Collection {
   public subscript(column column: Element.Index) -> [Element.Iterator.Element] {
-    return map { $0[column] }
+    map { $0[column] }
   }
 }
 
 extension Collection {
-  public subscript(safe index: Index) -> Element? {
-    return indices.contains(index) ? self[index] : nil
-  }
+  public subscript(safe index: Index) -> Element? { indices.contains(index) ? self[index] : nil }
 }

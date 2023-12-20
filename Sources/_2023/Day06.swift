@@ -8,13 +8,7 @@ struct Day06: AdventDay {
 
   func part1() -> Int {
     zip(times, records)
-      .map {
-        numberOfWinningOptions(
-          totalTime: Double($0)!,
-          recordDistance: Double($1)!
-        )
-      }
-      .product()
+      .map { numberOfWinningOptions(totalTime: Double($0)!, recordDistance: Double($1)!) }.product()
   }
 
   func part2() -> Int {
@@ -39,11 +33,7 @@ struct Day06: AdventDay {
   let records: [String]
 
   init(data: String) {
-    (times, records) = data.mapLines { line in
-      line
-        .split(separator: " ")
-        .dropFirst()
-        .map(String.init)
-    }.splat()
+    (times, records) =
+      data.mapLines { line in line.split(separator: " ").dropFirst().map(String.init) }.splat()
   }
 }

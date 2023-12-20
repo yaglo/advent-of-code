@@ -39,37 +39,27 @@ public struct Matrix {
 
   // MARK: - Private
 
-  @inlinable
-  @inline(__always)
-  internal func checkValidSubscript(row: Int, column: Int) {
+  @inlinable @inline(__always) internal func checkValidSubscript(row: Int, column: Int) {
     precondition(
-      (row >= 0)
-        && (row < rows)
-        && (column >= 0)
-        && (column < columns),
+      (row >= 0) && (row < rows) && (column >= 0) && (column < columns),
       "Index out of range"
     )
   }
 }
 
 extension Matrix: Equatable {
-  public static func == (lhs: Matrix, rhs: Matrix) -> Bool {
-    return lhs.grid == rhs.grid
-  }
+  public static func == (lhs: Matrix, rhs: Matrix) -> Bool { lhs.grid == rhs.grid }
 }
 
 extension Matrix {
-  public mutating func fill() {
-    for i in (0..<rows * columns) {
-      grid[i] = Double(i)
-    }
-  }
+  public mutating func fill() { for i in (0..<rows * columns) { grid[i] = Double(i) } }
 }
 
 extension Matrix {
   public mutating func rotate(counterClockwise: Bool = false) {
     grid = [Double](unsafeUninitializedCapacity: grid.count) {
-      buffer, unsafeUninitializedCapacity in
+      buffer,
+      unsafeUninitializedCapacity in
       vDSP_mtransD(grid, 1, buffer.baseAddress!, 1, vDSP_Length(columns), vDSP_Length(rows))
       swap(&rows, &columns)
 
@@ -93,7 +83,5 @@ extension Matrix {
 }
 
 extension Matrix: CustomStringConvertible {
-  public var description: String {
-    "[\(Array(grid.chunks(ofCount: columns).map { Array($0) }))]"
-  }
+  public var description: String { "[\(Array(grid.chunks(ofCount: columns).map { Array($0) }))]" }
 }

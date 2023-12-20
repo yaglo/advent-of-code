@@ -11,9 +11,7 @@ struct Day03: AdventDay {
     var visited = Set<Location>([.zero])
 
     var pos = Location.zero
-    for move in data {
-      visit(location: &pos, move: move, visited: &visited)
-    }
+    for move in data { visit(location: &pos, move: move, visited: &visited) }
 
     return visited.count
   }
@@ -22,9 +20,7 @@ struct Day03: AdventDay {
     var visited = Set<Location>([.zero])
 
     var pos = Location.zero
-    for move in data.striding(by: 2) {
-      visit(location: &pos, move: move, visited: &visited)
-    }
+    for move in data.striding(by: 2) { visit(location: &pos, move: move, visited: &visited) }
 
     pos = .zero
     for move in data.dropFirst().striding(by: 2) {
@@ -51,9 +47,7 @@ struct Day03: AdventDay {
 
   let data: String
 
-  init(data: String) {
-    self.data = data.trimmingCharacters(in: .whitespacesAndNewlines)
-  }
+  init(data: String) { self.data = data.trimmingCharacters(in: .whitespacesAndNewlines) }
 
   // MARK: - Models
 

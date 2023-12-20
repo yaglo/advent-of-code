@@ -7,25 +7,20 @@ struct Day13: AdventDay {
   // MARK: -
 
   func part1() -> Int {
-    let maps = data.split(separator: "\n\n").map {
-      $0.split(separator: "\n").map {
-        $0.map { $0 == "." ? 0 : 1 }
-      }
-    }
+    let maps = data.split(separator: "\n\n")
+      .map { $0.split(separator: "\n").map { $0.map { $0 == "." ? 0 : 1 } } }
 
     var sum = 0
 
     for map in maps {
       for row in map {
-        for item in row {
-          print(item == 0 ? "." : "#", terminator: "")
-        }
+        for item in row { print(item == 0 ? "." : "#", terminator: "") }
         print()
       }
       print()
 
       var size = map[0].count
-    column: for width in stride(from: size / 2, through: 1, by: -1) {
+      column: for width in stride(from: size / 2, through: 1, by: -1) {
         for offset in [0, size - width * 2] {
           var left: [[Int]] = []
           var right: [[Int]] = []
@@ -43,8 +38,8 @@ struct Day13: AdventDay {
       }
 
       size = map.count
-    row: for width in stride(from: size / 2, through: 1, by: -1) {
-      for offset in [0, size - width * 2] {
+      row: for width in stride(from: size / 2, through: 1, by: -1) {
+        for offset in [0, size - width * 2] {
           var top: [[Int]] = []
           var bottom: [[Int]] = []
 
@@ -63,9 +58,7 @@ struct Day13: AdventDay {
     return sum
   }
 
-  func part2() -> Int {
-    0
-  }
+  func part2() -> Int { 0 }
 
   // MARK: - Data
 

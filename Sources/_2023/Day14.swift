@@ -26,7 +26,7 @@ struct Day14: AdventDay {
       map.rotate()
     }
 
-    var seen = [Int: Int]()
+    var seen: [Int: Int] = [:]
 
     var cycledIterationAtBillion: Int? = nil
 
@@ -40,31 +40,31 @@ struct Day14: AdventDay {
 
       seen[hash] = i
 
-      if cycledIterationAtBillion == i {
-        return calculateLoad(map: map)
-      }
+      if cycledIterationAtBillion == i { return calculateLoad(map: map) }
     }
     fatalError()
   }
 
   func rollWestwards(map: inout Matrix) {
     map = Matrix(
-      map.grid.chunks(ofCount: map.columns).map { line in
-        let newLine = Array(
-          line.split(omittingEmptySubsequences: false, whereSeparator: \.isSquareRock).map {
-            let roundRocks = $0.filter { $0.isRoundRock }
-            return roundRocks + Array(repeating: .empty, count: $0.count - roundRocks.count)
-          })
-        return Array(newLine.joined(by: .squareRock))
-      })
+      map.grid.chunks(ofCount: map.columns)
+        .map { line in
+          let newLine = Array(
+            line.split(omittingEmptySubsequences: false, whereSeparator: \.isSquareRock)
+              .map {
+                let roundRocks = $0.filter { $0.isRoundRock }
+                return roundRocks + Array(repeating: .empty, count: $0.count - roundRocks.count)
+              }
+          )
+          return Array(newLine.joined(by: .squareRock))
+        }
+    )
   }
 
   func calculateLoad(map: Matrix) -> Int {
     var acc = 0
     for column in 0..<map.columns {
-      for row in 0..<map.rows {
-        acc += map[row, column].isRoundRock ? map.rows - row : 0
-      }
+      for row in 0..<map.rows { acc += map[row, column].isRoundRock ? map.rows - row : 0 }
     }
     return acc
   }
@@ -75,15 +75,17 @@ struct Day14: AdventDay {
 
   func parseMap() -> Matrix {
     Matrix(
-      data.split(whereSeparator: \.isNewline).map { line in
-        line.map { item -> Double in
-          switch item {
-          case "#": .squareRock
-          case "O": .roundRock
-          default: .empty
+      data.split(whereSeparator: \.isNewline)
+        .map { line in
+          line.map { item -> Double in
+            switch item {
+            case "#": .squareRock
+            case "O": .roundRock
+            default: .empty
+            }
           }
         }
-      })
+    )
   }
 }
 

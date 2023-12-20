@@ -7,14 +7,13 @@ struct Day01: AdventDay {
   // MARK: -
 
   func part1() -> Int {
-    data
-      .reduce(0) {
-        switch $1 {
-        case "(": $0 + 1
-        case ")": $0 - 1
-        default: $0
-        }
+    data.reduce(0) {
+      switch $1 {
+      case "(": $0 + 1
+      case ")": $0 - 1
+      default: $0
       }
+    }
   }
 
   func part2() -> Int {
@@ -25,9 +24,7 @@ struct Day01: AdventDay {
       case ")": level -= 1
       default: break
       }
-      if level < 0 {
-        return index + 1
-      }
+      if level < 0 { return index + 1 }
     }
     fatalError()
   }
@@ -36,7 +33,5 @@ struct Day01: AdventDay {
 
   let data: String
 
-  init(data: String) {
-    self.data = data.trimmingCharacters(in: .whitespacesAndNewlines)
-  }
+  init(data: String) { self.data = data.trimmingCharacters(in: .whitespacesAndNewlines) }
 }

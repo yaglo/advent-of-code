@@ -8,9 +8,7 @@ struct Day18: AdventDay {
   // MARK: -
 
   func part1() -> Int {
-    struct Coordinate {
-      let x, y: Int
-    }
+    struct Coordinate { let x, y: Int }
 
     func fill(_ bitmap: inout [[Bool]], start: Coordinate) {
       var paintingStack: [Coordinate] = []
@@ -22,9 +20,7 @@ struct Day18: AdventDay {
 
           for y in max(0, coord.y - 1)...min(bitmap.count - 1, coord.y + 1) {
             for x in max(0, coord.x - 1)...min(bitmap[0].count - 1, coord.x + 1) {
-              if !bitmap[y][x] {
-                paintingStack.append(.init(x: x, y: y))
-              }
+              if !bitmap[y][x] { paintingStack.append(.init(x: x, y: y)) }
             }
           }
         }
@@ -57,19 +53,22 @@ struct Day18: AdventDay {
 
     var grid = [[Bool]](
       repeating: [Bool](repeating: false, count: cMax.x - cMin.x + 1),
-      count: cMax.y - cMin.y + 1)
+      count: cMax.y - cMin.y + 1
+    )
 
     var prev = coordinates.removeFirst()
 
     for coordinate in coordinates {
       for y in stride(
-        from: prev.y - cMin.y, through: coordinate.y - cMin.y, by: prev.y > coordinate.y ? -1 : 1)
-      {
+        from: prev.y - cMin.y,
+        through: coordinate.y - cMin.y,
+        by: prev.y > coordinate.y ? -1 : 1
+      ) {
         for x in stride(
-          from: prev.x - cMin.x, through: coordinate.x - cMin.x, by: prev.x > coordinate.x ? -1 : 1)
-        {
-          grid[y][x] = true
-        }
+          from: prev.x - cMin.x,
+          through: coordinate.x - cMin.x,
+          by: prev.x > coordinate.x ? -1 : 1
+        ) { grid[y][x] = true }
       }
       prev = coordinate
     }
@@ -80,9 +79,7 @@ struct Day18: AdventDay {
   }
 
   func part2() -> Int {
-    struct Coordinate {
-      var x, y, xAdj, yAdj: Double
-    }
+    struct Coordinate { var x, y, xAdj, yAdj: Double }
 
     let instructions = data.mapLines {
       let line = $0.split(separator: " ")

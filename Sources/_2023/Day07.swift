@@ -7,27 +7,17 @@ import Foundation
 struct Day07: AdventDay {
   // MARK: -
 
-  func part1() -> Int {
-    solve(withJokers: false)
-  }
+  func part1() -> Int { solve(withJokers: false) }
 
-  func part2() -> Int {
-    solve(withJokers: true)
-  }
+  func part2() -> Int { solve(withJokers: true) }
 
   // MARK: - Helpers
 
   func solve(withJokers: Bool) -> Int {
-    data
-      .mapLines { line in
-        line
-          .split(separator: " ")
-          .splat { Game(String($0), bid: Int($1)!, withJokers: withJokers) }
-      }
-      .sorted()
-      .enumerated()
-      .map { ($0.offset + 1) * $0.element.bid }
-      .sum()
+    data.mapLines { line in
+      line.split(separator: " ").splat { Game(String($0), bid: Int($1)!, withJokers: withJokers) }
+    }
+    .sorted().enumerated().map { ($0.offset + 1) * $0.element.bid }.sum()
   }
 
   // MARK: - Data
@@ -53,9 +43,7 @@ struct Day07: AdventDay {
         }
     }
 
-    static func < (lhs: Self, rhs: Self) -> Bool {
-      lhs.rawValue > rhs.rawValue
-    }
+    static func < (lhs: Self, rhs: Self) -> Bool { lhs.rawValue > rhs.rawValue }
   }
 
   enum Card: Comparable {
@@ -85,9 +73,7 @@ struct Day07: AdventDay {
         }
     }
 
-    static func < (lhs: Self, rhs: Self) -> Bool {
-      lhs.value < rhs.value
-    }
+    static func < (lhs: Self, rhs: Self) -> Bool { lhs.value < rhs.value }
   }
 
   struct Game: Comparable {
@@ -99,14 +85,9 @@ struct Day07: AdventDay {
       self.bid = bid
       self.hand = string.map { Card($0, withJokers: withJokers) }
 
-      var cards =
-        hand
-        .sorted()
-        .chunked(by: ==)
-        .sorted { $0.count > $1.count }
+      var cards = hand.sorted().chunked(by: ==).sorted { $0.count > $1.count }
 
-      if withJokers, cards.count > 1,
-        let jokers = cards.firstIndex(where: { $0.contains(.joker) })
+      if withJokers, cards.count > 1, let jokers = cards.firstIndex(where: { $0.contains(.joker) })
       {
         cards[0].append(contentsOf: cards.remove(at: jokers))
       }

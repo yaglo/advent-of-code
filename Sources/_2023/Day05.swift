@@ -6,21 +6,14 @@ struct Day05: AdventDay {
   // MARK: -
 
   func part1() -> Int {
-    seeds.map { seed in
-      stages.reduce(seed) { value, stage in
-        stage.transform(value)
-      }
-    }.min()!
+    seeds.map { seed in stages.reduce(seed) { value, stage in stage.transform(value) } }.min()!
   }
 
   func part2() -> Int {
     findRelevantLocationRanges(
-      seedRanges: seeds.mapPairs {
-        RangeMapping(sourceRange: $0..<$0 + $1)
-      }
+      seedRanges: seeds.mapPairs { RangeMapping(sourceRange: $0..<$0 + $1) }
     )
-    .map(\.destinationRange.lowerBound)
-    .min()!
+    .map(\.destinationRange.lowerBound).min()!
   }
 
   // MARK: - Helpers
@@ -52,19 +45,12 @@ struct Day05: AdventDay {
   init(data: String) {
     let groups = data.split(separator: "\n\n")
 
-    seeds = groups[0]
-      .drop { $0 != " " }
-      .integers(separatedBy: " ")
+    seeds = groups[0].drop { $0 != " " }.integers(separatedBy: " ")
 
-    stages =
-      groups
-      .dropFirst()
+    stages = groups.dropFirst()
       .map { group in
         Stage(
-          rangeMappings:
-            group
-            .lines()
-            .dropFirst()
+          rangeMappings: group.lines().dropFirst()
             .map { line in
               let (destination, source, count) = line.integers(separatedBy: " ").splat()
               return RangeMapping(
@@ -91,11 +77,9 @@ struct Day05: AdventDay {
     let rangeMappings: [RangeMapping]
 
     init(rangeMappings: [RangeMapping]) {
-      let sorted = rangeMappings.sorted {
-        $0.sourceRange.lowerBound < $1.sourceRange.upperBound
-      }
+      let sorted = rangeMappings.sorted { $0.sourceRange.lowerBound < $1.sourceRange.upperBound }
       var min = 0
-      var ranges = [RangeMapping]()
+      var ranges: [RangeMapping] = []
       for range in sorted {
         if min < range.sourceRange.lowerBound {
           ranges.append(RangeMapping(sourceRange: min..<range.sourceRange.lowerBound))

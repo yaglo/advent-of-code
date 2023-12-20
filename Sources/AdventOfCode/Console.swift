@@ -11,9 +11,6 @@ public enum ANSIColor: String {
 }
 
 extension DefaultStringInterpolation {
-  public mutating func appendInterpolation<T: CustomStringConvertible>(
-    _ value: T, color: ANSIColor
-  ) {
-    appendInterpolation("\(color.rawValue)\(value)\(ANSIColor.default.rawValue)")
-  }
+  public mutating func appendInterpolation<T: CustomStringConvertible>(_ value: T, color: ANSIColor)
+  { appendInterpolation("\(color.rawValue)\(value)\(ANSIColor.default.rawValue)") }
 }

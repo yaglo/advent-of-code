@@ -6,17 +6,10 @@ import Algorithms
 struct Day09: AdventDay {
   // MARK: -
 
-  func part1() -> Int {
-    sequences
-      .map(extrapolateNextElement(in:))
-      .sum()
-  }
+  func part1() -> Int { sequences.map(extrapolateNextElement(in:)).sum() }
 
   func part2() -> Int {
-    sequences.map { sequence in
-      extrapolateNextElement(in: sequence.reversed())
-    }
-    .sum()
+    sequences.map { sequence in extrapolateNextElement(in: sequence.reversed()) }.sum()
   }
 
   // MARK: - Helpers
@@ -37,7 +30,5 @@ struct Day09: AdventDay {
 
   let sequences: [[Int]]
 
-  init(data: String) {
-    sequences = data.mapLines { $0.integers(separatedBy: " ") }
-  }
+  init(data: String) { sequences = data.mapLines { $0.integers(separatedBy: " ") } }
 }

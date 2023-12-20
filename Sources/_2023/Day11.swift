@@ -7,15 +7,19 @@ struct Day11: AdventDay {
   // MARK: -
 
   func part1() -> Int {
-    galaxies.combinations(ofCount: 2).map { galaxies in
-      distance(galaxy1: galaxies[0], galaxy2: galaxies[1], expansionMultiplier: 1)
-    }.sum()
+    galaxies.combinations(ofCount: 2)
+      .map { galaxies in
+        distance(galaxy1: galaxies[0], galaxy2: galaxies[1], expansionMultiplier: 1)
+      }
+      .sum()
   }
 
   func part2() -> Int {
-    galaxies.combinations(ofCount: 2).map { galaxies in
-      distance(galaxy1: galaxies[0], galaxy2: galaxies[1], expansionMultiplier: 999999)
-    }.sum()
+    galaxies.combinations(ofCount: 2)
+      .map { galaxies in
+        distance(galaxy1: galaxies[0], galaxy2: galaxies[1], expansionMultiplier: 999999)
+      }
+      .sum()
   }
 
   // MARK: - Helpers
@@ -33,9 +37,7 @@ struct Day11: AdventDay {
 
   // MARK: - Data
 
-  struct Galaxy: Hashable {
-    let x, y: Int
-  }
+  struct Galaxy: Hashable { let x, y: Int }
 
   let galaxies: Set<Galaxy>
   let emptyColumns: Set<Int>
@@ -44,24 +46,16 @@ struct Day11: AdventDay {
   init(data: String) {
     let data = data.mapLines { Array($0) }
 
-    emptyRows = Set(
-      data
-        .enumerated()
-        .filter { $1.allSatisfy { $0 == "." } }
-        .map(\.offset)
-    )
+    emptyRows = Set(data.enumerated().filter { $1.allSatisfy { $0 == "." } }.map(\.offset))
 
-    emptyColumns = Set(
-      data[0]
-        .indices
-        .filter { data[column: $0].allSatisfy { $0 == "." } }
-    )
+    emptyColumns = Set(data[0].indices.filter { data[column: $0].allSatisfy { $0 == "." } })
 
     self.galaxies = Set(
-      data.enumerated().flatMap { y, line in
-        line.enumerated().compactMap { x, character in
-          character == "#" ? Galaxy(x: x, y: y) : nil
+      data.enumerated()
+        .flatMap { y, line in
+          line.enumerated()
+            .compactMap { x, character in character == "#" ? Galaxy(x: x, y: y) : nil }
         }
-      })
+    )
   }
 }

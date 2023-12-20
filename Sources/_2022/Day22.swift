@@ -26,8 +26,7 @@ class Day22: AdventDay {
 
   func executeInstruction(_ instruction: Instruction) {
     switch instruction {
-    case .turn(let turn):
-      direction = direction.turning(turn)
+    case .turn(let turn): direction = direction.turning(turn)
     case .step:
       let next = currentTile.next(for: direction)
       let newDirection = currentTile.directionChange[direction]
@@ -35,17 +34,13 @@ class Day22: AdventDay {
         history.append(currentTile.coordinate)
         currentTile = next
 
-        if let newDirection {
-          direction = newDirection
-        }
+        if let newDirection { direction = newDirection }
       }
     }
   }
 
   func executeInstructions() -> Int {
-    for instruction in instructions {
-      executeInstruction(instruction)
-    }
+    for instruction in instructions { executeInstruction(instruction) }
     let direction =
       currentTile.sideID == -1
       ? direction.rawValue
@@ -79,9 +74,7 @@ class Day22: AdventDay {
     }
   }
 
-  func setUpWrappingRulesForPart2() {
-    createTransformedTileMap()
-  }
+  func setUpWrappingRulesForPart2() { createTransformedTileMap() }
 
   // MARK: - Data
 
@@ -96,9 +89,8 @@ class Day22: AdventDay {
   let height: Int
 
   required init(data: String) {
-    let (map, instructionString) = data.split(separator: "\n\n").map {
-      $0.trimmingCharacters(in: .newlines)
-    }.splat()
+    let (map, instructionString) = data.split(separator: "\n\n")
+      .map { $0.trimmingCharacters(in: .newlines) }.splat()
 
     height = map.lines().count
     width = map.lines().map(\.count).max()!
@@ -119,16 +111,12 @@ class Day22: AdventDay {
       }
     }
 
-    for tile in tiles.joined().compactMap({ $0 }) {
-      tileMap[Int(tile.coordinate)] = tile
-    }
+    for tile in tiles.joined().compactMap({ $0 }) { tileMap[Int(tile.coordinate)] = tile }
 
     startTile = tiles.first!.firstNonNil { $0 }!
     currentTile = startTile
 
-    self.instructions =
-      instructionString
-      .trimmingCharacters(in: .newlines)
+    self.instructions = instructionString.trimmingCharacters(in: .newlines)
       .chunked { $0.isNumber && $1.isNumber || $0.isLetter && $1.isLetter }
       .flatMap { instruction -> [Instruction] in
         switch instruction {
@@ -178,10 +166,8 @@ class Day22: AdventDay {
       let t = reverse ? transformations.reversed() : transformations
       return t.reduce(direction) { partialResult, t in
         switch t {
-        case .flip:
-          partialResult.flipped()
-        case .rotate:
-          reverse ? partialResult.rotatedLeft() : partialResult.rotatedRight()
+        case .flip: partialResult.flipped()
+        case .rotate: reverse ? partialResult.rotatedLeft() : partialResult.rotatedRight()
         }
       }
     }
@@ -192,9 +178,7 @@ class Day22: AdventDay {
     case step
   }
 
-  enum Turn {
-    case left, right
-  }
+  enum Turn { case left, right }
 
   enum Direction: Int, Hashable {
     init?(rawValue: Int) {
@@ -204,25 +188,16 @@ class Day22: AdventDay {
         case 1: .down
         case 2: .left
         case 3: .up
-        default:
-          fatalError()
+        default: fatalError()
         }
     }
 
-    func rotatedRight(_ times: Int = 1) -> Direction {
-      Direction(rawValue: (rawValue + 1) % 4)!
-    }
+    func rotatedRight(_ times: Int = 1) -> Direction { Direction(rawValue: (rawValue + 1) % 4)! }
 
-    func rotatedLeft(_ times: Int = 1) -> Direction {
-      Direction(rawValue: abs(rawValue - 1) % 4)!
-    }
+    func rotatedLeft(_ times: Int = 1) -> Direction { Direction(rawValue: abs(rawValue - 1) % 4)! }
 
     func flipped() -> Direction {
-      if [.left, .right].contains(self) {
-        Direction(rawValue: (rawValue + 2) % 4)!
-      } else {
-        self
-      }
+      if [.left, .right].contains(self) { Direction(rawValue: (rawValue + 2) % 4)! } else { self }
     }
 
     case right, down, left, up
@@ -238,9 +213,7 @@ class Day22: AdventDay {
   }
 
   class Tile {
-    enum `Type` {
-      case floor, wall
-    }
+    enum `Type` { case floor, wall }
     let coordinate: Float
     let type: `Type`
     var sideID: Int
@@ -254,9 +227,7 @@ class Day22: AdventDay {
       self.sideID = sideID
     }
 
-    func next(for direction: Direction) -> Tile {
-      neighbors[direction]!!
-    }
+    func next(for direction: Direction) -> Tile { neighbors[direction]!! }
   }
 
   let sideSize: Int
@@ -278,11 +249,7 @@ class Day22: AdventDay {
     [[[1, 1, 1, 0, 0], [0, 0, 1, 1, 1]], [[2, 0, 0, 1, -1], [2, 3, 2, -1, 1]]],
   ]
 
-  private var shape: [[Int]] {
-    grid.map { line in
-      line.map { $0 != 0 ? 1 : 0 }
-    }
-  }
+  private var shape: [[Int]] { grid.map { line in line.map { $0 != 0 ? 1 : 0 } } }
 
   func createNet() {
     var grid: [[Int]] = []
@@ -311,11 +278,9 @@ class Day22: AdventDay {
         guard value > 0 else { continue }
         let side = Side(
           id: sideID,
-          coordinates: (y * sideSize..<(y + 1) * sideSize).map { ty in
-            (x * sideSize..<(x + 1) * sideSize).map { tx in
-              float(from: (tx, ty))
-            }
-          })
+          coordinates: (y * sideSize..<(y + 1) * sideSize)
+            .map { ty in (x * sideSize..<(x + 1) * sideSize).map { tx in float(from: (tx, ty)) } }
+        )
         sideID += 1
         sides.append(side)
       }
@@ -329,25 +294,17 @@ class Day22: AdventDay {
       guard shape != crossShape else { return }
 
       for t in transformations {
-        guard
-          shape != crossShape, !shaper.contains(where: { $0[0] == shape })
-        else {
-          break
-        }
+        guard shape != crossShape, !shaper.contains(where: { $0[0] == shape }) else { break }
         t()
       }
 
       assert(shaper.contains(where: { $0[0] == shape }))
 
       while let shape = shaper.first(where: { $0[0] == shape }) {
-        for t in shape[1] {
-          move(x: t[1], y: t[2], tx: t[3], ty: t[4], rotation: t[0])
-        }
+        for t in shape[1] { move(x: t[1], y: t[2], tx: t[3], ty: t[4], rotation: t[0]) }
       }
 
-      if flipped {
-        flip()
-      }
+      if flipped { flip() }
 
       assert(shape == crossShape)
     }
@@ -357,9 +314,7 @@ class Day22: AdventDay {
     var input: [[Float]] = grid.map { $0.map { Float($0) } }
     rotateMatrix(&input)
     grid = input.map { $0.map { Int($0) } }
-    for side in sides {
-      side.rotate()
-    }
+    for side in sides { side.rotate() }
   }
 
   private var flipped = false
@@ -367,9 +322,7 @@ class Day22: AdventDay {
   private func flip() {
     flipped.toggle()
     grid = grid.map { $0.reversed() }
-    for side in sides {
-      side.flip()
-    }
+    for side in sides { side.flip() }
   }
 
   private func move(x: Int, y: Int, tx: Int, ty: Int, rotation: Int) {
@@ -380,18 +333,10 @@ class Day22: AdventDay {
   }
 
   private func insert(item: Int, x: Int, y: Int) {
-    if y < 0 {
-      grid.insert(Array([0].cycled(times: grid[0].count)), at: 0)
-    }
-    if y >= grid.count {
-      grid.append(Array([0].cycled(times: grid[0].count)))
-    }
-    if x < 0 {
-      grid = grid.map { [0] + $0 }
-    }
-    if x >= grid[0].count {
-      grid = grid.map { $0 + [0] }
-    }
+    if y < 0 { grid.insert(Array([0].cycled(times: grid[0].count)), at: 0) }
+    if y >= grid.count { grid.append(Array([0].cycled(times: grid[0].count))) }
+    if x < 0 { grid = grid.map { [0] + $0 } }
+    if x >= grid[0].count { grid = grid.map { $0 + [0] } }
     grid[y][x] = item
 
     // Remove empty rows
@@ -406,7 +351,9 @@ class Day22: AdventDay {
     createNet()
 
     var transformedTiles: [[Tile?]] = Array(
-      repeating: Array(repeating: nil, count: 3 * sideSize), count: 4 * sideSize)
+      repeating: Array(repeating: nil, count: 3 * sideSize),
+      count: 4 * sideSize
+    )
 
     for (y, row) in grid.enumerated() {
       for (x, item) in row.enumerated() {
@@ -487,14 +434,8 @@ class Day22: AdventDay {
         y: (m.destination.y + m.dcoord.yBlock) * sz + m.dcoord.yOffset
       )
       for i in 0..<sz {
-        let src = (
-          x: s.x + i * m.scoord.xIncrement,
-          y: s.y + i * m.scoord.yIncrement
-        )
-        let dst = (
-          x: d.x + i * m.dcoord.xIncrement,
-          y: d.y + i * m.dcoord.yIncrement
-        )
+        let src = (x: s.x + i * m.scoord.xIncrement, y: s.y + i * m.scoord.yIncrement)
+        let dst = (x: d.x + i * m.dcoord.xIncrement, y: d.y + i * m.dcoord.yIncrement)
         transformedTiles[src.y][src.x]!.neighbors[m.direction] = transformedTiles[dst.y][dst.x]!
         transformedTiles[src.y][src.x]!.directionChange[m.direction] = m.directionChange
       }

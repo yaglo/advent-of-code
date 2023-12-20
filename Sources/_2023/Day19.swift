@@ -10,32 +10,23 @@ struct Day19: AdventDay {
   func part1() -> Int {
     let inWorkflow = workflows["in"]!
 
-    var accepted = [Int]()
+    var accepted: [Int] = []
     for (index, ratings) in partRatings.enumerated() {
       var instruction = inWorkflow
       instructions: while true {
         switch instruction {
         case let .match(rating, range, yes, no):
-          if range.contains(ratings[rating]!) {
-            instruction = yes
-          } else {
-            instruction = no
-          }
-        case let .workflow(name):
-          instruction = workflows[name]!
+          if range.contains(ratings[rating]!) { instruction = yes } else { instruction = no }
+        case let .workflow(name): instruction = workflows[name]!
         case .accept:
           accepted.append(index)
           break instructions
-        case .reject:
-          break instructions
+        case .reject: break instructions
         }
       }
     }
 
-    return
-      accepted
-      .map { partRatings[$0].values.sum() }
-      .sum()
+    return accepted.map { partRatings[$0].values.sum() }.sum()
   }
 
   func part2() async -> Int {
@@ -48,18 +39,13 @@ struct Day19: AdventDay {
       -> [AcceptedRange]
     {
       switch workflow {
-      case .accept:
-        return [acceptedRange]
-      case .reject:
-        return []
+      case .accept: return [acceptedRange]
+      case .reject: return []
       case .match(let rating, let range, let yes, let no):
-        var acceptedRanges = [AcceptedRange]()
+        var acceptedRanges: [AcceptedRange] = []
 
-        let complementRange =
-          RangeSet(acceptedRange.ratings[rating]!)
-          .subtracting(RangeSet(range))
-          .ranges
-          .first!
+        let complementRange = RangeSet(acceptedRange.ratings[rating]!).subtracting(RangeSet(range))
+          .ranges.first!
 
         let yesRatings = updating(rating, in: acceptedRange.ratings, with: range)
         let noRatings = updating(rating, in: acceptedRange.ratings, with: complementRange)
@@ -74,13 +60,13 @@ struct Day19: AdventDay {
         )
         return acceptedRanges
       case .workflow(let name):
-        guard !acceptedRange.workflows.contains(name) else {
-          return []
-        }
+        guard !acceptedRange.workflows.contains(name) else { return [] }
         var newAcceptedRange = acceptedRange
         newAcceptedRange.workflows.insert(name)
         return calculateAcceptedRatingRanges(
-          workflow: workflows[name]!, acceptedRange: newAcceptedRange)
+          workflow: workflows[name]!,
+          acceptedRange: newAcceptedRange
+        )
       }
     }
 
@@ -100,11 +86,7 @@ struct Day19: AdventDay {
       )
     )
 
-    return acceptedRanges.map {
-      $0.ratings
-        .values
-        .product(of: \.count)
-    }.sum()
+    return acceptedRanges.map { $0.ratings.values.product(of: \.count) }.sum()
   }
 
   // MARK: - Data
@@ -123,7 +105,7 @@ struct Day19: AdventDay {
   init(data: String) {
     let (workflowDefinitions, partRatings) = data.split(separator: "\n\n").splat()
 
-    var workflows = [String: Instruction]()
+    var workflows: [String: Instruction] = [:]
 
     for definition in workflowDefinitions.lines() {
       let scanner = Scanner(string: String(definition))
@@ -136,14 +118,15 @@ struct Day19: AdventDay {
 
     self.workflows = workflows
 
-    self.partRatings = partRatings.lines().map { line in
-      var ratings = [String: Int]()
-      for pair in line.dropFirst().dropLast().split(separator: ",") {
-        let (name, value) = pair.split(separator: "=").splat()
-        ratings[String(name)] = Int(value)!
+    self.partRatings = partRatings.lines()
+      .map { line in
+        var ratings: [String: Int] = [:]
+        for pair in line.dropFirst().dropLast().split(separator: ",") {
+          let (name, value) = pair.split(separator: "=").splat()
+          ratings[String(name)] = Int(value)!
+        }
+        return ratings
       }
-      return ratings
-    }
 
   }
 

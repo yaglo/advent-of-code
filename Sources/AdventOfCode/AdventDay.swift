@@ -48,9 +48,7 @@ extension AdventDay {
     return (year, day)
   }
 
-  public var yearDay: (Int, Int) {
-    Self.yearDay
-  }
+  public var yearDay: (Int, Int) { Self.yearDay }
 
   // Default implementation of `part2`, so there aren't interruptions before
   // working on `part1()`.
@@ -59,9 +57,7 @@ extension AdventDay {
   }
 
   /// An initializer that loads the test data from the corresponding data file.
-  public init() {
-    self.init(data: Self.loadData(challengeYearDay: Self.yearDay))
-  }
+  public init() { self.init(data: Self.loadData(challengeYearDay: Self.yearDay)) }
 
   public static func loadData(challengeYearDay: (Int, Int)) -> String {
     let yearString = String(format: "%04d", challengeYearDay.0)
@@ -69,15 +65,10 @@ extension AdventDay {
     let dataFilename = "Day\(dayString)"
 
     // TODO: fix path detection
-    let dataURL = Bundle(path: "~/Projects/Personal/advent-of-code/Sources")?.url(
-      forResource: dataFilename,
-      withExtension: "txt",
-      subdirectory: "_\(yearString)/Data"
-    )
+    let dataURL = Bundle(path: "~/Projects/Personal/advent-of-code/Sources")?
+      .url(forResource: dataFilename, withExtension: "txt", subdirectory: "_\(yearString)/Data")
 
-    guard let dataURL,
-      let data = try? String(contentsOf: dataURL, encoding: .utf8)
-    else {
+    guard let dataURL, let data = try? String(contentsOf: dataURL, encoding: .utf8) else {
       fatalError("Couldn't find file '\(dataFilename).txt' in the 'Data' directory.")
     }
 

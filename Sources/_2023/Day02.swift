@@ -13,42 +13,32 @@ struct Day02: AdventDay {
   // MARK: -
 
   func part1() -> Int {
-    games
-      .filter {
-        $0.turns.allSatisfy {
-          $0.colorPairs.allSatisfy {
-            switch $0.destructured {
-            case (.red, ...12), (.green, ...13), (.blue, ...14):
-              true
-            default:
-              false
-            }
+    games.filter {
+      $0.turns.allSatisfy {
+        $0.colorPairs.allSatisfy {
+          switch $0.destructured {
+          case (.red, ...12), (.green, ...13), (.blue, ...14): true
+          default: false
           }
         }
       }
-      .sum(of: \.id)
+    }
+    .sum(of: \.id)
   }
 
   func part2() -> Int {
-    games
-      .map { game in
-        game.turns
-          .flatMap(\.colorPairs)
-          .grouped(by: \.color)
-          .values
-          .map { $0.max(\.count)! }
-          .product()
-      }
-      .sum()
+    games.map { game in
+      game.turns.flatMap(\.colorPairs).grouped(by: \.color).values.map { $0.max(\.count)! }
+        .product()
+    }
+    .sum()
   }
 
   // MARK: - Data
 
   let games: [Game]
 
-  init(data: String) {
-    games = Parser.games(from: data)
-  }
+  init(data: String) { games = Parser.games(from: data) }
 
   private enum Parser {
     static func games(from data: String) -> [Game] {
@@ -76,9 +66,7 @@ struct Day02: AdventDay {
             SingleTurnComponent()
           }
         } transform: {
-          $0.matches(of: SingleTurnComponent.capture).map {
-            $0[SingleTurnComponent.capturedValue]
-          }
+          $0.matches(of: SingleTurnComponent.capture).map { $0[SingleTurnComponent.capturedValue] }
         }
       }
 
@@ -86,12 +74,8 @@ struct Day02: AdventDay {
         TryCapture(as: capturedValue) {
           innerRegex
         } transform: { str in
-          str.firstMatch(of: innerRegex).map {
-            Game(
-              id: $0[GameComponent.id],
-              turns: $0[GameComponent.turns]
-            )
-          }
+          str.firstMatch(of: innerRegex)
+            .map { Game(id: $0[GameComponent.id], turns: $0[GameComponent.turns]) }
         }
       }
     }
@@ -114,9 +98,8 @@ struct Day02: AdventDay {
           plainRegex
         } transform: { str in
           Turn(
-            colorPairs: str.matches(of: ColorPairComponent.capture).map {
-              $0[ColorPairComponent.capturedValue]
-            }
+            colorPairs: str.matches(of: ColorPairComponent.capture)
+              .map { $0[ColorPairComponent.capturedValue] }
           )
         }
       }
@@ -153,10 +136,11 @@ struct Day02: AdventDay {
         TryCapture(as: capturedValue) {
           plainRegex
         } transform: { str in
-          str.firstMatch(of: captureRegex).map {
-            let (_, count, color) = $0.output
-            return ColorPair(color: color, count: count)
-          }
+          str.firstMatch(of: captureRegex)
+            .map {
+              let (_, count, color) = $0.output
+              return ColorPair(color: color, count: count)
+            }
         }
       }
     }
@@ -169,20 +153,14 @@ struct Day02: AdventDay {
     let turns: [Turn]
   }
 
-  struct Turn {
-    let colorPairs: [ColorPair]
-  }
+  struct Turn { let colorPairs: [ColorPair] }
 
   struct ColorPair {
     let color: Color
     let count: Int
 
-    var destructured: (Color, Int) {
-      (color, count)
-    }
+    var destructured: (Color, Int) { (color, count) }
   }
 
-  enum Color: String {
-    case red, green, blue
-  }
+  enum Color: String { case red, green, blue }
 }

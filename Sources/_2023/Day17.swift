@@ -33,7 +33,7 @@ struct Day17: AdventDay {
         for direction in 0..<4 {
           var totalLoss = 0
           var currentPosition = Position(row: row, column: column)
-          var stepsLoss = [LossStep]()
+          var stepsLoss: [StepsLoss] = []
 
           for step in 1...stepRange.upperBound {
             currentPosition.row += directions[direction].row
@@ -47,7 +47,7 @@ struct Day17: AdventDay {
             totalLoss += grid[currentPosition.row][currentPosition.column]
 
             if step >= stepRange.lowerBound {
-              stepsLoss.append(LossStep(totalLoss: totalLoss, position: currentPosition))
+              stepsLoss.append(StepsLoss(totalLoss: totalLoss, position: currentPosition))
             }
           }
 
@@ -69,9 +69,7 @@ struct Day17: AdventDay {
       let position: Position
       let previousDirection: Int
 
-      static func < (lhs: Node, rhs: Node) -> Bool {
-        lhs.totalLoss < rhs.totalLoss
-      }
+      static func < (lhs: Node, rhs: Node) -> Bool { lhs.totalLoss < rhs.totalLoss }
     }
 
     let rows = grid.count
@@ -84,9 +82,7 @@ struct Day17: AdventDay {
     while !priorityQueue.isEmpty {
       let node = priorityQueue.removeMin()
 
-      if node.position == Position(row: rows - 1, column: columns - 1) {
-        return node.totalLoss
-      }
+      if node.position == Position(row: rows - 1, column: columns - 1) { return node.totalLoss }
 
       let visit = LossDirection(position: node.position, direction: node.previousDirection)
       guard !visited.contains(visit) else { continue }
@@ -119,16 +115,12 @@ struct Day17: AdventDay {
 
   let grid: [[Int]]
   let directions: [Position] = [
-    .init(row: 0, column: 1),
-    .init(row: 1, column: 0),
-    .init(row: 0, column: -1),
+    .init(row: 0, column: 1), .init(row: 1, column: 0), .init(row: 0, column: -1),
     .init(row: -1, column: 0),
   ]
 
   init(data: String) {
-    grid = data.split(whereSeparator: \.isNewline).map { line in
-      line.map { Int($0) }
-    }
+    grid = data.split(whereSeparator: \.isNewline).map { line in line.map { Int($0) } }
   }
 
   // MARK: - Models
@@ -138,7 +130,7 @@ struct Day17: AdventDay {
     var column: Int
   }
 
-  struct LossStep {
+  struct StepsLoss {
     var totalLoss: Int
     var position: Position
   }
@@ -149,9 +141,9 @@ struct Day17: AdventDay {
   }
 
   struct LossMap {
-    private var map: [LossDirection: [LossStep]] = [:]
+    private var map: [LossDirection: [StepsLoss]] = [:]
 
-    subscript(lossDirection: LossDirection) -> [LossStep]? {
+    subscript(lossDirection: LossDirection) -> [StepsLoss]? {
       get { map[lossDirection] }
       set { map[lossDirection] = newValue }
     }

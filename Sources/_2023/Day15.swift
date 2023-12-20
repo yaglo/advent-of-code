@@ -7,18 +7,11 @@ struct Day15: AdventDay {
   // MARK: -
 
   func part1() -> Int {
-    data
-      .trimmingCharacters(in: .whitespacesAndNewlines)
-      .split(separator: ",")
-      .map(hash)
-      .sum()
+    data.trimmingCharacters(in: .whitespacesAndNewlines).split(separator: ",").map(hash).sum()
   }
 
   func part2() -> Int {
-    let instructions =
-      data
-      .trimmingCharacters(in: .whitespacesAndNewlines)
-      .split(separator: ",")
+    let instructions = data.trimmingCharacters(in: .whitespacesAndNewlines).split(separator: ",")
 
     var boxes: [[(Substring, Int)]] = Array(repeating: [], count: 256)
 
@@ -41,11 +34,14 @@ struct Day15: AdventDay {
       }
     }
 
-    return boxes.enumerated().map { box in
-      box.element.enumerated().reduce(0) { partialResult, lens in
-        partialResult + (box.offset + 1) * (lens.offset + 1) * lens.element.1
+    return boxes.enumerated()
+      .map { box in
+        box.element.enumerated()
+          .reduce(0) { partialResult, lens in
+            partialResult + (box.offset + 1) * (lens.offset + 1) * lens.element.1
+          }
       }
-    }.sum()
+      .sum()
   }
 
   // MARK: - Helpers
