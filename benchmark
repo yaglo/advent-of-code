@@ -2,4 +2,4 @@
 
 export TOOLCHAINS=swift
 # swift run -c release AdventOfCode --benchmark --all
-swift package benchmark
+swift package benchmark # --metric wallClock --format histogramPercentiles --path stdout --no-progress | uplot lineplot -H
