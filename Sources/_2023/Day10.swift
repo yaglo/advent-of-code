@@ -196,7 +196,7 @@ struct Day10: AdventDay {
     }
 
     func fill(_ bitmap: inout [[Color]]) {
-      var paintingStack: [Coordinate] = []
+      var paintingStack: Deque<Coordinate> = []
 
       for y in 0..<bitmap.count {
         if bitmap[y][0] == .notFilled { paintingStack.append(.init(x: 0, y: y)) }

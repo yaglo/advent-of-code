@@ -11,7 +11,7 @@ struct Day18: AdventDay {
     struct Coordinate { let x, y: Int }
 
     func fill(_ bitmap: inout [[Bool]], start: Coordinate) {
-      var paintingStack: [Coordinate] = []
+      var paintingStack: Deque<Coordinate> = []
       paintingStack.append(start)
 
       while let coord = paintingStack.popLast() {
