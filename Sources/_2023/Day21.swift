@@ -55,6 +55,8 @@ struct Day21: AdventDay {
     }
   }
 
+  // MARK: - Data
+
   let grid: [[Int8]]
 
   init(data: String) { grid = data.lines().map { $0.map { $0 == "#" ? -1 : 0 } } }

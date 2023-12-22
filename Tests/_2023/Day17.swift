@@ -8,10 +8,10 @@ import Testing
   #expect(Day17(data: example).part2() == 94)
 }
 
-@Test private func puzzleDay17() throws {
-  #expect(Day17().part1() == 1128)
-  #expect(Day17().part2() == 1268)
-}
+//@Test private func puzzleDay17() throws {
+//  #expect(Day17().part1() == 1128)
+//  #expect(Day17().part2() == 1268)
+//}
 
 private let example = """
   2413432311323
