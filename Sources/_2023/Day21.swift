@@ -6,64 +6,56 @@ import Collections
 struct Day21: AdventDay {
   // MARK: -
 
-  struct Coordinate: Equatable, Hashable { let row, column: Int }
-
-  func part1() -> Int { findPossibleSteps(grid, maxSteps: 64).joined().filter { $0 }.count }
+  func part1() -> Int {
+    var grid = grid
+    findPossibleSteps(&grid, maxSteps: 64)
+    return grid.joined().filter { $0 == 1 }.count
+  }
 
   func part2() -> Int {
     let mult = 7
     let side = grid.count
-    let grid = Array(grid.map { Array($0.cycled(times: mult)) }.cycled(times: mult))
-    let possibleSteps = findPossibleSteps(grid, maxSteps: grid.count / 2)
+    var grid = Array(grid.map { Array($0.cycled(times: mult)) }.cycled(times: mult))
+    findPossibleSteps(&grid, maxSteps: grid.count / 2)
     var c = [[Int]](repeating: [Int](repeating: 0, count: mult), count: mult)
+    let n = (((26_501_365 * 2 + 1) / side) - 1) / 2
 
     for row in 0..<mult {
-      for column in 0..<mult {
-        c[row][column] = possibleSteps[row * side..<(row + 1) * side]
-          .map { $0[column * side..<(column + 1) * side].reduce(0) { $1 ? $0 + 1 : $0 } }.sum()
+      for col in 0..<mult {
+        c[row][col] = grid[row * side..<(row + 1) * side]
+          .map { $0[col * side..<(col + 1) * side].reduce(0) { $1 == 1 ? $0 + 1 : $0 } }.sum()
       }
     }
 
-    let n = (((26_501_365 * 2 + 1) / side) - 1) / 2
-
     return [
       c[3][0], c[0][3], c[6][3], c[3][6], n * n * c[1][3], (n - 1) * (n - 1) * c[2][3],
-      n * [c[0][2], c[0][4], c[6][2], c[6][4]].sum(),
       (n - 1) * [c[1][2], c[1][4], c[5][2], c[5][4]].sum(),
+      n * [c[0][2], c[0][4], c[6][2], c[6][4]].sum(),
     ]
     .sum()
   }
 
-  func findPossibleSteps(_ grid: [[Bool]], maxSteps: Int) -> [[Bool]] {
-    var steps = [[Bool]](
-      repeating: [Bool](repeating: false, count: grid[0].count),
-      count: grid.count
-    )
-    let start = Coordinate(row: grid.count / 2, column: grid.count / 2)
+  func findPossibleSteps(_ grid: inout [[Int8]], maxSteps: Int) {
+    let side = grid.count
+    let start = (side / 2, side / 2)
 
-    func mark(steps: inout [[Bool]], from c: Coordinate) -> [Coordinate] {
-      [(-1, 0), (1, 0), (0, -1), (0, 1)]
-        .compactMap { dr, dc in
-          let c = Coordinate(row: c.row + dr, column: c.column + dc)
-          guard c.column >= 0 && c.column < steps[0].count && c.row >= 0 && c.row < steps.count,
-            grid[c.row][c.column], !steps[c.row][c.column]
-          else { return nil }
-          steps[c.row][c.column] = true
-          return c
-        }
-    }
+    typealias Coordinate = (row: Int, column: Int)
 
-    _ = (0..<maxSteps)
-      .reduce([start]) { coordinates, _ in coordinates.flatMap { mark(steps: &steps, from: $0) } }
-
-    return steps.enumerated()
-      .map { r, line in
-        line.enumerated()
-          .map { c, valid in valid && ((r % 2 == 1 && c % 2 == 1) || (r % 2 == 0 && c % 2 == 0)) }
+    var queue: Deque<(Coordinate, Int)> = [(start, 0)]
+    while let step = queue.popFirst() {
+      guard step.1 < maxSteps else { continue }
+      for dir in [(-1, 0), (1, 0), (0, -1), (0, 1)] {
+        let c = (row: step.0.row + dir.0, column: step.0.column + dir.1)
+        guard c.column >= 0 && c.column < side && c.row >= 0 && c.row < side,
+          grid[c.row][c.column] == 0
+        else { continue }
+        if (c.row + c.column) % 2 == 0 { grid[c.row][c.column] = 1 }
+        queue.append((c, step.1 + 1))
       }
+    }
   }
 
-  let grid: [[Bool]]
+  let grid: [[Int8]]
 
-  init(data: String) { grid = data.lines().map { $0.map { $0 != "#" } } }
+  init(data: String) { grid = data.lines().map { $0.map { $0 == "#" ? -1 : 0 } } }
 }
