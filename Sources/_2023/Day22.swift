@@ -2,6 +2,7 @@
 
 import AdventOfCode
 import Collections
+import SortedCollections
 
 struct Day22: AdventDay {
   // MARK: -
@@ -12,38 +13,61 @@ struct Day22: AdventDay {
     return bricks.filter { $0.canBeDisintegrated(in: bricks) }.count
   }
 
-  func part2() async -> Int {
-    // Can be done with a graph, but brute force is also quick here
-    await withTaskGroup(of: Int.self) { group in
-      var bricks = bricks
-      fallDown(bricks: &bricks)
-      let preparedBricks = bricks
+  func part2() -> Int {
+    var total = 0
+    var bricks = bricks
+    fallDown(bricks: &bricks)
 
-      for brick in bricks {
-        group.addTask {
-          var newBricks = preparedBricks
-          newBricks.removeAll { brick.id == $0.id }
-          return fallDown(bricks: &newBricks)
-        }
+    var supporters = [[Int]](repeating: [], count: bricks.count)
+    var supporting = [[Int]](repeating: [], count: bricks.count)
+    var allChildren = [Set<Int>?](repeating: nil, count: bricks.count)
+
+    for brick in bricks {
+      let supported = bricks.filter { $0.isSupported(by: brick) }
+      for other in supported {
+        supporting[brick.id].append(other.id)
+        supporters[other.id].append(brick.id)
       }
-
-      return await group.reduce(0, +)
     }
+
+    for brick in bricks.reversed() {
+      let directlySupported = supporting[brick.id]
+      guard directlySupported.count > 0,
+        !directlySupported.contains(where: { supporters[$0].count > 1 })
+      else { continue }
+      if let children = allChildren[brick.id] {
+        total += children.count
+      } else {
+        var children = Set<Int>(directlySupported)
+        var queue = Deque<Int>(directlySupported)
+        while let brick = queue.popFirst() {
+          if let subchildren = allChildren[brick] {
+            children.formUnion(subchildren)
+          } else {
+            let bricks = supporting[brick]
+            queue.append(contentsOf: bricks)
+            children.formUnion(bricks)
+          }
+        }
+        allChildren[brick.id] = children
+        total += children.count
+      }
+    }
+
+    return total
   }
 
-  @discardableResult func fallDown(bricks: inout [Brick]) -> Int {
-    var numberOfFalls = 0
+  func fallDown(bricks: inout [Brick]) {
     for i in 0..<bricks.count {
-      var brick = bricks[i]
-      var fell = false
-      while brick.z.lowerBound > 1 && !brick.collides(with: bricks) {
-        brick = brick.fallingDownOnce
-        fell = true
-      }
-      if fell { numberOfFalls += 1 }
-      bricks[i] = brick
+      let z = bricks[i].z
+      var zl = z.lowerBound
+      while zl > 1
+        && !bricks.contains(where: { other in
+          zl - 1 == other.z.upperBound && other.xyOverlaps(bricks[i])
+        })
+      { zl -= 1 }
+      bricks[i].z = zl...zl + z.count - 1
     }
-    return numberOfFalls
   }
 
   // MARK: - Data
@@ -62,7 +86,7 @@ struct Day22: AdventDay {
           z: lower[2]...upper[2]
         )
       }
-      .sorted(by: \.z.upperBound)
+      .sorted(by: \.z.lowerBound)
   }
 
   // MARK: - Models
@@ -72,25 +96,13 @@ struct Day22: AdventDay {
 
     let x: ClosedRange<Int>
     let y: ClosedRange<Int>
-    let z: ClosedRange<Int>
+    var z: ClosedRange<Int>
 
     var description: String {
       "\(id) \(x.lowerBound),\(y.lowerBound),\(z.lowerBound)~\(x.upperBound),\(y.upperBound),\(z.upperBound)"
     }
 
     func xyOverlaps(_ other: Brick) -> Bool { x.overlaps(other.x) && y.overlaps(other.y) }
-
-    var fallingDownOnce: Brick {
-      guard z.lowerBound > 1 else { return self }
-      return Brick(id: id, x: x, y: y, z: z.lowerBound - 1...z.upperBound - 1)
-    }
-
-    func collides(with others: [Brick]) -> Bool {
-      for other in others where other.id != id {
-        if xyOverlaps(other) && z.lowerBound - 1 == other.z.upperBound { return true }
-      }
-      return false
-    }
 
     func isSupported(by other: Brick) -> Bool {
       xyOverlaps(other) && z.lowerBound == other.z.upperBound + 1
