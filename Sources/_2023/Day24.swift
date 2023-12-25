@@ -8,19 +8,12 @@ struct Day24: AdventDay {
   // MARK: -
 
   func part1() -> Int {
-    var total = 0
-    for combination in hailstones.combinations(ofCount: 2) {
-      if intersect(
-        combination[0],
-        combination[1],
-        in: (
-          x: 200_000_000_000_000...400_000_000_000_000, y: 200_000_000_000_000...400_000_000_000_000
-        )
-      ) {
-        total += 1
+    let range = 200_000_000_000_000.0...400_000_000_000_000.0
+    return hailstones.combinations(ofCount: 2)
+      .reduce(0) { partialResult, combination in
+        partialResult
+          + (intersect(combination[0], combination[1], in: (x: range, y: range)) ? 1 : 0)
       }
-    }
-    return total
   }
 
   func intersect(
