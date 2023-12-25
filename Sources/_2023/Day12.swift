@@ -6,19 +6,16 @@ import Algorithms
 struct Day12: AdventDay {
   // MARK: -
 
-  func part1() -> Int {
-    puzzles.map { line, groups in
-      var machine = CountingMachine(groups: groups)
-      machine.processLine(line)
-      return machine.acceptCount
-    }
-    .sum()
-  }
+  func part1() -> Int { solve() }
 
-  func part2() -> Int {
+  func part2() -> Int { solve(unfolds: 5) }
+
+  // MARK: - Helpers
+
+  func solve(unfolds: Int = 1) -> Int {
     puzzles.map { line, groups in
-      let line = [line].cycled(times: 5).joined(separator: "?")
-      let groups = [groups].cycled(times: 5).flatMap { $0 }
+      let line = [line].cycled(times: unfolds).joined(separator: "?")
+      let groups = [groups].cycled(times: unfolds).flatMap { $0 }
 
       var machine = CountingMachine(groups: groups)
       machine.processLine(line)
@@ -52,7 +49,8 @@ struct Day12: AdventDay {
       var previous: CountingState? = nil
 
       func append(_ type: CountingState.StateType) {
-        let state = CountingState(type: type, previous: previous)
+        let state = CountingState(type: type)
+        state.previous = previous
         previous?.next = state
         states.append(state)
         previous = state
@@ -73,14 +71,15 @@ struct Day12: AdventDay {
     mutating func process(_ character: Character) {
       for state in states.reversed() where state.count > 0 {
         let counter = state.count
+
         state.invalidate()
 
-        if character == "?" {
-          state.transition(for: ".")?.count += counter
-          state.transition(for: "#")?.count += counter
-        } else {
-          state.transition(for: character)?.count += counter
-        }
+        let nextStates =
+          if character == "?" { [state.transition(for: "."), state.transition(for: "#")] } else {
+            [state.transition(for: character)]
+          }
+
+        nextStates.forEach { $0?.count += counter }
       }
     }
 
@@ -90,18 +89,6 @@ struct Day12: AdventDay {
   }
 
   class CountingState {
-    let type: StateType
-    weak var previous: CountingState?
-    weak var next: CountingState?
-
-    var count = 0
-
-    init(type: StateType, previous: CountingState? = nil, next: CountingState? = nil) {
-      self.type = type
-      self.previous = previous
-      self.next = next
-    }
-
     enum StateType {
       case first
       case middle
@@ -109,20 +96,19 @@ struct Day12: AdventDay {
       case accept
     }
 
+    let type: StateType
+    weak var previous: CountingState?
+    weak var next: CountingState?
+
+    var count = 0
+
+    init(type: StateType) { self.type = type }
+
     func transition(for character: Character) -> CountingState? {
-      switch character {
-      case "#":
-        switch type {
-        case .first, .middle: next
-        case .last, .accept: nil
-        }
-      case ".":
-        switch type {
-        case .first, .accept: self
-        case .middle: nil
-        case .last: next
-        }
-      default: fatalError("Unknown character")
+      switch (type, character) {
+      case (.first, "#"), (.middle, "#"), (.last, "."): return next
+      case (.first, "."), (.accept, "."): return self
+      default: return nil
       }
     }
 
