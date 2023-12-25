@@ -8,6 +8,7 @@ let dependencies: [Target.Dependency] = [
   .product(name: "Numerics", package: "swift-numerics"),
   .product(name: "SE0270_RangeSet", package: "swift-se0270-range-set"),
   .product(name: "SwiftCSP", package: "SwiftCSP"),
+  .product(name: "PythonKit", package: "PythonKit"),
 ]
 
 let swiftSettings: [SwiftSetting] = [
@@ -28,6 +29,7 @@ let package = Package(
     .package(url: "https://github.com/apple/swift-se0270-range-set", from: "1.0.0"),
     .package(url: "https://github.com/ordo-one/package-benchmark", .upToNextMajor(from: "1.4.0")),
     .package(url: "https://github.com/davecom/SwiftCSP.git", branch: "master"),
+    .package(url: "https://github.com/pvieito/PythonKit.git", branch: "master"),
   ],
 
   // MARK: - Common
