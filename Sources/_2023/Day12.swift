@@ -51,25 +51,21 @@ struct Day12: AdventDay {
 
       var previous: StateCounter? = nil
 
-      func append(_ state: StateCounter) {
+      func append(_ type: StateCounter.StateType) {
+        let state = StateCounter(type: type, previous: previous)
         previous?.next = state
-        state.previous = previous
         states.append(state)
         previous = state
       }
 
       for group in groups {
-        append(StateCounter(type: .first))
-
-        for _ in 1..<group { append(StateCounter(type: .middle)) }
-
-        append(StateCounter(type: .last))
+        append(.first)
+        for _ in 1..<group { append(.middle) }
+        append(.last)
       }
 
-      append(StateCounter(type: .accept))
-
+      append(.accept)
       states.first?.count = 1
-
       self.states = states
       self.accept = states.last!
     }
