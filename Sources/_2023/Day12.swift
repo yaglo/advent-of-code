@@ -43,16 +43,16 @@ struct Day12: AdventDay {
   // MARK: - Models
 
   struct CountingMachine {
-    let states: [StateCounter]
-    let accept: StateCounter
+    let states: [CountingState]
+    let accept: CountingState
 
     init(groups: [Int]) {
-      var states: [StateCounter] = []
+      var states: [CountingState] = []
 
-      var previous: StateCounter? = nil
+      var previous: CountingState? = nil
 
-      func append(_ type: StateCounter.StateType) {
-        let state = StateCounter(type: type, previous: previous)
+      func append(_ type: CountingState.StateType) {
+        let state = CountingState(type: type, previous: previous)
         previous?.next = state
         states.append(state)
         previous = state
@@ -89,14 +89,14 @@ struct Day12: AdventDay {
     var acceptCount: Int { accept.count + accept.previous!.count }
   }
 
-  class StateCounter {
+  class CountingState {
     let type: StateType
-    weak var previous: StateCounter?
-    weak var next: StateCounter?
+    weak var previous: CountingState?
+    weak var next: CountingState?
 
     var count = 0
 
-    init(type: StateType, previous: StateCounter? = nil, next: StateCounter? = nil) {
+    init(type: StateType, previous: CountingState? = nil, next: CountingState? = nil) {
       self.type = type
       self.previous = previous
       self.next = next
@@ -109,7 +109,7 @@ struct Day12: AdventDay {
       case accept
     }
 
-    func transition(for character: Character) -> StateCounter? {
+    func transition(for character: Character) -> CountingState? {
       switch character {
       case "#":
         switch type {
