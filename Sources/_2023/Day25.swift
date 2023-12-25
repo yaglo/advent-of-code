@@ -22,9 +22,7 @@ struct Day25: AdventDay {
     return result[1][0].count * result[1][1].count
   }
 
-  func part2() -> Int {
-    0
-  }
+  func part2() -> Int { 0 }
 
   let data: String
 }

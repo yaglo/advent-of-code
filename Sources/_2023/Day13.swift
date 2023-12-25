@@ -9,11 +9,7 @@ struct Day13: AdventDay {
   func part1() -> Int {
     var sum = 0
 
-    for map in maps {
-      if let result = findMirror(map: map) {
-        sum += result
-      }
-    }
+    for map in maps { if let result = findMirror(map: map) { sum += result } }
     return sum
   }
 
@@ -23,11 +19,13 @@ struct Day13: AdventDay {
     for map in maps {
       let originalResult = findMirror(map: map)!
       let smudges = findSmudges(map: map)
-      var newResults = Set(smudges.compactMap { smudge in
-        var newMap = map
-        newMap[smudge.row][smudge.column] = smudge.newElement
-        return findMirror(map: newMap, differentFrom: originalResult)
-      })
+      var newResults = Set(
+        smudges.compactMap { smudge in
+          var newMap = map
+          newMap[smudge.row][smudge.column] = smudge.newElement
+          return findMirror(map: newMap, differentFrom: originalResult)
+        }
+      )
       newResults.remove(originalResult)
       sum += newResults.first ?? originalResult
     }
@@ -42,7 +40,8 @@ struct Day13: AdventDay {
         let one = map[i]
         let two = map[j]
         let diff = one.difference(from: two)
-        if diff.removals.count == 1, case .remove(let offset, let element, _) = diff.removals.first {
+        if diff.removals.count == 1, case .remove(let offset, let element, _) = diff.removals.first
+        {
           smudges.insert(Smudge(row: j, column: offset, newElement: element == 1 ? 0 : 1))
         }
       }
@@ -52,7 +51,9 @@ struct Day13: AdventDay {
         let one = map[column: i]
         let two = map[column: j]
         let diff = one.difference(from: two)
-        if diff.insertions.count == 1, case .insert(let offset, let element, _) = diff.insertions.first {
+        if diff.insertions.count == 1,
+          case .insert(let offset, let element, _) = diff.insertions.first
+        {
           smudges.insert(Smudge(row: offset, column: i, newElement: element == 1 ? 0 : 1))
         }
       }
@@ -60,9 +61,7 @@ struct Day13: AdventDay {
     return smudges
   }
 
-  struct Smudge: Hashable {
-    let row, column, newElement: Int
-  }
+  struct Smudge: Hashable { let row, column, newElement: Int }
 
   func findMirror(map: [[Int]], differentFrom otherResult: Int? = nil) -> Int? {
     var size = map[0].count
@@ -81,9 +80,7 @@ struct Day13: AdventDay {
 
         if left == right {
           let result = offset + width
-          if result != otherResult {
-            return offset + width
-          }
+          if result != otherResult { return offset + width }
         }
       }
     }
@@ -103,9 +100,7 @@ struct Day13: AdventDay {
 
         if top == bottom {
           let result = (offset + width) * 100
-          if result != otherResult {
-            return result
-          }
+          if result != otherResult { return result }
         }
       }
     }
