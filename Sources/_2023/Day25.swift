@@ -47,11 +47,8 @@ struct Day25: AdventDay {
 
     return optimalCut
   }
-  
   struct CutResult: Comparable {
-    static func < (lhs: CutResult, rhs: CutResult) -> Bool {
-      lhs.weight < rhs.weight
-    }
+    static func < (lhs: CutResult, rhs: CutResult) -> Bool { lhs.weight < rhs.weight }
 
     let weight: Int
     let nodes: Set<Int>
