@@ -8,11 +8,11 @@ struct Day25: AdventDay {
   // MARK: -
 
   func part1() -> Int {
-    let minCutSet = Set(findGlobalMinCutNodes(adjacencyMatrix).nodes)
+    let minCutSet = Set(findGlobalMinCut(adjacencyMatrix).nodes)
     return minCutSet.count * nodes.subtracting(minCutSet).count
   }
 
-  func findGlobalMinCutNodes(_ adjacencyMatrix: [[Int]]) -> CutResult {
+  func findGlobalMinCut(_ adjacencyMatrix: [[Int]]) -> CutResult {
     var adj = adjacencyMatrix
     var optimalCut = CutResult(weight: Int.max, nodes: [])
     let nodeCount = adj.count
