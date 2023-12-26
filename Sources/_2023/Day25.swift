@@ -1,8 +1,7 @@
-// MARK: Day 24: Never Tell Me The Odds -
+// MARK: Day 25: Snowverload -
 
 import AdventOfCode
 import Foundation
-import PythonKit
 
 struct Day25: AdventDay {
   // MARK: -
