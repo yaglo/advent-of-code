@@ -7,11 +7,11 @@ struct Day25: AdventDay {
   // MARK: -
 
   func part1() -> Int {
-    let minCutSet = Set(findGlobalMinCut(adjacencyMatrix).nodes)
+    let minCutSet = Set(findCut(adjacencyMatrix).nodes)
     return minCutSet.count * nodes.subtracting(minCutSet).count
   }
 
-  func findGlobalMinCut(_ adjacencyMatrix: [[Int]]) -> CutResult {
+  func findCut(_ adjacencyMatrix: [[Int]]) -> CutResult {
     var adj = adjacencyMatrix
     var optimalCut = CutResult(weight: Int.max, nodes: [])
     let nodeCount = adj.count
@@ -25,7 +25,8 @@ struct Day25: AdventDay {
       for _ in 0..<nodeCount - phase {
         weights[t] = Int.min
         s = t
-        t = weights.enumerated().max(by: { $0.element < $1.element })!.offset
+        let max = weights.max()!
+        t = weights.firstIndex(of: max)!
         for i in 0..<nodeCount { weights[i] += adj[t][i] }
       }
 
