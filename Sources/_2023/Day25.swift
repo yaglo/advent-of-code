@@ -31,7 +31,9 @@ struct Day25: AdventDay {
 
       let currentWeight = weights[t] - adj[t][t]
 
-      if currentWeight < optimalCut.weight {
+      if currentWeight == 3 {
+        return CutResult(weight: currentWeight, nodes: Set(combinedVertices[t]))
+      } else if currentWeight < optimalCut.weight {
         optimalCut = CutResult(weight: currentWeight, nodes: Set(combinedVertices[t]))
       }
 
