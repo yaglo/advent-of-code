@@ -7,8 +7,8 @@ struct Day25: AdventDay {
   // MARK: -
 
   func part1() -> Int {
-    let minCutSet = Set(findCut(adjacencyMatrix).nodes)
-    return minCutSet.count * nodes.subtracting(minCutSet).count
+    let minCutCount = findCut(adjacencyMatrix).nodes.count
+    return (nodes.count - minCutCount) * minCutCount
   }
 
   func findCut(_ adjacencyMatrix: [[Int]]) -> CutResult {
