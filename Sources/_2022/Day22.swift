@@ -79,7 +79,7 @@ class Day22: AdventDay {
   // MARK: - Data
 
   var currentTile: Tile
-  var direction = Direction.right
+  var direction: Direction = .right
 
   var tiles: [[Tile?]]
   var tileMap: [Int: Tile?] = [:]

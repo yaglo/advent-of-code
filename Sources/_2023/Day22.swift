@@ -35,11 +35,13 @@ struct Day22: AdventDay {
       guard directlySupported.count > 0,
         !directlySupported.contains(where: { supporters[$0].count > 1 })
       else { continue }
+
       if let children = allChildren[brick.id] {
         total += children.count
       } else {
-        var children = Set<Int>(directlySupported)
-        var queue = Deque<Int>(directlySupported)
+        var children = Set(directlySupported)
+        var queue = Deque(directlySupported)
+
         while let brick = queue.popFirst() {
           if let subchildren = allChildren[brick] {
             children.formUnion(subchildren)

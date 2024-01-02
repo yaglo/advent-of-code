@@ -8,8 +8,7 @@ struct Day03: AdventDay {
   // MARK: -
 
   func part1() -> Int {
-    var visited = Set<Location>([.zero])
-
+    var visited: Set<Location> = [.zero]
     var pos = Location.zero
     for move in data { visit(location: &pos, move: move, visited: &visited) }
 
@@ -17,7 +16,7 @@ struct Day03: AdventDay {
   }
 
   func part2() -> Int {
-    var visited = Set<Location>([.zero])
+    var visited: Set<Location> = [.zero]
 
     var pos = Location.zero
     for move in data.striding(by: 2) { visit(location: &pos, move: move, visited: &visited) }

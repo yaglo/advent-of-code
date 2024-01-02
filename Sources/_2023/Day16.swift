@@ -35,7 +35,7 @@ struct Day16: AdventDay {
 
   func energize(_ beam: Beam) -> Int {
     var beams: [Beam] = [beam]
-    var energized = Set<Coordinate>()
+    var energized: Set<Coordinate> = []
     let height = grid.count
     let width = grid[0].count
     var noChanges = max(width, height)

@@ -77,7 +77,7 @@ struct Day17: AdventDay {
     var priorityQueue: Heap<Node> = [
       .init(totalLoss: 0, position: .init(row: 0, column: 0), previousDirection: -1)
     ]
-    var visited = Set<LossDirection>()
+    var visited: Set<LossDirection> = []
 
     while !priorityQueue.isEmpty {
       let node = priorityQueue.removeMin()

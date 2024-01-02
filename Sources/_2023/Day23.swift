@@ -35,7 +35,7 @@ struct Day23: AdventDay {
     }
 
     func topologicalSort(nodes: [Node]) -> [Node] {
-      var visited = Set<Int>()
+      var visited: Set<Int> = []
       var stack: [Node] = []
 
       for node in nodes { if !visited.contains(node.id) { dfs(node, &visited, &stack) } }
@@ -57,7 +57,7 @@ struct Day23: AdventDay {
     return findLongestPath(from: start, to: end)
 
     func findLongestPath(from start: Node, to end: Node) -> Int {
-      var visited = Set<Node>()
+      var visited: Set<Node> = []
       var maxPathLength = 0
 
       func dfs(current: Node, pathLength: Int) {
