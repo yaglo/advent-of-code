@@ -7,7 +7,10 @@ struct Day01: AdventDay {
   // MARK: -
 
   func part1() -> Int {
-    zip(l1.sorted(), l2.sorted()).reduce(0) { $0 + abs($1.0 - $1.1) }
+    zip(l1.sorted(), l2.sorted())
+      .map(-)
+      .map(abs)
+      .sum()
   }
 
   func part2() -> Int {
@@ -22,7 +25,7 @@ struct Day01: AdventDay {
 
   init(data: String) {
     let input = data.mapLines { $0.integers(separatedBy: "   ") }
-    l1 = input.map { $0[0] }
-    l2 = input.map { $0[1] }
+    l1 = input[column: 0]
+    l2 = input[column: 1]
   }
 }
