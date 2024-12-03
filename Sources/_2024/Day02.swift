@@ -30,6 +30,6 @@ struct Day02: AdventDay {
   let reports: [[Int]]
 
   init(data: String) {
-    reports = data.mapLines { $0.integers(separatedBy: " ") }
+    reports = data.mapLines(\.integers)
   }
 }

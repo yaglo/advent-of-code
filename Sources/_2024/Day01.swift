@@ -1,7 +1,6 @@
 // MARK: Day 1: Historian Hysteria -
 
 import AdventOfCode
-import Foundation
 
 struct Day01: AdventDay {
   // MARK: -
@@ -14,8 +13,8 @@ struct Day01: AdventDay {
   }
 
   func part2() -> Int {
-    let nums = NSCountedSet(array: l2)
-    return l1.reduce(0) { $0 + $1 * nums.count(for: $1) }
+    let nums = Dictionary(grouping: l2, by: \.self)
+    return l1.map { $0 * (nums[$0]?.count ?? 0) }.sum()
   }
 
   // MARK: - Data
@@ -24,7 +23,7 @@ struct Day01: AdventDay {
   let l2: [Int]
 
   init(data: String) {
-    let input = data.mapLines { $0.integers(separatedBy: "   ") }
+    let input = data.mapLines(\.integers)
     l1 = input[column: 0]
     l2 = input[column: 1]
   }

@@ -22,6 +22,10 @@ extension Sequence {
     self.map { $0[keyPath: keyPath] }.sum()
   }
 
+  public func sum<Value: AdditiveArithmetic>(with transform: (Element) -> Value) -> Value {
+    self.map { transform($0) }.sum()
+  }
+
   public func product() -> Element where Element: Numeric { self.reduce(1, *) }
 
   public func product<Value: Numeric>(of keyPath: KeyPath<Self.Element, Value>) -> Value {
@@ -127,6 +131,10 @@ extension Int {
 extension BidirectionalCollection where Self.SubSequence == Substring {
   public func integers(separatedBy separator: String) -> [Int] {
     split(separator: separator).map { Int($0)! }
+  }
+
+  public var integers: [Int] {
+    split(whereSeparator: \.isWhitespace).map { Int($0)! }
   }
 }
 
