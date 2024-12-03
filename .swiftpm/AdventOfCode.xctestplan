@@ -1,0 +1,28 @@
+{
+  "configurations" : [
+    {
+      "id" : "2529C222-C450-475A-8E20-C893F24D2E7B",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:",
+      "identifier" : "Runner",
+      "name" : "Runner"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Tests_2024",
+        "name" : "Tests_2024"
+      }
+    }
+  ],
+  "version" : 1
+}

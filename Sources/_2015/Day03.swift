@@ -53,6 +53,6 @@ struct Day03: AdventDay {
   struct Location: Hashable {
     var x, y: Int
 
-    static var zero = Location(x: 0, y: 0)
+    static let zero = Location(x: 0, y: 0)
   }
 }

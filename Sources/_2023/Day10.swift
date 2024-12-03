@@ -67,7 +67,7 @@ struct Day10: AdventDay {
     func hash(into hasher: inout Hasher) { hasher.combine(ObjectIdentifier(self)) }
   }
 
-  class Grid {
+  class Grid: @unchecked Sendable {
     var nodes: [[Node]]
     var startNode: Node
 

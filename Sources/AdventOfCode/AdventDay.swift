@@ -2,7 +2,7 @@
 @_exported import Collections
 import Foundation
 
-public protocol AdventDay {
+public protocol AdventDay: Sendable {
   associatedtype Answer = Int
 
   /// The year and day of the Advent of Code challenge.
@@ -65,7 +65,7 @@ extension AdventDay {
     let dataFilename = "Day\(dayString)"
 
     // TODO: fix path detection
-    let dataURL = Bundle(path: "~/Projects/Personal/advent-of-code/Sources")?
+    let dataURL = Bundle(path: "~/Projects/advent-of-code/Sources")?
       .url(forResource: dataFilename, withExtension: "txt", subdirectory: "_\(yearString)/Data")
 
     guard let dataURL, let data = try? String(contentsOf: dataURL, encoding: .utf8) else {

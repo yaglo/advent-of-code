@@ -1,11 +1,12 @@
 import AdventOfCode
 import ArgumentParser
 import Foundation
-import _2015
-import _2022
-import _2023
+//import _2015
+//import _2022
+//import _2023
+import _2024
 
-let allChallenges: [any AdventDay] = all2015Challenges + all2022Challenges + all2023Challenges
+let allChallenges: [any AdventDay] = all2024Challenges  // all2015Challenges + all2022Challenges + all2023Challenges
 
 @main struct AdventOfCode: AsyncParsableCommand {
   @Argument(help: "The year of the challenge.") var year: Int?

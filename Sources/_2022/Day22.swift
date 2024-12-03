@@ -4,9 +4,9 @@ import AdventOfCode
 import Algorithms
 import Foundation
 
-var history: [Float] = []
+nonisolated(unsafe) var history: [Float] = []
 
-class Day22: AdventDay {
+class Day22: AdventDay, @unchecked Sendable {
   // MARK: -
 
   func part1() -> Int {

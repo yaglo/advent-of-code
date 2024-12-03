@@ -1,4 +1,4 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 6.0
 import PackageDescription
 
 let dependencies: [Target.Dependency] = [
@@ -12,7 +12,6 @@ let dependencies: [Target.Dependency] = [
 ]
 
 let swiftSettings: [SwiftSetting] = [
-  .enableUpcomingFeature("BareSlashRegexLiterals")
 ]
 
 let package = Package(
@@ -22,12 +21,12 @@ let package = Package(
     .package(url: "https://github.com/apple/swift-algorithms.git", .upToNextMajor(from: "1.2.0")),
     .package(url: "https://github.com/apple/swift-collections.git", branch: "main"),
     .package(
-      url: "https://github.com/apple/swift-argument-parser.git", .upToNextMajor(from: "1.2.0")),
+      url: "https://github.com/apple/swift-argument-parser.git", .upToNextMajor(from: "1.5.0")),
     .package(url: "https://github.com/apple/swift-format.git", branch: "main"),
     .package(url: "https://github.com/apple/swift-numerics.git", branch: "main"),
     .package(url: "https://github.com/apple/swift-testing.git", branch: "main"),
     .package(url: "https://github.com/apple/swift-se0270-range-set", from: "1.0.0"),
-    .package(url: "https://github.com/ordo-one/package-benchmark", .upToNextMajor(from: "1.4.0")),
+//    .package(url: "https://github.com/ordo-one/package-benchmark", .upToNextMajor(from: "1.27.3")),
     .package(url: "https://github.com/davecom/SwiftCSP.git", branch: "master"),
     .package(url: "https://github.com/pvieito/PythonKit.git", branch: "master"),
   ],
@@ -36,7 +35,7 @@ let package = Package(
   targets: [
     .executableTarget(
       name: "Runner",
-      dependencies: dependencies + ["AdventOfCode", "_2015", "_2022", "_2023"],
+      dependencies: dependencies + ["AdventOfCode", "_2024"], // "_2015", "_2022", "_2023", "_2024"],
       packageAccess: true,
       swiftSettings: swiftSettings
     ),
@@ -50,29 +49,37 @@ let package = Package(
 
     // MARK: - Years
 
-    .target(
-      name: "_2015",
-      dependencies: dependencies + ["AdventOfCode"],
-      resources: [.copy("Data")],
-      packageAccess: true,
-      swiftSettings: swiftSettings
-    ),
+//    .target(
+//      name: "_2015",
+//      dependencies: dependencies + ["AdventOfCode"],
+//      resources: [.copy("Data")],
+//      packageAccess: true,
+//      swiftSettings: swiftSettings
+//    ),
+//
+//    .target(
+//      name: "_2022",
+//      dependencies: dependencies + ["AdventOfCode"],
+//      resources: [.copy("Data")],
+//      packageAccess: true,
+//      swiftSettings: swiftSettings
+//    ),
+//
+//    .target(
+//      name: "_2023",
+//      dependencies: dependencies + ["AdventOfCode"],
+//      resources: [.copy("Data")],
+//      packageAccess: true,
+//      swiftSettings: swiftSettings
+//    ),
 
     .target(
-      name: "_2022",
-      dependencies: dependencies + ["AdventOfCode"],
-      resources: [.copy("Data")],
-      packageAccess: true,
-      swiftSettings: swiftSettings
-    ),
-
-    .target(
-      name: "_2023",
-      dependencies: dependencies + ["AdventOfCode"],
-      resources: [.copy("Data")],
-      packageAccess: true,
-      swiftSettings: swiftSettings
-    ),
+        name: "_2024",
+        dependencies: dependencies + ["AdventOfCode"],
+        resources: [.copy("Data")],
+        packageAccess: true,
+        swiftSettings: swiftSettings
+      ),
 
     // MARK: - Tests
 
@@ -97,21 +104,30 @@ let package = Package(
 //      swiftSettings: swiftSettings
 //    ),
 
+    .testTarget(
+      name: "Tests_2024",
+      dependencies: ["_2024", "AdventOfCode", .product(name: "Testing", package: "swift-testing")],
+      path: "Tests/_2024",
+      swiftSettings: swiftSettings
+    ),
+
     // MARK: - Benchmarks
 
-    .executableTarget(
-      name: "Benchmarks",
-      dependencies: [
-        "AdventOfCode",
-        "_2015",
-        "_2022",
-        "_2023",
-        .product(name: "Benchmark", package: "package-benchmark"),
-      ],
-      path: "Benchmarks/Benchmarks",
-      plugins: [
-        .plugin(name: "BenchmarkPlugin", package: "package-benchmark")
-      ]
-    )
-  ]
+//    .executableTarget(
+//      name: "Benchmarks",
+//      dependencies: [
+//        "AdventOfCode",
+//        "_2015",
+//        "_2022",
+//        "_2023",
+//        .product(name: "Benchmark", package: "package-benchmark"),
+//      ],
+//      path: "Benchmarks/Benchmarks",
+//      plugins: [
+//        .plugin(name: "BenchmarkPlugin", package: "package-benchmark")
+//      ]
+//    )
+  ],
+  swiftLanguageModes: [.v6]
+
 )

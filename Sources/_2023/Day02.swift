@@ -2,7 +2,7 @@
 
 import AdventOfCode
 import Algorithms
-import RegexBuilder
+@preconcurrency import RegexBuilder
 
 /// Challenge: Only use Swift `RegexBuilder` with `TryCapture` for parsing and
 /// use custom components. The point is not to create compact or performant
@@ -51,7 +51,7 @@ struct Day02: AdventDay {
       static let id = Reference(Int.self)
       static let turns = Reference([Turn].self)
 
-      private static let innerRegex = Regex {
+      nonisolated(unsafe) private static let innerRegex = Regex {
         "Game "
         TryCapture(as: id) {
           OneOrMore(.digit)
@@ -85,7 +85,7 @@ struct Day02: AdventDay {
 
       let regex = plainRegex
 
-      static let plainRegex = Regex {
+      nonisolated(unsafe) static let plainRegex = Regex {
         ColorPairComponent()
         ZeroOrMore {
           ", "
@@ -93,7 +93,7 @@ struct Day02: AdventDay {
         }
       }
 
-      static let capture = Regex {
+      nonisolated(unsafe) static let capture = Regex {
         TryCapture(as: capturedValue) {
           plainRegex
         } transform: { str in
@@ -110,13 +110,13 @@ struct Day02: AdventDay {
 
       let regex = plainRegex
 
-      static let plainRegex = Regex {
+      nonisolated(unsafe) static let plainRegex = Regex {
         OneOrMore(.digit)
         One(.whitespace)
         OneOrMore(.word)
       }
 
-      static let captureRegex = Regex {
+      nonisolated(unsafe) static let captureRegex = Regex {
         TryCapture {
           OneOrMore(.digit)
         } transform: {
@@ -132,7 +132,7 @@ struct Day02: AdventDay {
         }
       }
 
-      static let capture = Regex {
+      nonisolated(unsafe) static let capture = Regex {
         TryCapture(as: capturedValue) {
           plainRegex
         } transform: { str in

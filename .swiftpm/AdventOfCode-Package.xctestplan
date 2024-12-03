@@ -1,0 +1,52 @@
+{
+  "configurations" : [
+    {
+      "id" : "231A6D32-7B1C-41FE-98E4-27285D8B2835",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:",
+      "identifier" : "Benchmarks",
+      "name" : "Benchmarks"
+    }
+  },
+  "testTargets" : [
+    {
+      "enabled" : false,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Tests_2015",
+        "name" : "Tests_2015"
+      }
+    },
+    {
+      "enabled" : false,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Tests_2023",
+        "name" : "Tests_2023"
+      }
+    },
+    {
+      "enabled" : false,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Tests_2022",
+        "name" : "Tests_2022"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "Tests_2024",
+        "name" : "Tests_2024"
+      }
+    }
+  ],
+  "version" : 1
+}

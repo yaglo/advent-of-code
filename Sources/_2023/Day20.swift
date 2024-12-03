@@ -98,7 +98,7 @@ private struct Signal: CustomStringConvertible {
   var description: String { source.id + " -" + pulse.rawValue + "-> " + destination.id }
 }
 
-private class Circuit {
+private class Circuit: @unchecked Sendable {
   static let shared = Circuit()
   var buffers: [[Signal]] = [[], []]
   var currentBuffer = 0
@@ -197,7 +197,7 @@ private class ConjunctionModule: Module {
   }
 }
 
-private class BroadcasterModule: Module {
+private class BroadcasterModule: Module, @unchecked Sendable {
   static let shared = BroadcasterModule()
   let id = "broadcaster"
   var destinations: [any Module] = []
@@ -205,7 +205,7 @@ private class BroadcasterModule: Module {
   func handlePulse(_ pulse: Pulse, from source: any Module) { emitPulse(pulse) }
 }
 
-private class ButtonModule: Module {
+private class ButtonModule: Module, @unchecked Sendable {
   static let shared = ButtonModule()
   var id = "button"
   var destinations: [any Module] = [BroadcasterModule.shared]

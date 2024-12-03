@@ -29,6 +29,24 @@ extension Sequence {
   }
 }
 
+extension Sequence where Element: Comparable {
+  public var isStrictlyIncreasing: Bool {
+    zip(self, dropFirst()).allSatisfy { $0 < $1 }
+  }
+
+  public var isStrictlyDecreasing: Bool {
+    zip(self, dropFirst()).allSatisfy { $0 > $1 }
+  }
+}
+
+extension RangeReplaceableCollection {
+  public func removing(at index: Index) -> Self {
+    var copy = self
+    copy.remove(at: index)
+    return copy
+  }
+}
+
 extension Collection {
   @inlinable public func reduce(with nextPartialResult: (Element, Element) throws -> Element)
     rethrows -> Element
@@ -130,18 +148,18 @@ extension LazySequence<String> {
 
 // MARK: - Concurrency
 
-extension Sequence {
-  public func parallelMapReduce<T, V>(
-    _ initialResult: V,
-    map: @escaping (Element) throws -> T,
-    reduce: (V, T) throws -> V
-  ) async rethrows -> V {
-    try await withThrowingTaskGroup(of: T.self, returning: V.self) { group in
-      for element in self { group.addTask { try map(element) } }
-      return try await group.reduce(initialResult, reduce)
-    }
-  }
-}
+//extension Sequence {
+//  public func parallelMapReduce<T, V>(
+//    _ initialResult: V,
+//    map: @escaping (Element) throws -> T,
+//    reduce: (V, T) throws -> V
+//  ) async rethrows -> V {
+//    try await withThrowingTaskGroup(of: T.self, returning: V.self) { group in
+//      for element in self { group.addTask { try map(element) } }
+//      return try await group.reduce(initialResult, reduce)
+//    }
+//  }
+//}
 
 extension Array where Element: Collection {
   public subscript(column column: Element.Index) -> [Element.Iterator.Element] {

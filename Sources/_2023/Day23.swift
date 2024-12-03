@@ -286,5 +286,5 @@ struct Day23: AdventDay {
   init(data: String) { map = data.mapLines { line in line.map { $0 } } }
 }
 
-private var map: [[Character]] = []
-private var idIndex = 0
+nonisolated(unsafe) private var map: [[Character]] = []
+nonisolated(unsafe) private var idIndex = 0

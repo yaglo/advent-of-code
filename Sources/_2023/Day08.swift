@@ -3,7 +3,7 @@
 import AdventOfCode
 import Algorithms
 
-struct Day08: AdventDay {
+struct Day08: AdventDay, @unchecked Sendable {
   // MARK: -
 
   func part1() -> Int { numberOfSteps(from: "AAA") }
