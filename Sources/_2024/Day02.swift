@@ -20,7 +20,8 @@ struct Day02: AdventDay {
 
   private func isValid(_ levels: [Int]) -> Bool {
     zip(levels, levels.dropFirst())
-      .map { abs($1 - $0) }
+      .map(-)
+      .map(abs)
       .allSatisfy { 1...3 ~= $0 }
     && (levels.isStrictlyIncreasing || levels.isStrictlyDecreasing)
   }
