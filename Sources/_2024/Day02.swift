@@ -19,8 +19,10 @@ struct Day02: AdventDay {
   }
 
   private func isValid(_ levels: [Int]) -> Bool {
-    let jumps = zip(levels, levels.dropFirst()).map { abs($1 - $0) }
-    return jumps.allSatisfy({ 1...3 ~= $0 }) && (levels.isStrictlyIncreasing || levels.isStrictlyDecreasing)
+    zip(levels, levels.dropFirst())
+      .map { abs($1 - $0) }
+      .allSatisfy({ 1...3 ~= $0 })
+    && (levels.isStrictlyIncreasing || levels.isStrictlyDecreasing)
   }
 
   // MARK: - Data

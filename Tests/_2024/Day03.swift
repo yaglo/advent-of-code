@@ -9,8 +9,8 @@ import Testing
 }
 
 @Test private func puzzleDay03() throws {
-  #expect(Day03().part1() == 178538786)
-  #expect(Day03().part2() == 102467299)
+  #expect(Day03().part1() == 178_538_786)
+  #expect(Day03().part2() == 102_467_299)
 }
 
 private let example1 = "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))"
