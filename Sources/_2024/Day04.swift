@@ -37,6 +37,6 @@ struct Day04: AdventDay {
   let grid: [[Character]]
 
   init(data: String) {
-    grid = data.lines().map(Array.init)
+    grid = data.mapLines(Array.init)
   }
 }
