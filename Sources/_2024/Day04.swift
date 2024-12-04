@@ -24,8 +24,8 @@ struct Day04: AdventDay {
     return (1..<grid.count - 1).sum { y in
       (1..<grid[y].count - 1).count { x in
         let tlbr = String([grid[y - 1][x - 1], grid[y][x], grid[y + 1][x + 1]])
-        let trbl = String([grid[y + 1][x - 1], grid[y][x], grid[y - 1][x + 1]])
-        return masOrSam.contains(tlbr) && masOrSam.contains(trbl)
+        let bltr = String([grid[y + 1][x - 1], grid[y][x], grid[y - 1][x + 1]])
+        return masOrSam.contains(tlbr) && masOrSam.contains(bltr)
       }
     }
   }

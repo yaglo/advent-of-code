@@ -6,11 +6,13 @@ struct Day03: AdventDay {
   // MARK: -
 
   func part1() -> Int {
-    data.mapLines { line in
-      line.matches(of: /mul\((\d+),(\d+)\)/).map { match in
-        Int(match.output.1)! * Int(match.output.2)!
-      }.sum()
-    }.sum()
+    data
+      .lines()
+      .sum { line in
+        line.matches(of: /mul\((\d+),(\d+)\)/).sum { match in
+          Int(match.output.1)! * Int(match.output.2)!
+        }
+      }
   }
 
   func part2() -> Int {
