@@ -1,7 +1,6 @@
 // MARK: Day 2: Red-Nosed Reports -
 
 import AdventOfCode
-import Foundation
 
 struct Day02: AdventDay {
   // MARK: -

@@ -1,7 +1,6 @@
 // MARK: Day 3: Mull It Over -
 
 import AdventOfCode
-import Foundation
 
 struct Day03: AdventDay {
   // MARK: -
