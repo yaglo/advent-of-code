@@ -1,4 +1,4 @@
-// MARK: Day 4 -
+// MARK: Day 4: Ceres Search -
 
 import AdventOfCode
 
@@ -8,12 +8,12 @@ struct Day04: AdventDay {
   func part1() -> Int {
     let directions = [(0, 1), (1, 0), (-1, 0), (0, -1), (1, 1), (-1, 1), (-1, -1), (1, -1)]
     let xmas = Array("XMAS")
-
-    return grid.indices.sum { x in
-      grid[x].indices.sum { y in
-        directions.count { dx, dy in
+    
+    return grid.indices.sum { y in
+      grid[y].indices.sum { x in
+        directions.count { dy, dx in
           (0..<xmas.count).allSatisfy { i in
-            grid[safe: x + i * dx]?[safe: y + i * dy] == xmas[i]
+            grid[safe: y + i * dy]?[safe: x + i * dx] == xmas[i]
           }
         }
       }
@@ -23,10 +23,10 @@ struct Day04: AdventDay {
   func part2() -> Int {
     let masOrSam = ["MAS", "SAM"]
 
-    return (1..<grid.count - 1).sum { x in
-      (1..<grid[0].count - 1).count { y in
-        let tlbr = String([grid[x - 1][y - 1], grid[x][y], grid[x + 1][y + 1]])
-        let trbl = String([grid[x + 1][y - 1], grid[x][y], grid[x - 1][y + 1]])
+    return (1..<grid.count - 1).sum { y in
+      (1..<grid[0].count - 1).count { x in
+        let tlbr = String([grid[y - 1][x - 1], grid[y][x], grid[y + 1][x + 1]])
+        let trbl = String([grid[y + 1][x - 1], grid[y][x], grid[y - 1][x + 1]])
         return masOrSam.contains(tlbr) && masOrSam.contains(trbl)
       }
     }
