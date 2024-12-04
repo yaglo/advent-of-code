@@ -8,7 +8,7 @@ struct Day04: AdventDay {
   func part1() -> Int {
     let directions = [(0, 1), (1, 0), (-1, 0), (0, -1), (1, 1), (-1, 1), (-1, -1), (1, -1)]
     let xmas = Array("XMAS")
-    
+
     return grid.indices.sum { x in
       grid[x].indices.sum { y in
         directions.count { dx, dy in

@@ -8,13 +8,12 @@ struct Day01: AdventDay {
   func part1() -> Int {
     zip(l1.sorted(), l2.sorted())
       .map(-)
-      .map(abs)
-      .sum()
+      .sum(with: abs)
   }
 
   func part2() -> Int {
     let nums = Dictionary(grouping: l2, by: \.self)
-    return l1.map { $0 * (nums[$0]?.count ?? 0) }.sum()
+    return l1.sum { $0 * (nums[$0]?.count ?? 0) }
   }
 
   // MARK: - Data
