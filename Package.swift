@@ -26,7 +26,7 @@ let package = Package(
     .package(url: "https://github.com/apple/swift-numerics.git", branch: "main"),
     .package(url: "https://github.com/apple/swift-testing.git", branch: "main"),
     .package(url: "https://github.com/apple/swift-se0270-range-set", from: "1.0.0"),
-//    .package(url: "https://github.com/ordo-one/package-benchmark", .upToNextMajor(from: "1.27.3")),
+    .package(url: "https://github.com/ordo-one/package-benchmark", .upToNextMajor(from: "1.27.3")),
     .package(url: "https://github.com/davecom/SwiftCSP.git", branch: "master"),
     .package(url: "https://github.com/pvieito/PythonKit.git", branch: "master"),
   ],
@@ -121,20 +121,18 @@ let package = Package(
 
     // MARK: - Benchmarks
 
-//    .executableTarget(
-//      name: "Benchmarks",
-//      dependencies: [
-//        "AdventOfCode",
-//        "_2015",
-//        "_2022",
-//        "_2023",
-//        .product(name: "Benchmark", package: "package-benchmark"),
-//      ],
-//      path: "Benchmarks/Benchmarks",
-//      plugins: [
-//        .plugin(name: "BenchmarkPlugin", package: "package-benchmark")
-//      ]
-//    )
+    .executableTarget(
+      name: "Benchmarks",
+      dependencies: [
+        "AdventOfCode",
+        "_2024",
+        .product(name: "Benchmark", package: "package-benchmark"),
+      ],
+      path: "Benchmarks/Benchmarks",
+      plugins: [
+        .plugin(name: "BenchmarkPlugin", package: "package-benchmark")
+      ]
+    )
   ],
   swiftLanguageModes: [.v6]
 
