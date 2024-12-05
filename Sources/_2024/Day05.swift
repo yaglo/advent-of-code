@@ -8,14 +8,10 @@ struct Day05: AdventDay {
   func part1() -> Int { updates.filter(isValid).sum { $0[$0.count / 2] } }
 
   func part2() -> Int {
-    updates.sum { update in
-      var update = update
-      var wasInvalid = false
-
-      while applyFixes(to: &update) { wasInvalid = true }
-
-      return wasInvalid ? update[update.count / 2] : 0
-    }
+    updates
+      .filter { !isValid($0) }
+      .map { $0.sorted(by: { pagePrecedence[$0][$1] }) }
+      .sum { $0[$0.count / 2] }
   }
 
   func isValid(_ update: [Int]) -> Bool {
@@ -24,19 +20,6 @@ struct Day05: AdventDay {
       else { return true }
       return index1 < index2
     }
-  }
-
-  func applyFixes(to update: inout [Int]) -> Bool {
-    for (index, value) in update.enumerated() {
-      for (otherIndex, otherValue) in update.enumerated()
-      where (pagePrecedence[value][otherValue] && otherIndex < index)
-        || (pagePrecedence[otherValue][value] && otherIndex > index)
-      {
-        update.swapAt(index, otherIndex)
-        return true
-      }
-    }
-    return false
   }
 
   // MARK: - Data
