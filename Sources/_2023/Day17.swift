@@ -9,16 +9,12 @@ struct Day17: AdventDay {
 
   func part1() -> Int {
     findMinHeatLoss(
-      grid: grid,
-      precomputedHeatLoss: precomputeHeatLoss(grid: grid, stepRange: 1...3)
-    )
+      grid: grid, precomputedHeatLoss: precomputeHeatLoss(grid: grid, stepRange: 1...3))
   }
 
   func part2() -> Int {
     findMinHeatLoss(
-      grid: grid,
-      precomputedHeatLoss: precomputeHeatLoss(grid: grid, stepRange: 4...10)
-    )
+      grid: grid, precomputedHeatLoss: precomputeHeatLoss(grid: grid, stepRange: 4...10))
   }
 
   // MARK: - Helpers
@@ -52,9 +48,7 @@ struct Day17: AdventDay {
           }
 
           let lossDirection = LossDirection(
-            position: .init(row: row, column: column),
-            direction: direction
-          )
+            position: .init(row: row, column: column), direction: direction)
           precomputedLoss[lossDirection] = stepsLoss
         }
       }
@@ -92,16 +86,16 @@ struct Day17: AdventDay {
       where direction != node.previousDirection && direction != (node.previousDirection + 2) % 4 {
         guard
           let stepsLoss = precomputedHeatLoss[.init(position: node.position, direction: direction)]
-        else { continue }
+        else {
+          continue
+        }
 
         for step in stepsLoss {
           if !visited.contains(.init(position: step.position, direction: direction)) {
             priorityQueue.insert(
               .init(
-                totalLoss: node.totalLoss + step.totalLoss,
-                position: step.position,
-                previousDirection: direction
-              )
+                totalLoss: node.totalLoss + step.totalLoss, position: step.position,
+                previousDirection: direction)
             )
           }
         }

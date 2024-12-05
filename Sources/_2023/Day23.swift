@@ -154,10 +154,7 @@ struct Day23: AdventDay {
     }
 
     init(
-      directed: Bool,
-      coordinate: Coordinate,
-      direction: Coordinate,
-      startNodeCoordinate: Coordinate
+      directed: Bool, coordinate: Coordinate, direction: Coordinate, startNodeCoordinate: Coordinate
     ) {
       self.directed = directed
       self.direction = direction
@@ -234,21 +231,19 @@ struct Day23: AdventDay {
       }
 
       addEdge(
-        from: nodes[walker.startNodeCoordinate]!,
-        to: nodes[walker.coordinate]!,
-        steps: walker.steps
+        from: nodes[walker.startNodeCoordinate]!, to: nodes[walker.coordinate]!, steps: walker.steps
       )
 
       for (coordinate, direction) in nextSteps {
         guard let direction, coordinate + direction != walker.coordinate,
           !visited.contains(coordinate)
-        else { continue }
+        else {
+          continue
+        }
         visited.insert(coordinate)
         addEdge(
-          from: nodes[walker.startNodeCoordinate]!,
-          to: nodes[walker.coordinate]!,
-          steps: walker.steps
-        )
+          from: nodes[walker.startNodeCoordinate]!, to: nodes[walker.coordinate]!,
+          steps: walker.steps)
         queue.append(
           Walker(
             directed: directed,

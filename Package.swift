@@ -35,7 +35,7 @@ let package = Package(
   targets: [
     .executableTarget(
       name: "Runner",
-      dependencies: dependencies + ["AdventOfCode", "_2024"], // "_2015", "_2022", "_2023", "_2024"],
+      dependencies: dependencies + ["AdventOfCode", "_2015", "_2021", "_2022", "_2023", "_2024"],
       packageAccess: true,
       swiftSettings: swiftSettings
     ),
@@ -49,29 +49,37 @@ let package = Package(
 
     // MARK: - Years
 
-//    .target(
-//      name: "_2015",
-//      dependencies: dependencies + ["AdventOfCode"],
-//      resources: [.copy("Data")],
-//      packageAccess: true,
-//      swiftSettings: swiftSettings
-//    ),
-//
-//    .target(
-//      name: "_2022",
-//      dependencies: dependencies + ["AdventOfCode"],
-//      resources: [.copy("Data")],
-//      packageAccess: true,
-//      swiftSettings: swiftSettings
-//    ),
-//
-//    .target(
-//      name: "_2023",
-//      dependencies: dependencies + ["AdventOfCode"],
-//      resources: [.copy("Data")],
-//      packageAccess: true,
-//      swiftSettings: swiftSettings
-//    ),
+    .target(
+      name: "_2015",
+      dependencies: dependencies + ["AdventOfCode"],
+      resources: [.copy("Data")],
+      packageAccess: true,
+      swiftSettings: swiftSettings
+    ),
+
+    .target(
+      name: "_2021",
+      dependencies: dependencies + ["AdventOfCode"],
+      resources: [.copy("Data")],
+      packageAccess: true,
+      swiftSettings: swiftSettings
+    ),
+
+    .target(
+      name: "_2022",
+      dependencies: dependencies + ["AdventOfCode"],
+      resources: [.copy("Data")],
+      packageAccess: true,
+      swiftSettings: swiftSettings
+    ),
+
+    .target(
+      name: "_2023",
+      dependencies: dependencies + ["AdventOfCode"],
+      resources: [.copy("Data")],
+      packageAccess: true,
+      swiftSettings: swiftSettings
+    ),
 
     .target(
         name: "_2024",

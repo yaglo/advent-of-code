@@ -151,9 +151,7 @@ struct Day10: AdventDay {
       let cols = nodes[0].count
 
       var bitmap: [[Color]] = Array(
-        repeating: Array(repeating: Color.notFilled, count: cols * 3),
-        count: rows * 3
-      )
+        repeating: Array(repeating: Color.notFilled, count: cols * 3), count: rows * 3)
 
       for y in 0..<rows {
         for x in 0..<cols { draw(nodes[y][x], at: Coordinate(x: x, y: y), in: &bitmap) }
@@ -253,8 +251,7 @@ extension Day10.Grid {
       for (_, node) in line.enumerated() {
         print(
           "\(node.shape, color: node.isPartOfLoop ? .red : node.isOutside ? .green : .black)",
-          terminator: ""
-        )
+          terminator: "")
       }
       print()
     }

@@ -35,8 +35,7 @@ struct Day03: AdventDay {
           .map { match in
             Number(
               rect: .init(x: line.closedRange(from: match.range), y: y...y),
-              value: Int(match.output)!
-            )
+              value: Int(match.output)!)
           }
       }
 

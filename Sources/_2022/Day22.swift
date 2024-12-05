@@ -89,8 +89,9 @@ class Day22: AdventDay, @unchecked Sendable {
   let height: Int
 
   required init(data: String) {
-    let (map, instructionString) = data.split(separator: "\n\n")
-      .map { $0.trimmingCharacters(in: .newlines) }.splat()
+    let (map, instructionString) = data.split(separator: "\n\n").map {
+      $0.trimmingCharacters(in: .newlines)
+    }.splat()
 
     height = map.lines().count
     width = map.lines().map(\.count).max()!
@@ -351,9 +352,7 @@ class Day22: AdventDay, @unchecked Sendable {
     createNet()
 
     var transformedTiles: [[Tile?]] = Array(
-      repeating: Array(repeating: nil, count: 3 * sideSize),
-      count: 4 * sideSize
-    )
+      repeating: Array(repeating: nil, count: 3 * sideSize), count: 4 * sideSize)
 
     for (y, row) in grid.enumerated() {
       for (x, item) in row.enumerated() {
@@ -403,7 +402,8 @@ class Day22: AdventDay, @unchecked Sendable {
     typealias NetCoordinate = (x: Int, y: Int)
     typealias SideMapping = (
       source: NetCoordinate, destination: NetCoordinate, direction: Direction,
-      directionChange: Direction, scoord: CoordinateStrategy, dcoord: CoordinateStrategy
+      directionChange: Direction,
+      scoord: CoordinateStrategy, dcoord: CoordinateStrategy
     )
 
     let sideMap: [SideMapping] = [

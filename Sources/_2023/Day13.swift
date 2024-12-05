@@ -112,7 +112,8 @@ struct Day13: AdventDay {
   let maps: [[[Int]]]
 
   init(data: String) {
-    maps = data.split(separator: "\n\n")
-      .map { $0.split(separator: "\n").map { $0.map { $0 == "." ? 0 : 1 } } }
+    maps = data.split(separator: "\n\n").map {
+      $0.split(separator: "\n").map { $0.map { $0 == "." ? 0 : 1 } }
+    }
   }
 }

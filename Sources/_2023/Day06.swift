@@ -7,15 +7,14 @@ struct Day06: AdventDay {
   // MARK: -
 
   func part1() -> Int {
-    zip(times, records)
-      .map { numberOfWinningOptions(totalTime: Double($0)!, recordDistance: Double($1)!) }.product()
+    zip(times, records).map {
+      numberOfWinningOptions(totalTime: Double($0)!, recordDistance: Double($1)!)
+    }.product()
   }
 
   func part2() -> Int {
     numberOfWinningOptions(
-      totalTime: Double(times.joined())!,
-      recordDistance: Double(records.joined())!
-    )
+      totalTime: Double(times.joined())!, recordDistance: Double(records.joined())!)
   }
 
   // MARK: - Helpers
@@ -33,7 +32,8 @@ struct Day06: AdventDay {
   let records: [String]
 
   init(data: String) {
-    (times, records) =
-      data.mapLines { line in line.split(separator: " ").dropFirst().map(String.init) }.splat()
+    (times, records) = data.mapLines { line in
+      line.split(separator: " ").dropFirst().map(String.init)
+    }.splat()
   }
 }

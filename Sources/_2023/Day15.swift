@@ -7,7 +7,7 @@ struct Day15: AdventDay {
   // MARK: -
 
   func part1() -> Int {
-    data.trimmingCharacters(in: .whitespacesAndNewlines).split(separator: ",").map(hash).sum()
+    data.trimmingCharacters(in: .whitespacesAndNewlines).split(separator: ",").sum(applying: hash)
   }
 
   func part2() -> Int {
@@ -35,13 +35,12 @@ struct Day15: AdventDay {
     }
 
     return boxes.enumerated()
-      .map { box in
+      .sum { box in
         box.element.enumerated()
           .reduce(0) { partialResult, lens in
             partialResult + (box.offset + 1) * (lens.offset + 1) * lens.element.1
           }
       }
-      .sum()
   }
 
   // MARK: - Helpers

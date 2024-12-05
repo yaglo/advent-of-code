@@ -14,7 +14,9 @@ extension Sequence {
   }
 
   public func sorted<Value: Comparable>(by keyPath: KeyPath<Self.Element, Value>) -> [Self.Element]
-  { self.sorted { $0[keyPath: keyPath] < $1[keyPath: keyPath] } }
+  {
+    self.sorted { $0[keyPath: keyPath] < $1[keyPath: keyPath] }
+  }
 
   public func sum() -> Element where Element: AdditiveArithmetic { self.reduce(Element.zero, +) }
 
@@ -22,7 +24,7 @@ extension Sequence {
     self.map { $0[keyPath: keyPath] }.sum()
   }
 
-  public func sum<Value: AdditiveArithmetic>(with transform: (Element) -> Value) -> Value {
+  public func sum<Value: AdditiveArithmetic>(applying transform: (Element) -> Value) -> Value {
     self.map { transform($0) }.sum()
   }
 
@@ -34,13 +36,9 @@ extension Sequence {
 }
 
 extension Sequence where Element: Comparable {
-  public var isStrictlyIncreasing: Bool {
-    zip(self, dropFirst()).allSatisfy { $0 < $1 }
-  }
+  public var isStrictlyIncreasing: Bool { zip(self, dropFirst()).allSatisfy { $0 < $1 } }
 
-  public var isStrictlyDecreasing: Bool {
-    zip(self, dropFirst()).allSatisfy { $0 > $1 }
-  }
+  public var isStrictlyDecreasing: Bool { zip(self, dropFirst()).allSatisfy { $0 > $1 } }
 }
 
 extension RangeReplaceableCollection {
@@ -54,7 +52,9 @@ extension RangeReplaceableCollection {
 extension Collection {
   @inlinable public func reduce(with nextPartialResult: (Element, Element) throws -> Element)
     rethrows -> Element
-  { try dropFirst().reduce(first!, nextPartialResult) }
+  {
+    try dropFirst().reduce(first!, nextPartialResult)
+  }
 }
 
 extension BidirectionalCollection {
@@ -70,9 +70,7 @@ extension BidirectionalCollection {
 extension Substring {
   public func closedRange(from range: Range<Substring.Index>) -> ClosedRange<Int> {
     distance(from: startIndex, to: range.lowerBound)...distance(
-      from: startIndex,
-      to: range.upperBound
-    ) - 1
+      from: startIndex, to: range.upperBound) - 1
   }
 }
 
@@ -115,11 +113,15 @@ extension Array {
   }
 
   public func splat<T>(_ transform: (Element, Element, Element, Element) throws -> T) rethrows -> T
-  { try transform(self[0], self[1], self[2], self[3]) }
+  {
+    try transform(self[0], self[1], self[2], self[3])
+  }
 
   public func splat<T>(_ transform: (Element, Element, Element, Element, Element) throws -> T)
     rethrows -> T
-  { try transform(self[0], self[1], self[2], self[3], self[4]) }
+  {
+    try transform(self[0], self[1], self[2], self[3], self[4])
+  }
 }
 
 // MARK: - Parsing and Conversion
@@ -133,9 +135,7 @@ extension BidirectionalCollection where Self.SubSequence == Substring {
     split(separator: separator).map { Int($0)! }
   }
 
-  public var integers: [Int] {
-    split(whereSeparator: \.isWhitespace).map { Int($0)! }
-  }
+  public var integers: [Int] { split(whereSeparator: \.isWhitespace).map { Int($0)! } }
 }
 
 extension String {

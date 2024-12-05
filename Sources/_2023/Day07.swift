@@ -17,7 +17,7 @@ struct Day07: AdventDay {
     data.mapLines { line in
       line.split(separator: " ").splat { Game(String($0), bid: Int($1)!, withJokers: withJokers) }
     }
-    .sorted().enumerated().map { ($0.offset + 1) * $0.element.bid }.sum()
+    .sorted().enumerated().sum { ($0.offset + 1) * $0.element.bid }
   }
 
   // MARK: - Data

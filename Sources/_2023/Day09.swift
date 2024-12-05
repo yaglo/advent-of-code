@@ -6,10 +6,10 @@ import Algorithms
 struct Day09: AdventDay {
   // MARK: -
 
-  func part1() -> Int { sequences.map(extrapolateNextElement(in:)).sum() }
+  func part1() -> Int { sequences.sum(applying: extrapolateNextElement(in:)) }
 
   func part2() -> Int {
-    sequences.map { sequence in extrapolateNextElement(in: sequence.reversed()) }.sum()
+    sequences.sum { sequence in extrapolateNextElement(in: sequence.reversed()) }
   }
 
   // MARK: - Helpers

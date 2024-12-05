@@ -6,7 +6,7 @@ import RegexBuilder
 struct Day04: AdventDay {
   // MARK: -
 
-  func part1() -> Int { scores.map { 2 << ($0 - 2) }.sum() }
+  func part1() -> Int { scores.sum { 2 << ($0 - 2) } }
 
   func part2() -> Int {
     var cardCounts = [Int](repeating: 1, count: scores.count)

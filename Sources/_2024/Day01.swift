@@ -5,11 +5,7 @@ import AdventOfCode
 struct Day01: AdventDay {
   // MARK: -
 
-  func part1() -> Int {
-    zip(l1.sorted(), l2.sorted())
-      .map(-)
-      .sum(with: abs)
-  }
+  func part1() -> Int { zip(l1.sorted(), l2.sorted()).map(-).sum(applying: abs) }
 
   func part2() -> Int {
     let nums = Dictionary(grouping: l2, by: \.self)

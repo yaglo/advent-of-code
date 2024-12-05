@@ -26,7 +26,7 @@ struct Day19: AdventDay {
       }
     }
 
-    return accepted.map { partRatings[$0].values.sum() }.sum()
+    return accepted.sum { partRatings[$0].values.sum() }
   }
 
   func part2() async -> Int {
@@ -64,9 +64,7 @@ struct Day19: AdventDay {
         var newAcceptedRange = acceptedRange
         newAcceptedRange.workflows.insert(name)
         return calculateAcceptedRatingRanges(
-          workflow: workflows[name]!,
-          acceptedRange: newAcceptedRange
-        )
+          workflow: workflows[name]!, acceptedRange: newAcceptedRange)
       }
     }
 
@@ -86,7 +84,7 @@ struct Day19: AdventDay {
       )
     )
 
-    return acceptedRanges.map { $0.ratings.values.product(of: \.count) }.sum()
+    return acceptedRanges.sum { $0.ratings.values.product(of: \.count) }
   }
 
   // MARK: - Data

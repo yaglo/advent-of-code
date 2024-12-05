@@ -52,30 +52,26 @@ struct Day18: AdventDay {
     }
 
     var grid = [[Bool]](
-      repeating: [Bool](repeating: false, count: cMax.x - cMin.x + 1),
-      count: cMax.y - cMin.y + 1
-    )
+      repeating: [Bool](repeating: false, count: cMax.x - cMin.x + 1), count: cMax.y - cMin.y + 1)
 
     var prev = coordinates.removeFirst()
 
     for coordinate in coordinates {
       for y in stride(
-        from: prev.y - cMin.y,
-        through: coordinate.y - cMin.y,
-        by: prev.y > coordinate.y ? -1 : 1
-      ) {
+        from: prev.y - cMin.y, through: coordinate.y - cMin.y, by: prev.y > coordinate.y ? -1 : 1)
+      {
         for x in stride(
-          from: prev.x - cMin.x,
-          through: coordinate.x - cMin.x,
-          by: prev.x > coordinate.x ? -1 : 1
-        ) { grid[y][x] = true }
+          from: prev.x - cMin.x, through: coordinate.x - cMin.x, by: prev.x > coordinate.x ? -1 : 1)
+        {
+          grid[y][x] = true
+        }
       }
       prev = coordinate
     }
 
     fill(&grid, start: Coordinate(x: (cMax.x - cMin.x) / 2, y: (cMax.y - cMin.y) / 2))
 
-    return grid.joined().map { $0 ? 1 : 0 }.sum()
+    return grid.joined().count { $0 }
   }
 
   func part2() -> Int {

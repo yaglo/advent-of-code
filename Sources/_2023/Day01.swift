@@ -24,8 +24,9 @@ struct Day01: AdventDay {
           .map { range in (offset: range.offset, element: Int(range.element)) }
           + ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"].enumerated()
           .map { digit, word in
-            line.ranges(of: word)
-              .map { range in (offset: range.lowerBound.utf16Offset(in: line), element: digit + 1) }
+            line.ranges(of: word).map { range in
+              (offset: range.lowerBound.utf16Offset(in: line), element: digit + 1)
+            }
           }
           .joined())
           .sorted(by: \.offset).map(\.element)

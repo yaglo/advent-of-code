@@ -41,9 +41,7 @@ public struct Matrix {
 
   @inlinable @inline(__always) internal func checkValidSubscript(row: Int, column: Int) {
     precondition(
-      (row >= 0) && (row < rows) && (column >= 0) && (column < columns),
-      "Index out of range"
-    )
+      (row >= 0) && (row < rows) && (column >= 0) && (column < columns), "Index out of range")
   }
 }
 
@@ -58,8 +56,7 @@ extension Matrix {
 extension Matrix {
   public mutating func rotate(counterClockwise: Bool = false) {
     grid = [Double](unsafeUninitializedCapacity: grid.count) {
-      buffer,
-      unsafeUninitializedCapacity in
+      buffer, unsafeUninitializedCapacity in
       vDSP_mtransD(grid, 1, buffer.baseAddress!, 1, vDSP_Length(columns), vDSP_Length(rows))
       swap(&rows, &columns)
 

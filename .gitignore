@@ -8,4 +8,4 @@ DerivedData/
 .netrc
 lcov.info
 Package.resolved
-Data
+Day*.txt

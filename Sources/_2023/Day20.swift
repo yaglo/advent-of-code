@@ -74,8 +74,9 @@ struct Day20: AdventDay {
     }
 
     for conjunction in modules.values where conjunction is ConjunctionModule {
-      let inputs = moduleOutputs.filter { $0.value.contains(conjunction.id) }
-        .map { modules[$0.key]! }
+      let inputs = moduleOutputs.filter { $0.value.contains(conjunction.id) }.map {
+        modules[$0.key]!
+      }
       (conjunction as! ConjunctionModule).incomingModules = inputs
     }
 

@@ -34,7 +34,9 @@ struct Day22: AdventDay {
       let directlySupported = supporting[brick.id]
       guard directlySupported.count > 0,
         !directlySupported.contains(where: { supporters[$0].count > 1 })
-      else { continue }
+      else {
+        continue
+      }
 
       if let children = allChildren[brick.id] {
         total += children.count
@@ -82,11 +84,7 @@ struct Day22: AdventDay {
         let (lower, upper) = line.split(separator: "~").map { $0.integers(separatedBy: ",") }
           .splat()
         return Brick(
-          id: index,
-          x: lower[0]...upper[0],
-          y: lower[1]...upper[1],
-          z: lower[2]...upper[2]
-        )
+          id: index, x: lower[0]...upper[0], y: lower[1]...upper[1], z: lower[2]...upper[2])
       }
       .sorted(by: \.z.lowerBound)
   }

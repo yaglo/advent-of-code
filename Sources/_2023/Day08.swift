@@ -37,7 +37,6 @@ struct Day08: AdventDay, @unchecked Sendable {
 
     nodes = lines.dropFirst()
       .map { line in line.matches(of: /[0-9A-Z]{3}/).map(\.output).map(String.init).splat(Node.init)
-      }
-      .keyed(by: \.id)
+      }.keyed(by: \.id)
   }
 }

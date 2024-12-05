@@ -27,11 +27,10 @@ struct Day02: AdventDay {
   }
 
   func part2() -> Int {
-    games.map { game in
+    games.sum { game in
       game.turns.flatMap(\.colorPairs).grouped(by: \.color).values.map { $0.max(\.count)! }
         .product()
     }
-    .sum()
   }
 
   // MARK: - Data
@@ -74,8 +73,9 @@ struct Day02: AdventDay {
         TryCapture(as: capturedValue) {
           innerRegex
         } transform: { str in
-          str.firstMatch(of: innerRegex)
-            .map { Game(id: $0[GameComponent.id], turns: $0[GameComponent.turns]) }
+          str.firstMatch(of: innerRegex).map {
+            Game(id: $0[GameComponent.id], turns: $0[GameComponent.turns])
+          }
         }
       }
     }
@@ -98,9 +98,9 @@ struct Day02: AdventDay {
           plainRegex
         } transform: { str in
           Turn(
-            colorPairs: str.matches(of: ColorPairComponent.capture)
-              .map { $0[ColorPairComponent.capturedValue] }
-          )
+            colorPairs: str.matches(of: ColorPairComponent.capture).map {
+              $0[ColorPairComponent.capturedValue]
+            })
         }
       }
     }

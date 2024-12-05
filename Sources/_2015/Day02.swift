@@ -7,23 +7,21 @@ struct Day02: AdventDay {
   // MARK: -
 
   func part1() -> Int {
-    dimensions.map { (l, w, h) in
+    dimensions.sum { (l, w, h) in
       let lw = l * w
       let wh = w * h
       let hl = h * l
       let min = min(lw, wh, hl)
       return 2 * (lw + wh + hl) + min
     }
-    .sum()
   }
 
   func part2() -> Int {
-    dimensions.map { l, w, h in
+    dimensions.sum { l, w, h in
       let wrapping = [l, w, h].combinations(ofCount: 2).map { 2 * ($0[0] + $0[1]) }.min()!
       let bow = (l * w * h)
       return wrapping + bow
     }
-    .sum()
   }
 
   // MARK: - Data

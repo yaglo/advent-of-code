@@ -23,7 +23,7 @@ struct Day21: AdventDay {
     for row in 0..<mult {
       for col in 0..<mult {
         c[row][col] = grid[row * side..<(row + 1) * side]
-          .map { $0[col * side..<(col + 1) * side].reduce(0) { $1 == 1 ? $0 + 1 : $0 } }.sum()
+          .sum { $0[col * side..<(col + 1) * side].reduce(0) { $1 == 1 ? $0 + 1 : $0 } }
       }
     }
 
@@ -48,7 +48,9 @@ struct Day21: AdventDay {
         let c = (row: step.0.row + dir.0, column: step.0.column + dir.1)
         guard c.column >= 0 && c.column < side && c.row >= 0 && c.row < side,
           grid[c.row][c.column] == 0
-        else { continue }
+        else {
+          continue
+        }
         if (c.row + c.column) % 2 == 0 { grid[c.row][c.column] = 1 }
         queue.append((c, step.1 + 1))
       }

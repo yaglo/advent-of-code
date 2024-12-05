@@ -8,18 +8,16 @@ struct Day11: AdventDay {
 
   func part1() -> Int {
     galaxies.combinations(ofCount: 2)
-      .map { galaxies in
+      .sum { galaxies in
         distance(galaxy1: galaxies[0], galaxy2: galaxies[1], expansionMultiplier: 1)
       }
-      .sum()
   }
 
   func part2() -> Int {
     galaxies.combinations(ofCount: 2)
-      .map { galaxies in
+      .sum { galaxies in
         distance(galaxy1: galaxies[0], galaxy2: galaxies[1], expansionMultiplier: 999999)
       }
-      .sum()
   }
 
   // MARK: - Helpers
@@ -53,8 +51,8 @@ struct Day11: AdventDay {
     self.galaxies = Set(
       data.enumerated()
         .flatMap { y, line in
-          line.enumerated()
-            .compactMap { x, character in character == "#" ? Galaxy(x: x, y: y) : nil }
+          line.enumerated().compactMap { x, character in character == "#" ? Galaxy(x: x, y: y) : nil
+          }
         }
     )
   }

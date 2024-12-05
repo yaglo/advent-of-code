@@ -3,13 +3,19 @@ import Testing
 @testable import AdventOfCode
 @testable import _2024
 
-@Test private func examplesDay03() throws {
+@Test("Day 3, Part 1 (Example)") private func day_03_example_part1() throws {
   #expect(Day03(data: example1).part1() == 161)
+}
+
+@Test("Day 3, Part 2 (Example)") private func day_03_example_part2() throws {
   #expect(Day03(data: example2).part2() == 48)
 }
 
-@Test private func puzzleDay03() throws {
+@Test("Day 3, Part 1") private func day_03_part1() throws {
   #expect(Day03().part1() == 178_538_786)
+}
+
+@Test("Day 3, Part 2") private func day_03_part2() throws {
   #expect(Day03().part2() == 102_467_299)
 }
 

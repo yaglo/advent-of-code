@@ -54,9 +54,7 @@ struct Day05: AdventDay {
             .map { line in
               let (destination, source, count) = line.integers(separatedBy: " ").splat()
               return RangeMapping(
-                sourceRange: source..<source + count,
-                destinationShift: destination - source
-              )
+                sourceRange: source..<source + count, destinationShift: destination - source)
             }
         )
       }

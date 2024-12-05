@@ -78,9 +78,7 @@ struct Day25: AdventDay {
     for (i, node) in nodes.enumerated() { nodeMap[node] = i }
 
     var adjacencyMatrix: [[Int]] = [[Int]](
-      repeating: [Int](repeating: 0, count: nodeMap.count),
-      count: nodeMap.count
-    )
+      repeating: [Int](repeating: 0, count: nodeMap.count), count: nodeMap.count)
     for edge in edges {
       let src = nodeMap[edge[0]]!
       let dst = nodeMap[edge[1]]!

@@ -13,7 +13,7 @@ struct Day12: AdventDay {
   // MARK: - Helpers
 
   func solve(unfolds: Int = 1) -> Int {
-    puzzles.map { line, groups in
+    puzzles.sum { line, groups in
       let line = [line].cycled(times: unfolds).joined(separator: "?")
       let groups = [groups].cycled(times: unfolds).flatMap { $0 }
 
@@ -21,7 +21,6 @@ struct Day12: AdventDay {
       machine.processLine(line)
       return machine.acceptCount
     }
-    .sum()
   }
 
   // MARK: - Data

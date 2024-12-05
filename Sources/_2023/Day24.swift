@@ -26,7 +26,8 @@ struct Day24: AdventDay {
     let pA = objectA.position(at: t)
     let pB = objectB.position(at: u)
     return boundingBox.x.contains(pA.x) && boundingBox.y.contains(pA.y)
-      && boundingBox.x.contains(pB.x) && boundingBox.y.contains(pB.y)
+      && boundingBox.x.contains(pB.x)
+      && boundingBox.y.contains(pB.y)
   }
 
   func intersectionTimes(_ objectA: Hailstone, _ objectB: Hailstone) -> (Double, Double) {
@@ -100,8 +101,9 @@ struct Day24: AdventDay {
       id = UUID().hashValue
       let (coordinate, vector) = rawValue.split(separator: " @ ")
         .map {
-          $0.split(separator: ",").map { $0.trimmingCharacters(in: CharacterSet.whitespaces) }
-            .map { Double($0)! }
+          $0.split(separator: ",").map { $0.trimmingCharacters(in: CharacterSet.whitespaces) }.map {
+            Double($0)!
+          }
         }
         .splat()
       self.coordinate = Coordinate3D(x: coordinate[0], y: coordinate[1], z: coordinate[2])
@@ -114,10 +116,7 @@ struct Day24: AdventDay {
 
     func position(at time: Double) -> Coordinate3D {
       let displacement = Coordinate3D(
-        x: direction.x * time,
-        y: direction.y * time,
-        z: direction.z * time
-      )
+        x: direction.x * time, y: direction.y * time, z: direction.z * time)
       return coordinate + displacement
     }
   }
