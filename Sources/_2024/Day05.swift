@@ -1,7 +1,6 @@
-// MARK: Day 5:  -
+// MARK: Day 5: Print Queue -
 
 import AdventOfCode
-import Foundation
 
 struct Day05: AdventDay {
   // MARK: -
