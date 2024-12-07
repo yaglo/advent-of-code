@@ -8,7 +8,7 @@ import Testing
 }
 
 @Test("Day 1, Part 2 (Example)") private func day_01_example_part2() throws {
-  #expect(Day01(data: example).part1() == 31)
+  #expect(Day01(data: example).part2() == 31)
 }
 
 @Test("Day 1, Part 1") private func day_01_part1() throws { #expect(Day01().part1() == 2_904_518) }

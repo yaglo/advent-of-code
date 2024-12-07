@@ -1,14 +1,15 @@
 import AdventOfCode
 import ArgumentParser
 import Foundation
-import _2015
-import _2021
-import _2022
-import _2023
+//import _2015
+//import _2021
+//import _2022
+//import _2023
 import _2024
 
 let allChallenges: [any AdventDay] =
-  all2015Challenges + all2021Challenges + all2022Challenges + all2023Challenges + all2024Challenges
+  //  all2015Challenges + all2021Challenges + all2022Challenges + all2023Challenges +
+  all2024Challenges
 
 @main struct AdventOfCode: AsyncParsableCommand {
   @Argument(help: "The year of the challenge.") var year: Int?
@@ -59,7 +60,7 @@ let allChallenges: [any AdventDay] =
 
       if benchmark {
         print(
-          "Part 1 took \(timing1.formatted(.units(allowed: [.microseconds, .milliseconds, .seconds, .nanoseconds], maximumUnitCount: 1))), part 2 took \(timing2.formatted(.units(allowed: [.microseconds, .milliseconds, .seconds], maximumUnitCount: 1)))."
+          "Part 1 took \(timing1.formatted(.units(allowed: [.microseconds, .milliseconds, .nanoseconds], maximumUnitCount: 1))), part 2 took \(timing2.formatted(.units(allowed: [.microseconds, .milliseconds, .nanoseconds], maximumUnitCount: 1)))."
         )
         #if DEBUG
           print("Looks like you're benchmarking debug code. Try swift run -c release")

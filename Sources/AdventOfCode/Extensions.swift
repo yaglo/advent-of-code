@@ -156,6 +156,38 @@ extension LazySequence<String> {
 
 // MARK: - Concurrency
 
+extension Collection where Element: Sendable {
+  public func parallelSum<Value: AdditiveArithmetic & Sendable>(
+    chunkSize: Int = 1,
+    applying transform: @escaping @Sendable (Element) throws -> Value
+  ) async throws -> Value {
+    if chunkSize == 1 {
+      return try await withThrowingTaskGroup(of: Value.self, returning: Value.self) { group in
+        for element in self {
+          group.addTask {
+            try transform(element)
+          }
+        }
+        return try await group.reduce(Value.zero, +)
+      }
+    } else {
+      return try await withThrowingTaskGroup(of: Value.self, returning: Value.self) { group in
+        for chunk in chunks(ofCount: chunkSize) {
+          let chunk = Array(chunk)
+          group.addTask {
+            var chunkSum = Value.zero
+            for element in chunk {
+              chunkSum += try transform(element)
+            }
+            return chunkSum
+          }
+        }
+        return try await group.reduce(Value.zero, +)
+      }
+    }
+  }
+}
+
 //extension Sequence {
 //  public func parallelMapReduce<T, V>(
 //    _ initialResult: V,
