@@ -2,7 +2,6 @@
 
 import AdventOfCode
 import math_h
-import simd
 
 struct Day07: AdventDay {
   // MARK: -
