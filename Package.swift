@@ -17,7 +17,7 @@ let swiftSettings: [SwiftSetting] = [
 
 let package = Package(
   name: "AdventOfCode",
-  platforms: [.macOS(.v13)],
+  platforms: [.macOS(.v15)],
   dependencies: [
     .package(url: "https://github.com/apple/swift-algorithms.git", .upToNextMajor(from: "1.2.0")),
     .package(url: "https://github.com/apple/swift-collections.git", branch: "main"),
