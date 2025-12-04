@@ -1,5 +1,57 @@
 #!/usr/bin/env bash
 
 export TOOLCHAINS=swift
-swift test --enable-experimental-swift-testing --disable-xctest 
-# --parallel
+
+# Usage:
+#   ./test              - run all tests
+#   ./test 1            - run Day 1 tests (all years)
+#   ./test 2025         - run all 2025 tests
+#   ./test 2025 1       - run Day 1 tests for 2025 (all 4: ex1, ex2, p1, p2)
+#   ./test 2025 1 1     - run Day 1 Part 1 for 2025 (ex1 + p1)
+#   ./test 2025 1 ex    - run Day 1 Examples only (ex1 + ex2)
+#   ./test 2025 1 p     - run Day 1 Real only (p1 + p2)
+#   ./test 2025 1 1 ex  - run Day 1 Part 1 Example only (ex1)
+#   ./test 2025 1 1 p   - run Day 1 Part 1 Real only (p1)
+
+if [ -n "$4" ]; then
+    # ./test 2025 1 2 ex -> filter by year, day, part, and type
+    year="$1"
+    day=$(printf "%02d" "$2")
+    part="$3"
+    type="$4"
+    if [ "$type" = "ex" ] || [ "$type" = "example" ]; then
+        swift test --no-parallel --filter "Tests_${year}.*day${day}_ex${part}"
+    else
+        swift test --no-parallel --filter "Tests_${year}.*day${day}_p${part}"
+    fi
+elif [ -n "$3" ]; then
+    year="$1"
+    day=$(printf "%02d" "$2")
+    arg="$3"
+    if [ "$arg" = "ex" ] || [ "$arg" = "example" ]; then
+        # ./test 2025 1 ex -> run both examples
+        swift test --no-parallel --filter "Tests_${year}.*day${day}_ex"
+    elif [ "$arg" = "p" ] || [ "$arg" = "real" ]; then
+        # ./test 2025 1 p -> run both real
+        swift test --no-parallel --filter "Tests_${year}.*day${day}_p"
+    else
+        # ./test 2025 1 2 -> filter by year, day, and part (both example and real)
+        swift test --no-parallel --filter "Tests_${year}.*day${day}_.*${arg}"
+    fi
+elif [ -n "$2" ]; then
+    # ./test 2025 1 -> filter by year and day
+    year="$1"
+    day=$(printf "%02d" "$2")
+    swift test --no-parallel --filter "Tests_${year}.*day${day}"
+elif [ -n "$1" ]; then
+    if [ ${#1} -eq 4 ]; then
+        # ./test 2025 -> run all tests for a year
+        swift test --filter "Tests_${1}"
+    else
+        # ./test 1 -> run day 1 tests
+        day=$(printf "%02d" "$1")
+        swift test --no-parallel --filter "day${day}"
+    fi
+else
+    swift test
+fi

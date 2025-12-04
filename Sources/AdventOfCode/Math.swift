@@ -24,3 +24,9 @@ public func rotateMatrix(_ matrix: inout [[Float]], ccw: Bool = false) {
 public func flipMatrix(_ matrix: inout [[Float]]) {
   for i in matrix.indices { matrix[i].reverse() }
 }
+
+infix operator %% : MultiplicationPrecedence
+public func %% (lhs: Int, rhs: Int) -> Int {
+  let result = lhs % rhs
+  return result >= 0 ? result : result + rhs
+}

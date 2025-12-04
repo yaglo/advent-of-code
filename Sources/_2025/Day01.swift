@@ -1,31 +1,29 @@
-// MARK: Day 1 -
+// MARK: Day 1: Secret Entrance -
 
 import AdventOfCode
 
 @Day struct Day01 {
-    static let examplePart1Input = """
-        L68
-        L30
-        R48
-        L5
-        R60
-        L55
-        L1
-        L99
-        R14
-        L82
-        """
+  // MARK: -
 
-    static let examplePart1: Int? = 3
-    static let examplePart2: Int? = nil
-    static let answerPart1: Int? = nil
-    static let answerPart2: Int? = nil
-
-    func part1() -> Int {
-        3
+  func part1() -> Int {
+    var dial = 50
+    return moves.count {
+      dial = (dial + $0) %% 100
+      return dial == 0
     }
+  }
 
-    func part2() -> Int {
-        0
+  func part2() -> Int {
+    var dial = 50
+    return moves.sum { move in
+      defer { dial = (dial + move) %% 100 }
+      return (dial * move.signum() %% 100 + abs(move)) / 100
     }
+  }
+
+  // MARK: - Data
+
+  var moves: [Int] {
+    data.mapLines { ($0.first == "L" ? -1 : 1) * Int($0.dropFirst())! }
+  }
 }
