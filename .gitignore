@@ -8,4 +8,5 @@ DerivedData/
 .netrc
 lcov.info
 Package.resolved
-Day*.txt
+Sources/*/Data/*
+!Sources/*/Data/.gitkeep
