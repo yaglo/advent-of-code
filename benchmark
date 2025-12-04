@@ -7,29 +7,104 @@ export TOOLCHAINS=swift
 #   ./benchmark 1            - run Day 1 benchmarks
 #   ./benchmark 2025 1       - run Day 1 benchmarks for 2025
 #   ./benchmark 2025 1 1     - run Day 1 Part 1 for 2025
+#   ./benchmark -v           - run all benchmarks and open JMH visualizer
+#   ./benchmark -v 1         - run Day 1 benchmarks and open JMH visualizer
 
 # Benchmark names are like: "2025_day01_part1"
 
-if [ -n "$3" ]; then
-    # ./benchmark 2025 1 1 -> filter by year, day, and part
-    year="$1"
-    day=$(printf "%02d" "$2")
-    part="$3"
-    swift package benchmark run --filter "${year}_day${day}_part${part}"
-elif [ -n "$2" ]; then
-    # ./benchmark 2025 1 -> filter by year and day
-    year="$1"
-    day=$(printf "%02d" "$2")
-    swift package benchmark run --filter "${year}_day${day}.*"
-elif [ -n "$1" ]; then
-    if [ ${#1} -eq 4 ]; then
-        # ./benchmark 2025 -> run all benchmarks for a year
-        swift package benchmark run --filter "${1}_day.*"
+OUTPUT_DIR=".build/benchmark-results"
+JMH_VISUALIZER="https://jmh.morethan.io"
+HISTOGRAM_VISUALIZER="http://hdrhistogram.github.io/HdrHistogram/plotFiles.html"
+
+visualize=false
+histogram=false
+
+# Parse flags
+while [[ "$1" == -* ]]; do
+    case "$1" in
+        -v|--visualize)
+            visualize=true
+            shift
+            ;;
+        -h|--histogram)
+            histogram=true
+            shift
+            ;;
+        *)
+            echo "Unknown option: $1"
+            exit 1
+            ;;
+    esac
+done
+
+build_filter() {
+    if [ -n "$3" ]; then
+        # year day part
+        year="$1"
+        day=$(printf "%02d" "$2")
+        part="$3"
+        echo "${year}_day${day}_part${part}"
+    elif [ -n "$2" ]; then
+        # year day
+        year="$1"
+        day=$(printf "%02d" "$2")
+        echo "${year}_day${day}.*"
+    elif [ -n "$1" ]; then
+        if [ ${#1} -eq 4 ]; then
+            # year only
+            echo "${1}_day.*"
+        else
+            # day only
+            day=$(printf "%02d" "$1")
+            echo ".*day${day}.*"
+        fi
     else
-        # ./benchmark 1 -> run day 1 benchmarks
-        day=$(printf "%02d" "$1")
-        swift package benchmark run --filter ".*day${day}.*"
+        echo ""
     fi
+}
+
+run_benchmark() {
+    local filter="$1"
+    local format="$2"
+    local extra_args=""
+
+    if [ -n "$format" ]; then
+        mkdir -p "$OUTPUT_DIR"
+        extra_args="--format $format --path $OUTPUT_DIR"
+    fi
+
+    if [ -n "$filter" ]; then
+        swift package --allow-writing-to-package-directory benchmark run --filter "$filter" $extra_args
+    else
+        swift package --allow-writing-to-package-directory benchmark $extra_args
+    fi
+}
+
+filter=$(build_filter "$1" "$2" "$3")
+
+if [ "$visualize" = true ]; then
+    run_benchmark "$filter" "jmh"
+    jmh_file=$(ls -t "$OUTPUT_DIR"/*.jmh.json 2>/dev/null | head -1)
+    if [ -n "$jmh_file" ]; then
+        abs_path="$(cd "$(dirname "$jmh_file")" && pwd)/$(basename "$jmh_file")"
+        echo ""
+        echo "Opening JMH Visualizer..."
+        echo "File: $abs_path"
+        echo "$abs_path" | pbcopy
+        echo "(Path copied to clipboard)"
+        open "$JMH_VISUALIZER"
+        # Also reveal in Finder for easy drag-and-drop
+        open -R "$abs_path"
+    else
+        echo "No JMH file generated"
+    fi
+elif [ "$histogram" = true ]; then
+    run_benchmark "$filter" "histogram"
+    echo ""
+    echo "Histogram files generated in: $OUTPUT_DIR"
+    echo "Opening HDR Histogram Visualizer..."
+    open "$HISTOGRAM_VISUALIZER"
+    open "$OUTPUT_DIR"
 else
-    swift package benchmark
+    run_benchmark "$filter" ""
 fi

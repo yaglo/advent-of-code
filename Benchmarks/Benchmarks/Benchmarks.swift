@@ -5,6 +5,11 @@ import _2025
 
 @MainActor
 let benchmarks = {
+    Benchmark.defaultConfiguration = .init(
+        metrics: .extended,
+        timeUnits: .microseconds
+    )
+
     for day in all2025Challenges { registerBenchmark(for: day) }
 }
 
