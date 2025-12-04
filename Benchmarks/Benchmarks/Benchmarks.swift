@@ -3,8 +3,7 @@ import Benchmark
 import Foundation
 import _2025
 
-@MainActor
-let benchmarks = {
+let benchmarks: @Sendable () -> Void = {
     Benchmark.defaultConfiguration = .init(
         metrics: .extended,
         timeUnits: .microseconds
@@ -13,7 +12,6 @@ let benchmarks = {
     for day in all2025Challenges { registerBenchmark(for: day) }
 }
 
-@MainActor
 func registerBenchmark<T: AdventDay>(for day: T) {
     let (year, dayNum) = day.yearDay
     let dayPadded = dayNum < 10 ? "0\(dayNum)" : "\(dayNum)"
