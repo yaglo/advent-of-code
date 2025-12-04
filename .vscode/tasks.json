@@ -1,0 +1,19 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Test Current Day",
+      "type": "shell",
+      "command": "day=$(echo '${fileBasenameNoExtension}' | sed 's/Day0*//'); year=$(basename $(dirname '${fileDirname}')); ./test \"${year#_}\" \"$day\"",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    }
+  ]
+}

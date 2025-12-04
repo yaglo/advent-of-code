@@ -1,0 +1,30 @@
+[
+  {
+    "label": "Test Current Day",
+    "command": "echo 'STEM: $ZED_STEM DIRNAME: $ZED_DIRNAME'; day=$(echo $ZED_STEM | sed 's/Day0*//'); year=$(basename $ZED_DIRNAME | sed 's/_//'); echo \"Running: ./test $year $day\"; ./test $year $day",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always"
+  },
+  {
+    "label": "Test Current Day - Part 1",
+    "command": "day=$(echo $ZED_STEM | sed 's/Day0*//'); year=$(basename $ZED_DIRNAME | sed 's/_//'); ./test $year $day 1",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always"
+  },
+  {
+    "label": "Test Current Day - Part 2",
+    "command": "day=$(echo $ZED_STEM | sed 's/Day0*//'); year=$(basename $ZED_DIRNAME | sed 's/_//'); ./test $year $day 2",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always"
+  },
+  {
+    "label": "Benchmark Current Day",
+    "command": "day=$(echo $ZED_STEM | sed 's/Day0*//'); ./benchmark $day",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always"
+  }
+]
