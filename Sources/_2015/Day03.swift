@@ -2,57 +2,50 @@
 
 import AdventOfCode
 import Algorithms
-import Foundation
 
-struct Day03: AdventDay {
-  // MARK: -
+@Day struct Day03 {
+    // MARK: -
 
-  func part1() -> Int {
-    var visited: Set<Location> = [.zero]
-    var pos = Location.zero
-    for move in data { visit(location: &pos, move: move, visited: &visited) }
+    func part1() -> Int {
+        var visited: Set<Location> = [.zero]
+        var pos = Location.zero
+        for move in data { visit(location: &pos, move: move, visited: &visited) }
 
-    return visited.count
-  }
-
-  func part2() -> Int {
-    var visited: Set<Location> = [.zero]
-
-    var pos = Location.zero
-    for move in data.striding(by: 2) { visit(location: &pos, move: move, visited: &visited) }
-
-    pos = .zero
-    for move in data.dropFirst().striding(by: 2) {
-      visit(location: &pos, move: move, visited: &visited)
+        return visited.count
     }
 
-    return visited.count
-  }
+    func part2() -> Int {
+        var visited: Set<Location> = [.zero]
 
-  // MARK: - Helpers
+        var pos = Location.zero
+        for move in data.striding(by: 2) { visit(location: &pos, move: move, visited: &visited) }
 
-  func visit(location: inout Location, move: Character, visited: inout Set<Location>) {
-    switch move {
-    case "<": location.x -= 1
-    case ">": location.x += 1
-    case "^": location.y -= 1
-    case "v": location.y += 1
-    default: fatalError()
+        pos = .zero
+        for move in data.dropFirst().striding(by: 2) {
+            visit(location: &pos, move: move, visited: &visited)
+        }
+
+        return visited.count
     }
-    visited.insert(location)
-  }
 
-  // MARK: - Data
+    // MARK: - Helpers
 
-  let data: String
+    func visit(location: inout Location, move: Character, visited: inout Set<Location>) {
+        switch move {
+        case "<": location.x -= 1
+        case ">": location.x += 1
+        case "^": location.y -= 1
+        case "v": location.y += 1
+        default: fatalError()
+        }
+        visited.insert(location)
+    }
 
-  init(data: String) { self.data = data.trimmingCharacters(in: .whitespacesAndNewlines) }
+    // MARK: - Models
 
-  // MARK: - Models
+    struct Location: Hashable {
+        var x, y: Int
 
-  struct Location: Hashable {
-    var x, y: Int
-
-    static let zero = Location(x: 0, y: 0)
-  }
+        static let zero = Location(x: 0, y: 0)
+    }
 }

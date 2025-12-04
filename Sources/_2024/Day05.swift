@@ -2,45 +2,45 @@
 
 import AdventOfCode
 
-struct Day05: AdventDay {
-  // MARK: -
+@Day struct Day05 {
+    // MARK: -
 
-  func part1() -> Int { updates.filter(isValid).sum { $0[$0.count / 2] } }
+    func part1() -> Int { updates.filter(isValid).sum { $0[$0.count / 2] } }
 
-  func part2() -> Int {
-    updates
-      .filter { !isValid($0) }
-      .map { $0.sorted(by: { precedence[$0][$1] }) }
-      .sum { $0[$0.count / 2] }
-  }
-
-  func isValid(_ update: [Int]) -> Bool {
-    update.indices.allSatisfy { i in
-      (i + 1..<update.count).allSatisfy { j in
-        precedence[update[i]][update[j]]
-      }
+    func part2() -> Int {
+        updates
+            .filter { !isValid($0) }
+            .map { $0.sorted(by: { precedence[$0][$1] }) }
+            .sum { $0[$0.count / 2] }
     }
-  }
 
-  // MARK: - Data
+    func isValid(_ update: [Int]) -> Bool {
+        update.indices.allSatisfy { i in
+            (i + 1..<update.count).allSatisfy { j in
+                precedence[update[i]][update[j]]
+            }
+        }
+    }
 
-  let updates: [[Int]]
-  let precedence: [[Bool]]
+    // MARK: - Data
 
-  init(data: String) {
-    let (r, u) = data.split(separator: "\n\n").splat()
-    let rules: [(Int, Int)] = r.lines().map { $0.integers(separatedBy: "|").splat() }
+    let updates: [[Int]]
+    let precedence: [[Bool]]
 
-    updates = u.lines().map { $0.integers(separatedBy: ",") }
+    init(data: String) {
+        let (r, u) = data.split(separator: "\n\n").splat()
+        let rules: [(Int, Int)] = r.lines().map { $0.integers(separatedBy: "|").splat() }
 
-    let maxPageNumber =
-      max(rules.flatMap { [$0.0, $0.1] }.max() ?? 0, updates.flatMap { $0 }.max() ?? 0) + 1
+        updates = u.lines().map { $0.integers(separatedBy: ",") }
 
-    var precedence = Array(
-      repeating: Array(repeating: false, count: maxPageNumber), count: maxPageNumber)
+        let maxPageNumber =
+            max(rules.flatMap { [$0.0, $0.1] }.max() ?? 0, updates.flatMap { $0 }.max() ?? 0) + 1
 
-    for rule in rules { precedence[rule.0][rule.1] = true }
+        var precedence = Array(
+            repeating: Array(repeating: false, count: maxPageNumber), count: maxPageNumber)
 
-    self.precedence = precedence
-  }
+        for rule in rules { precedence[rule.0][rule.1] = true }
+
+        self.precedence = precedence
+    }
 }

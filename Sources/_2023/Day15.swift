@@ -3,55 +3,54 @@
 import AdventOfCode
 import Foundation
 
-struct Day15: AdventDay {
-  // MARK: -
+@Day struct Day15 {
+    // MARK: -
 
-  func part1() -> Int {
-    data.trimmingCharacters(in: .whitespacesAndNewlines).split(separator: ",").sum(applying: hash)
-  }
+    func part1() -> Int {
+        data.trimmingCharacters(in: .whitespacesAndNewlines).split(separator: ",").sum(applying: hash)
+    }
 
-  func part2() -> Int {
-    let instructions = data.trimmingCharacters(in: .whitespacesAndNewlines).split(separator: ",")
+    func part2() -> Int {
+        let instructions = data.trimmingCharacters(in: .whitespacesAndNewlines).split(separator: ",")
 
-    var boxes: [[(Substring, Int)]] = Array(repeating: [], count: 256)
+        var boxes: [[(Substring, Int)]] = Array(repeating: [], count: 256)
 
-    for instruction in instructions {
-      if instruction.hasSuffix("-") {
-        let name = instruction.replacing("-", with: "")
-        let box = boxes[hash(name)]
-        boxes[hash(name)] = box.filter { $0.0 != name }
-      } else {
-        let split = instruction.split(separator: "=")
-        let name = split[0]
-        let focalLength = Int(split[1])!
-        var box = boxes[hash(name)]
-        if let index = box.firstIndex(where: { $0.0 == name }) {
-          box[index] = (name, focalLength)
-        } else {
-          box.append((name, focalLength))
+        for instruction in instructions {
+            if instruction.hasSuffix("-") {
+                let name = instruction.replacing("-", with: "")
+                let box = boxes[hash(name)]
+                boxes[hash(name)] = box.filter { $0.0 != name }
+            } else {
+                let split = instruction.split(separator: "=")
+                let name = split[0]
+                let focalLength = Int(split[1])!
+                var box = boxes[hash(name)]
+                if let index = box.firstIndex(where: { $0.0 == name }) {
+                    box[index] = (name, focalLength)
+                } else {
+                    box.append((name, focalLength))
+                }
+                boxes[hash(name)] = box
+            }
         }
-        boxes[hash(name)] = box
-      }
+
+        return boxes.enumerated()
+            .sum { box in
+                box.element.enumerated()
+                    .reduce(0) { partialResult, lens in
+                        partialResult + (box.offset + 1) * (lens.offset + 1) * lens.element.1
+                    }
+            }
     }
 
-    return boxes.enumerated()
-      .sum { box in
-        box.element.enumerated()
-          .reduce(0) { partialResult, lens in
-            partialResult + (box.offset + 1) * (lens.offset + 1) * lens.element.1
-          }
-      }
-  }
+    // MARK: - Helpers
 
-  // MARK: - Helpers
-
-  func hash(_ string: Substring) -> Int {
-    string.reduce(0) { partialResult, character in
-      ((partialResult + Int(character.asciiValue!)) * 17) % 256
+    func hash(_ string: Substring) -> Int {
+        string.reduce(0) { partialResult, character in
+            ((partialResult + Int(character.asciiValue!)) * 17) % 256
+        }
     }
-  }
 
-  // MARK: - Data
+    // MARK: - Data
 
-  let data: String
 }

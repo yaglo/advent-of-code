@@ -2,16 +2,16 @@
 
 import AdventOfCode
 
-struct Day01: AdventDay {
-  // MARK: -
+@Day struct Day01 {
+    // MARK: -
 
-  func part1() -> Int { zip(lines, lines.dropFirst()).count(where: <) }
+    func part1() -> Int { zip(lines, lines.dropFirst()).count(where: <) }
 
-  func part2() -> Int { zip(lines, lines.dropFirst(3)).count(where: <) }
+    func part2() -> Int { zip(lines, lines.dropFirst(3)).count(where: <) }
 
-  // MARK: - Data
+    // MARK: - Data
 
-  let lines: [Int]
+    let lines: [Int]
 
-  init(data: String) { self.lines = data.integers(separatedBy: "\n") }
+    init(data: String) { self.lines = data.integers(separatedBy: "\n") }
 }

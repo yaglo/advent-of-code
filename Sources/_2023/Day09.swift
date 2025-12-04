@@ -3,32 +3,32 @@
 import AdventOfCode
 import Algorithms
 
-struct Day09: AdventDay {
-  // MARK: -
+@Day struct Day09 {
+    // MARK: -
 
-  func part1() -> Int { sequences.sum(applying: extrapolateNextElement(in:)) }
+    func part1() -> Int { sequences.sum(applying: extrapolateNextElement(in:)) }
 
-  func part2() -> Int {
-    sequences.sum { sequence in extrapolateNextElement(in: sequence.reversed()) }
-  }
-
-  // MARK: - Helpers
-
-  func extrapolateNextElement(in sequence: [Int]) -> Int {
-    var lastElements = [sequence.last!]
-
-    var diffs = sequence
-    while diffs.contains(where: { $0 != 0 }) {
-      diffs = zip(diffs.dropFirst(), diffs).map(-)
-      lastElements.append(diffs.last!)
+    func part2() -> Int {
+        sequences.sum { sequence in extrapolateNextElement(in: sequence.reversed()) }
     }
 
-    return lastElements.sum()
-  }
+    // MARK: - Helpers
 
-  // MARK: - Data
+    func extrapolateNextElement(in sequence: [Int]) -> Int {
+        var lastElements = [sequence.last!]
 
-  let sequences: [[Int]]
+        var diffs = sequence
+        while diffs.contains(where: { $0 != 0 }) {
+            diffs = zip(diffs.dropFirst(), diffs).map(-)
+            lastElements.append(diffs.last!)
+        }
 
-  init(data: String) { sequences = data.mapLines { $0.integers(separatedBy: " ") } }
+        return lastElements.sum()
+    }
+
+    // MARK: - Data
+
+    let sequences: [[Int]]
+
+    init(data: String) { sequences = data.mapLines { $0.integers(separatedBy: " ") } }
 }

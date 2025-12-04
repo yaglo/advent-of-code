@@ -3,40 +3,41 @@
 import AdventOfCode
 import Algorithms
 
-struct Day08: AdventDay, @unchecked Sendable {
-  // MARK: -
+@Day struct Day08: @unchecked Sendable {
+    // MARK: -
 
-  func part1() -> Int { numberOfSteps(from: "AAA") }
+    func part1() -> Int { numberOfSteps(from: "AAA") }
 
-  func part2() -> Int {
-    nodes.keys.filter { $0.hasSuffix("A") }.map(numberOfSteps(from:)).reduce(with: lcm)
-  }
-
-  // MARK: - Helpers
-
-  func numberOfSteps(from nodeID: String) -> Int {
-    var currentID = nodeID
-    for (step, instruction) in instructions.cycled().enumerated() {
-      currentID = nodes[currentID]![keyPath: instruction]
-      if currentID.hasSuffix("Z") { return step + 1 }
+    func part2() -> Int {
+        nodes.keys.filter { $0.hasSuffix("A") }.map(numberOfSteps(from:)).reduce(with: lcm)
     }
-    fatalError()
-  }
 
-  // MARK: - Data
+    // MARK: - Helpers
 
-  struct Node { let id, left, right: String }
+    func numberOfSteps(from nodeID: String) -> Int {
+        var currentID = nodeID
+        for (step, instruction) in instructions.cycled().enumerated() {
+            currentID = nodes[currentID]![keyPath: instruction]
+            if currentID.hasSuffix("Z") { return step + 1 }
+        }
+        fatalError()
+    }
 
-  let instructions: [KeyPath<Node, String>]
-  let nodes: [String: Node]
+    // MARK: - Data
 
-  init(data: String) {
-    let lines = data.lines()
+    struct Node { let id, left, right: String }
 
-    instructions = lines[0].map { $0 == "L" ? \.left : \.right }
+    let instructions: [KeyPath<Node, String>]
+    let nodes: [String: Node]
 
-    nodes = lines.dropFirst()
-      .map { line in line.matches(of: /[0-9A-Z]{3}/).map(\.output).map(String.init).splat(Node.init)
-      }.keyed(by: \.id)
-  }
+    init(data: String) {
+        let lines = data.lines()
+
+        instructions = lines[0].map { $0 == "L" ? \.left : \.right }
+
+        nodes = lines.dropFirst()
+            .map { line in
+                line.matches(of: /[0-9A-Z]{3}/).map(\.output).map(String.init).splat(Node.init)
+            }.keyed(by: \.id)
+    }
 }

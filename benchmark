@@ -1,5 +1,35 @@
 #!/usr/bin/env bash
 
 export TOOLCHAINS=swift
-# swift run -c release AdventOfCode --benchmark --all
-swift package benchmark # --metric wallClock --format histogramPercentiles --path stdout --no-progress | uplot lineplot -H
+
+# Usage:
+#   ./benchmark              - run all benchmarks
+#   ./benchmark 1            - run Day 1 benchmarks
+#   ./benchmark 2025 1       - run Day 1 benchmarks for 2025
+#   ./benchmark 2025 1 1     - run Day 1 Part 1 for 2025
+
+# Benchmark names are like: "2025_day01_part1"
+
+if [ -n "$3" ]; then
+    # ./benchmark 2025 1 1 -> filter by year, day, and part
+    year="$1"
+    day=$(printf "%02d" "$2")
+    part="$3"
+    swift package benchmark run --filter "${year}_day${day}_part${part}"
+elif [ -n "$2" ]; then
+    # ./benchmark 2025 1 -> filter by year and day
+    year="$1"
+    day=$(printf "%02d" "$2")
+    swift package benchmark run --filter "${year}_day${day}.*"
+elif [ -n "$1" ]; then
+    if [ ${#1} -eq 4 ]; then
+        # ./benchmark 2025 -> run all benchmarks for a year
+        swift package benchmark run --filter "${1}_day.*"
+    else
+        # ./benchmark 1 -> run day 1 benchmarks
+        day=$(printf "%02d" "$1")
+        swift package benchmark run --filter ".*day${day}.*"
+    fi
+else
+    swift package benchmark
+fi

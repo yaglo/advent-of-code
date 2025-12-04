@@ -13,70 +13,70 @@ public macro Day() = #externalMacro(module: "AdventOfCodeMacros", type: "DayMacr
 // MARK: - Protocol
 
 public protocol AdventDay: Sendable {
-  associatedtype Answer = Int
+    associatedtype Answer = Int
 
-  /// The year and day of the challenge, derived automatically from type name
-  /// (e.g., `_2025.Day01` -> `(2025, 1)`), or override manually.
-  static var yearDay: (Int, Int) { get }
+    /// The year and day of the challenge, derived automatically from type name
+    /// (e.g., `_2025.Day01` -> `(2025, 1)`), or override manually.
+    static var yearDay: (Int, Int) { get }
 
-  /// The bundle containing data files. Provide via protocol extension in each year module.
-  static var bundle: Bundle { get }
+    /// The bundle containing data files. Provide via protocol extension in each year module.
+    static var bundle: Bundle { get }
 
-  /// Initialize with test data.
-  init(data: String)
+    /// Initialize with test data.
+    init(data: String)
 
-  /// Computes and returns the answer for part one.
-  func part1() async throws -> Answer
+    /// Computes and returns the answer for part one.
+    func part1() async throws -> Answer
 
-  /// Computes and returns the answer for part two.
-  func part2() async throws -> Answer
+    /// Computes and returns the answer for part two.
+    func part2() async throws -> Answer
 }
 
 // MARK: - Errors
 
 public struct PartUnimplemented: Error {
-  public let year: Int
-  public let day: Int
-  public let part: Int
+    public let year: Int
+    public let day: Int
+    public let part: Int
 }
 
 // MARK: - Default Implementations
 
 extension AdventDay {
-  public static var yearDay: (Int, Int) {
-    let typeName = String(reflecting: Self.self)
-    let components = typeName.dropFirst().split(separator: ".")
-    guard components.count == 2,
-      let year = Int(components[0]),
-      components[1].hasPrefix("Day"),
-      let day = Int(components[1].dropFirst(3))
-    else {
-      fatalError("Could not derive year/day from type '\(typeName)'. Use _YYYY.DayDD naming.")
-    }
-    return (year, day)
-  }
-
-  public var yearDay: (Int, Int) { Self.yearDay }
-
-  public func part2() throws -> Answer {
-    throw PartUnimplemented(year: yearDay.0, day: yearDay.1, part: 2)
-  }
-
-  public init() {
-    self.init(data: Self.loadData())
-  }
-
-  public static func loadData() -> String {
-    let (year, day) = yearDay
-    let filename = String(format: "Day%02d", day)
-
-    guard
-      let url = bundle.url(forResource: filename, withExtension: "txt", subdirectory: "Data"),
-      let content = try? String(contentsOf: url, encoding: .utf8)
-    else {
-      fatalError("Missing: Sources/_\(year)/Data/\(filename).txt")
+    public static var yearDay: (Int, Int) {
+        let typeName = String(reflecting: Self.self)
+        let components = typeName.dropFirst().split(separator: ".")
+        guard components.count == 2,
+            let year = Int(components[0]),
+            components[1].hasPrefix("Day"),
+            let day = Int(components[1].dropFirst(3))
+        else {
+            fatalError("Could not derive year/day from type '\(typeName)'. Use _YYYY.DayDD naming.")
+        }
+        return (year, day)
     }
 
-    return content.replacingOccurrences(of: "\r", with: "")
-  }
+    public var yearDay: (Int, Int) { Self.yearDay }
+
+    public func part2() throws -> Answer {
+        throw PartUnimplemented(year: yearDay.0, day: yearDay.1, part: 2)
+    }
+
+    public init() {
+        self.init(data: Self.loadData())
+    }
+
+    public static func loadData() -> String {
+        let (year, day) = yearDay
+        let filename = String(format: "Day%02d", day)
+
+        guard
+            let url = bundle.url(forResource: filename, withExtension: "txt", subdirectory: "Data"),
+            let content = try? String(contentsOf: url, encoding: .utf8)
+        else {
+            fatalError("Missing: Sources/_\(year)/Data/\(filename).txt")
+        }
+
+        return content.replacingOccurrences(of: "\r", with: "")
+    }
 }

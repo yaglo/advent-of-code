@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
 
-export TOOLCHAINS=swift
-swift package plugin --allow-writing-to-package-directory format-source-code
+swift format --in-place --recursive Sources Tests Benchmarks

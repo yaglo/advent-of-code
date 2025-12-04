@@ -6,12 +6,12 @@ export TOOLCHAINS=swift
 #   ./test              - run all tests
 #   ./test 1            - run Day 1 tests (all years)
 #   ./test 2025         - run all 2025 tests
-#   ./test 2025 1       - run Day 1 tests for 2025 (all 4: ex1, ex2, p1, p2)
-#   ./test 2025 1 1     - run Day 1 Part 1 for 2025 (ex1 + p1)
-#   ./test 2025 1 ex    - run Day 1 Examples only (ex1 + ex2)
-#   ./test 2025 1 p     - run Day 1 Real only (p1 + p2)
-#   ./test 2025 1 1 ex  - run Day 1 Part 1 Example only (ex1)
-#   ./test 2025 1 1 p   - run Day 1 Part 1 Real only (p1)
+#   ./test 2025 1       - run Day 1 tests for 2025
+#   ./test 2025 1 1     - run Day 1 Part 1 for 2025 (example + puzzle)
+#   ./test 2025 1 ex    - run Day 1 Examples only
+#   ./test 2025 1 p     - run Day 1 Puzzle only (part1 + part2)
+#   ./test 2025 1 1 ex  - run Day 1 Part 1 Example only
+#   ./test 2025 1 1 p   - run Day 1 Part 1 Puzzle only
 
 if [ -n "$4" ]; then
     # ./test 2025 1 2 ex -> filter by year, day, part, and type
@@ -20,23 +20,23 @@ if [ -n "$4" ]; then
     part="$3"
     type="$4"
     if [ "$type" = "ex" ] || [ "$type" = "example" ]; then
-        swift test --no-parallel --filter "Tests_${year}.*day${day}_ex${part}"
+        swift test --no-parallel --filter "Tests_${year}.*day${day}_example_part${part}"
     else
-        swift test --no-parallel --filter "Tests_${year}.*day${day}_p${part}"
+        swift test --no-parallel --filter "Tests_${year}.*day${day}_part${part}\$"
     fi
 elif [ -n "$3" ]; then
     year="$1"
     day=$(printf "%02d" "$2")
     arg="$3"
     if [ "$arg" = "ex" ] || [ "$arg" = "example" ]; then
-        # ./test 2025 1 ex -> run both examples
-        swift test --no-parallel --filter "Tests_${year}.*day${day}_ex"
-    elif [ "$arg" = "p" ] || [ "$arg" = "real" ]; then
-        # ./test 2025 1 p -> run both real
-        swift test --no-parallel --filter "Tests_${year}.*day${day}_p"
+        # ./test 2025 1 ex -> run all examples (example_part1, example_part2, examples)
+        swift test --no-parallel --filter "Tests_${year}.*day${day}_example"
+    elif [ "$arg" = "p" ] || [ "$arg" = "puzzle" ] || [ "$arg" = "real" ]; then
+        # ./test 2025 1 p -> run puzzle tests (part1, part2 but not example_part1/2)
+        swift test --no-parallel --filter "Tests_${year}.*day${day}_part"
     else
-        # ./test 2025 1 2 -> filter by year, day, and part (both example and real)
-        swift test --no-parallel --filter "Tests_${year}.*day${day}_.*${arg}"
+        # ./test 2025 1 2 -> filter by year, day, and part (both example and puzzle)
+        swift test --no-parallel --filter "Tests_${year}.*day${day}_.*part${arg}"
     fi
 elif [ -n "$2" ]; then
     # ./test 2025 1 -> filter by year and day
