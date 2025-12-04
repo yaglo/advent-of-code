@@ -1,5 +1,5 @@
+// swift-tools-version: 6.2
 import CompilerPluginSupport
-// swift-tools-version: 6.0
 import PackageDescription
 
 let dependencies: [Target.Dependency] = [
@@ -16,7 +16,7 @@ let swiftSettings: [SwiftSetting] = []
 
 let package = Package(
     name: "AdventOfCode",
-    platforms: [.macOS(.v15)],
+    platforms: [.macOS(.v26)],
     dependencies: [
         .package(
             url: "https://github.com/apple/swift-algorithms.git", .upToNextMajor(from: "1.2.0")),
@@ -32,6 +32,7 @@ let package = Package(
             url: "https://github.com/ordo-one/package-benchmark", .upToNextMajor(from: "1.27.3")),
         .package(url: "https://github.com/davecom/SwiftCSP.git", branch: "master"),
         .package(url: "https://github.com/pvieito/PythonKit.git", branch: "master"),
+        .package(url: "https://github.com/swiftlang/swift-syntax.git", from: "600.0.0"),
     ],
 
     // MARK: - Common
@@ -45,9 +46,17 @@ let package = Package(
 
         .target(
             name: "AdventOfCode",
-            dependencies: dependencies,
+            dependencies: dependencies + ["AdventOfCodeMacros"],
             packageAccess: true,
             swiftSettings: swiftSettings
+        ),
+
+        .macro(
+            name: "AdventOfCodeMacros",
+            dependencies: [
+                .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
+                .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
+            ]
         ),
 
         // MARK: - Years

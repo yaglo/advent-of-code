@@ -1,11 +1,8 @@
 // MARK: Day 3 -
 
 import AdventOfCode
-import Foundation
 
-struct Day03: AdventDay {
-    // MARK: -
-
+@Day struct Day03 {
     func part1() -> Int {
         0
     }
@@ -13,8 +10,4 @@ struct Day03: AdventDay {
     func part2() -> Int {
         0
     }
-
-    // MARK: - Data
-
-    let data: String
 }
