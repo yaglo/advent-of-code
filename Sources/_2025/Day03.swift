@@ -3,11 +3,7 @@
 import AdventOfCode
 
 @Day struct Day03 {
-    let lines: [[Int]]
-
-    init(data: String) {
-        lines = data.mapLines { $0.compactMap(\.wholeNumberValue) }
-    }
+    // MARK: -
 
     func part1() -> Int {
         lines.map { digits in
@@ -29,4 +25,13 @@ import AdventOfCode
             return findLargest(digits[...], 12, 0)
         }.sum()
     }
+
+    // MARK: - Data
+
+    let lines: [[Int]]
+
+    init(data: String) {
+        lines = data.mapLines { $0.compactMap(\.wholeNumberValue) }
+    }
+
 }
