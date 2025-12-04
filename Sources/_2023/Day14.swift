@@ -33,7 +33,7 @@ import Foundation
         for i in 0..<1_000_000_000 {
             rotate4Times()
 
-            let hash = map.grid.hashValue
+            let hash = map.hashValue
             if let x = seen[hash], cycledIterationAtBillion == nil {
                 cycledIterationAtBillion = (1_000_000_000 - i) % (i - x) + i - 1
             }
@@ -45,45 +45,39 @@ import Foundation
         fatalError()
     }
 
-    func rollWestwards(map: inout Matrix) {
-        map = Matrix(
-            map.grid.chunks(ofCount: map.columns)
-                .map { line in
-                    let newLine = Array(
-                        line.split(omittingEmptySubsequences: false, whereSeparator: \.isSquareRock)
-                            .map {
-                                let roundRocks = $0.filter { $0.isRoundRock }
-                                return roundRocks + Array(repeating: .empty, count: $0.count - roundRocks.count)
-                            }
-                    )
-                    return Array(newLine.joined(by: .squareRock))
-                }
-        )
+    func rollWestwards(map: inout [[Double]]) {
+        map = map.map { line in
+            let newLine = Array(
+                line.split(omittingEmptySubsequences: false, whereSeparator: \.isSquareRock)
+                    .map {
+                        let roundRocks = $0.filter { $0.isRoundRock }
+                        return roundRocks + Array(repeating: .empty, count: $0.count - roundRocks.count)
+                    }
+            )
+            return Array(newLine.joined(by: .squareRock))
+        }
     }
 
-    func calculateLoad(map: Matrix) -> Int {
+    func calculateLoad(map: [[Double]]) -> Int {
         var acc = 0
-        for column in 0..<map.columns {
-            for row in 0..<map.rows { acc += map[row, column].isRoundRock ? map.rows - row : 0 }
+        for column in 0..<map[0].count {
+            for row in 0..<map.count { acc += map[row][column].isRoundRock ? map.count - row : 0 }
         }
         return acc
     }
 
     // MARK: - Data
 
-    func parseMap() -> Matrix {
-        Matrix(
-            data.split(whereSeparator: \.isNewline)
-                .map { line in
-                    line.map { item -> Double in
-                        switch item {
-                        case "#": .squareRock
-                        case "O": .roundRock
-                        default: .empty
-                        }
-                    }
+    func parseMap() -> [[Double]] {
+        data.mapLines { line in
+            line.map { item -> Double in
+                switch item {
+                case "#": .squareRock
+                case "O": .roundRock
+                default: .empty
                 }
-        )
+            }
+        }
     }
 }
 

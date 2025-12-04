@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+export TOOLCHAINS=swift
+
+# Usage:
+#   ./run              - run today's challenge
+#   ./run 4            - run Day 4 (current year)
+#   ./run 2025 4       - run Day 4 for 2025
+
+if [ -n "$2" ]; then
+    # ./run 2025 4 -> run specific year and day
+    swift run Runner "$1" "$2"
+elif [ -n "$1" ]; then
+    if [ ${#1} -eq 4 ]; then
+        # ./run 2025 -> run all for a year
+        swift run Runner "$1" --all
+    else
+        # ./run 4 -> run day 4 (default year 2025)
+        swift run Runner 2025 "$1"
+    fi
+else
+    # ./run -> run today
+    swift run Runner
+fi

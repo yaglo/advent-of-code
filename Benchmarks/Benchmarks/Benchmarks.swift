@@ -1,6 +1,7 @@
 import AdventOfCode
 import Benchmark
 import Foundation
+import _2023
 import _2025
 
 let benchmarks: @Sendable () -> Void = {
@@ -10,6 +11,7 @@ let benchmarks: @Sendable () -> Void = {
     )
 
     for day in all2025Challenges { registerBenchmark(for: day) }
+    registerBenchmark(for: all2023Challenges[13])  // Day14
 }
 
 func registerBenchmark<T: AdventDay>(for day: T) {

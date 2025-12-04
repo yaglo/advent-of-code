@@ -168,6 +168,7 @@ let package = Package(
             name: "Benchmarks",
             dependencies: [
                 "AdventOfCode",
+                "_2023",
                 "_2025",
                 .product(name: "Benchmark", package: "package-benchmark"),
             ],
