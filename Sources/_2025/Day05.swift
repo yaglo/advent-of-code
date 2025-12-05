@@ -9,7 +9,7 @@ import AdventOfCode
     init(data: String) {
         let (rangeList, idList) = data.split(separator: "\n\n").splat()
         ranges = RangeSet(rangeList.mapLines { $0.integers(separatedBy: "-").splat { $0..<$1 + 1 } })
-        ids = idList.integers(separatedBy: "\n")
+        ids = idList.integers
     }
 
     func part1() -> Int {
@@ -17,6 +17,6 @@ import AdventOfCode
     }
 
     func part2() -> Int {
-        ranges.ranges.map(\.count).sum()
+        ranges.ranges.sum(of: \.count)
     }
 }
