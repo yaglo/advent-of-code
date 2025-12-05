@@ -8,11 +8,14 @@ import AdventOfCode
 
     init(data: String) {
         let parts = data.split(separator: "\n\n")
-        ranges = parts[0].lines().reduce(into: RangeSet()) { set, line in
-            let bounds = line.split(separator: "-").map { Int($0)! }
-            set.insert(contentsOf: bounds[0]..<bounds[1] + 1)
+        var rangeSet = RangeSet<Int>()
+        for line in parts[0].lines() {
+            let (lo, hi) = line.integers(separatedBy: "-").splat()
+            rangeSet.insert(contentsOf: lo..<hi + 1)
         }
-        ids = parts[1].lines().map { Int($0)! }
+        ranges = rangeSet
+
+        ids = parts[1].integers(separatedBy: "\n")
     }
 
     func part1() -> Int {
