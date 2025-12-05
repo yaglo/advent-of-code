@@ -136,16 +136,12 @@ extension BidirectionalCollection where Self.SubSequence == Substring {
     public var integers: [Int] { split(whereSeparator: \.isWhitespace).map { Int($0)! } }
 }
 
-extension String {
+extension StringProtocol where SubSequence == Substring {
     @inlinable public func lines() -> [Substring] { split(whereSeparator: \.isNewline) }
 
     public func mapLines<T>(_ transform: (Substring) throws -> T) rethrows -> [T] {
         try lines().map(transform)
     }
-}
-
-extension Substring {
-    @inlinable public func lines() -> [Substring] { split(whereSeparator: \.isNewline) }
 }
 
 extension LazySequence<String> {

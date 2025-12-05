@@ -7,15 +7,9 @@ import AdventOfCode
     let ids: [Int]
 
     init(data: String) {
-        let parts = data.split(separator: "\n\n")
-        var rangeSet = RangeSet<Int>()
-        for line in parts[0].lines() {
-            let (lo, hi) = line.integers(separatedBy: "-").splat()
-            rangeSet.insert(contentsOf: lo..<hi + 1)
-        }
-        ranges = rangeSet
-
-        ids = parts[1].integers(separatedBy: "\n")
+        let (rangeList, idList) = data.split(separator: "\n\n").splat()
+        ranges = RangeSet(rangeList.mapLines { $0.integers(separatedBy: "-").splat { $0..<$1 + 1 } })
+        ids = idList.integers(separatedBy: "\n")
     }
 
     func part1() -> Int {
