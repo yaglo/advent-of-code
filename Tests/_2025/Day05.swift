@@ -9,7 +9,6 @@ import Testing
 @Test func day05_part1() { #expect(Day05().part1() == 744) }
 @Test func day05_part2() { #expect(Day05().part2() == 347_468_726_696_961) }
 
-// swiftlint:disable:next line_length
 private let example = """
     3-5
     10-14
