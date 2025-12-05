@@ -20,7 +20,7 @@ import AdventOfCode
             let toRemove = grid.cells()
                 .filter { $1 }
                 .filter { coord, _ in grid.neighbors(at: coord).count { $0 } < 4 }
-                .map { coord, _ in coord }
+                .map(\.coord)
             guard !toRemove.isEmpty else { return nil }
             for coord in toRemove { grid[coord] = false }
             return toRemove.count
