@@ -1,4 +1,4 @@
-// MARK: Day 5 -
+// MARK: Day 5: Cafeteria -
 
 import AdventOfCode
 
