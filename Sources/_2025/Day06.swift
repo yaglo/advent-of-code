@@ -25,7 +25,7 @@ import AdventOfCode
             .reversed()
             .map { String(grid[column: $0]).integers.first }
 
-        let operands = nums.split { $0 == nil }.map { $0.compactMap { $0 } }
+        let operands = nums.split(separator: nil).map { $0.compacted() }
 
         return zip(operators, operands).map { op, nums in
             op == "+" ? nums.sum() : nums.product()
